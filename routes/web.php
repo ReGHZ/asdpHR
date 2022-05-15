@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,9 +15,23 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
+});
+
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('home', function () {
+        return view('home');
+    });
+    Route::get('home', function () {
+        return view('home');
+    });
 });
 
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+// -----------------------------login----------------------------------------//
+Route::get('/logout', [App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');
+// ----------------------------- user profile ------------------------------//
+Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'index'])->name('profile');
