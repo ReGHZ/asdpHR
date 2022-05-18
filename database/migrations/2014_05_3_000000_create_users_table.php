@@ -15,16 +15,12 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('pegawai_id')->nullable();
             $table->string('name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
-            # Indexes
-            $table->index('pegawai_id');
-            $table->foreign('pegawai_id', 'pegawai_id_idx')->references('id')->on('pegawai')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

@@ -13,14 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('personal', function (Blueprint $table) {
+        Schema::create('personals', function (Blueprint $table) {
+            //id
             $table->id();
-            $table->string('nama')->nullable();
-            $table->string('tempat_lahir')->nullable();
-            $table->date('tanggal_lahir')->nullable();
-            $table->string('usia')->nullable();
-            $table->string('jenis_kelamin')->nullable();
-            $table->string('alamat')->nullable();
+            $table->unsignedBigInteger('pegawai_id')->nullable();
+            //table isi
             $table->string('status_keluarga')->nullable();
             $table->string('pendidikan')->nullable();
             $table->string('jurusan')->nullable();
@@ -30,11 +27,22 @@ return new class extends Migration
             $table->string('npwp')->nullable();
             $table->string('no_inhealth')->nullable();
             $table->string('no_rek')->nullable();
-            $table->string('no_hp')->nullable();
-            $table->string('email')->nullable();
             $table->string('ukuran_sepatu')->nullable();
             $table->string('ukuran_baju')->nullable();
+            $table->string('darat_laut_lokasi')->nullable();
+            $table->string('sk')->nullable();
+            $table->string('gol_skala_tht')->nullable();
+            $table->string('skala_tht')->nullable();
+            $table->string('gol_phdp')->nullable();
+            $table->string('gol_skala_phdp')->nullable();
+            $table->string('gol_gaji')->nullable();
+            $table->string('gol_skala_gaji')->nullable();
+            $table->string('segmen')->nullable();
+            $table->timestamps();
             # Indexes
+            $table->index('pegawai_id');
+            //foreign key
+            $table->foreign('pegawai_id', 'pegawai_id_idx')->references('id')->on('pegawais')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 
@@ -45,6 +53,6 @@ return new class extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('personals');
     }
 };

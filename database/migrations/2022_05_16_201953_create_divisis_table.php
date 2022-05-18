@@ -13,10 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('jabatan', function (Blueprint $table) {
+        Schema::create('divisis', function (Blueprint $table) {
             $table->id();
-            $table->string('nama_jabatan')->nullable();
-            # Indexes
+            $table->string('nama_divisi', 125)->nullable();
+            $table->timestamps();
         });
     }
 
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('divisis');
     }
 };

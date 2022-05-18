@@ -11,6 +11,8 @@
     <link rel="shortcut icon" href="{{ asset('backend/assets/images/logo/favicon.svg') }}" type="image/x-icon">
     <link rel="shortcut icon" href="{{ asset('backend/assets/images/logo/favicon.png') }}" type="image/png">
 
+    <link rel="stylesheet" href="{{ asset('backend/assets/css/pages/simple-datatables.css') }}">
+
     <link rel="stylesheet" href="{{ asset('backend/assets/css/shared/iconly.css') }}">
 </head>
 
@@ -24,6 +26,9 @@
     @if (Route::current()->getName() == 'layouts.panel')
         <script src="{{ asset('backend/assets/js/pages/dashboard.js') }}"></script>
     @endif
+
+    <script src="{{ asset('backend/assets/js/extensions/simple-datatables.js') }}"></script>
+
     <script src="{{ asset('backend/assets/js/app.js') }}"></script>
 </body>
 
