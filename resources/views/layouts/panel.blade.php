@@ -23,6 +23,7 @@
         @yield('content')
         @include('layouts.footer')
     </div>
+
     @if (Route::current()->getName() == 'layouts.panel')
         <script src="{{ asset('backend/assets/js/pages/dashboard.js') }}"></script>
     @endif
@@ -30,6 +31,11 @@
     <script src="{{ asset('backend/assets/js/extensions/simple-datatables.js') }}"></script>
 
     <script src="{{ asset('backend/assets/js/app.js') }}"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    @yield('script')
+
 </body>
 
 </html>

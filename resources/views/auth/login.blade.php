@@ -28,11 +28,10 @@
                         @csrf
 
                         <div class="form-group position-relative has-icon-left mb-4">
-                            <input id="email" type="email"
-                                class="form-control form-control-xl @error('email') is-invalid @enderror"
-                                placeholder="Username" name="email" value="{{ old('email') }}" required
-                                autocomplete="email" autofocus>
-                            @error('email')
+                            <input id="nik" type="text"
+                                class="form-control form-control-xl @error('nik') is-invalid @enderror" placeholder="NIK"
+                                name="nik" value="{{ old('nik') }}" required autocomplete="nik" autofocus>
+                            @error('nik')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>

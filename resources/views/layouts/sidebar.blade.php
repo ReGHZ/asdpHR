@@ -3,8 +3,8 @@
         <div class="sidebar-header position-relative">
             <div class="d-flex justify-content-between align-items-center">
                 <div class="logo">
-                    <a href="index.html"><img src="{{ asset('backend/assets/images/logo/logo.svg') }}" alt="Logo"
-                            srcset=""></a>
+                    <a href="{{ route('home') }}"><img src="{{ asset('backend/assets/images/logo/ASDP.svg') }}"
+                            alt="Logo" srcset=""></a>
                 </div>
                 <div class="theme-toggle d-flex gap-2  align-items-center mt-2">
                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -49,11 +49,11 @@
                         <span>{{ Auth::user()->name }}</span>
                     </a>
                     <ul class="submenu {{ request()->is('profile*') ? 'active' : '' }}">
-                        <li class="submenu-item {{ request()->is('profile*') ? 'active' : '' }}">
+                        <li class="submenu-item {{ request()->is('profile') ? 'active' : '' }}">
                             <a href="{{ route('profile') }}"><i class="icon-mid bi bi-person me-2"></i>My
                                 Profile</a>
                         </li>
-                        <li class="submenu-item {{ request()->is('logout*') ? 'active' : '' }}">
+                        <li class="submenu-item {{ request()->is('logout') ? 'active' : '' }}">
                             <a href="{{ route('logout') }}"><i
                                     class="icon-mid bi bi-box-arrow-left me-2"></i>Logout</a>
                         </li>
@@ -68,20 +68,22 @@
                     </a>
                 </li>
 
-                <li class="sidebar-item  has-sub {{ request()->is('employee*') ? 'active' : '' }}">
+                <li
+                    class="sidebar-item  has-sub {{ request()->is('employee*') || request()->is('divisi*') || request()->is('jabatan*') ? 'active' : '' }}">
                     <a href="#" class='sidebar-link'>
                         <i class="bi bi-people-fill"></i>
                         <span>Data Pegawai</span>
                     </a>
-                    <ul class="submenu {{ request()->is('employee*') ? 'active' : '' }}">
+                    <ul
+                        class="submenu {{ request()->is('employee*') || request()->is('divisi*') || request()->is('jabatan*') ? 'active' : '' }}">
                         <li class="submenu-item {{ request()->is('employee*') ? 'active' : '' }}">
                             <a href="{{ route('employee') }}">Pegawai</a>
                         </li>
-                        <li class="submenu-item ">
-                            <a href="table-datatable-jquery.html">Divisi</a>
+                        <li class="submenu-item {{ request()->is('divisi') ? 'active' : '' }}">
+                            <a href="{{ route('divisi') }}">Divisi</a>
                         </li>
-                        <li class="submenu-item ">
-                            <a href="table-datatable-jquery.html">Jabatan</a>
+                        <li class="submenu-item {{ request()->is('jabatan') ? 'active' : '' }}">
+                            <a href="{{ route('jabatan') }}">Jabatan</a>
                         </li>
                     </ul>
                 </li>

@@ -21,6 +21,20 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+
+        'jabatan_id',
+        'divisi_id',
+        'nik',
+        'tempat_lahir',
+        'tanggal_lahir',
+        'usia',
+        'jenis_kelamin',
+        'no_hp',
+        'alamat',
+        'tanggal_masuk_kerja',
+        'masa_kerja',
+        'tanggal_pilih_jabatan',
+        'masa_jabatan',
     ];
 
     /**
@@ -44,11 +58,16 @@ class User extends Authenticatable
 
     public function pegawai()
     {
-        return $this->hasOne(Pegawai::class, 'id');
+        return $this->hasOne(Pegawai::class);
     }
 
-    public function personal()
+    public function divisi()
     {
-        return $this->hasOneThrough(Personal::class, Pegawai::class);
+        return $this->belongsTo(Divisi::class);
+    }
+
+    public function jabatan()
+    {
+        return $this->belongsTo(Jabatan::class);
     }
 }

@@ -10,36 +10,31 @@ class Pegawai extends Model
     use HasFactory;
     protected $fillable = [
         'user_id',
-        'jabatan_id',
-        'divisi_id',
-        'nik',
-        'tempat_lahir',
-        'tanggal_lahir',
-        'usia',
-        'jenis_kelamin',
-        'no_hp',
-        'alamat',
-        'tanggal_masuk_kerja',
-        'masa_kerja',
-        'tanggal_pilih_jabatan',
-        'masa_jabatan',
+        'nik_ktp',
+        'no_bpjs_kesehatan',
+        'no_bpjs_ketenagakerjaan',
+        'npwp',
+        'status_keluarga',
+        'pendidikan',
+        'sk',
+        'jurusan',
+        'darat_laut_lokasi',
+        'segmen',
+        'gol_skala_tht',
+        'skala_tht',
+        'gol_phdp',
+        'gol_skala_phdp',
+        'gol_gaji',
+        'gol_skala_gaji',
+        'no_inhealth',
+        'no_rek',
+        'uk_sepatu',
+        'uk_baju',
     ];
 
     use HasFactory;
-    public function divisi()
-    {
-        return $this->belongsTo(Divisi::class);
-    }
-    public function jabatan()
-    {
-        return $this->belongsTo(Jabatan::class);
-    }
     public function user()
     {
         return $this->belongsTo(User::class);
-    }
-    public function personal()
-    {
-        return $this->hasOne(Personal::class);
     }
 }

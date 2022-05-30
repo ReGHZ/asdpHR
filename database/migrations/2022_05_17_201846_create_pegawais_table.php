@@ -17,28 +17,31 @@ return new class extends Migration
             //id
             $table->id();
             $table->unsignedBigInteger('user_id')->nullable();
-            $table->unsignedBigInteger('divisi_id')->nullable();
-            $table->unsignedBigInteger('jabatan_id')->nullable();
             //table isi
-            $table->string('nik')->nullable();
-            $table->string('tempat_lahir')->nullable();
-            $table->date('tanggal_lahir')->nullable();
-            $table->string('usia')->nullable();
-            $table->string('jenis_kelamin')->nullable();
-            $table->string('no_hp')->nullable();
-            $table->string('alamat')->nullable();
-            $table->date('tanggal_masuk_kerja')->nullable();
-            $table->String('masa_kerja')->nullable();
-            $table->date('tanggal_pilih_jabatan')->nullable();
-            $table->string('masa_jabatan')->nullable();
+            $table->string('status_keluarga')->nullable();
+            $table->string('pendidikan')->nullable();
+            $table->string('jurusan')->nullable();
+            $table->string('nik_ktp')->nullable();
+            $table->string('no_bpjs_kesehatan')->nullable();
+            $table->string('no_bpjs_ketenagakerjaan')->nullable();
+            $table->string('npwp')->nullable();
+            $table->string('no_inhealth')->nullable();
+            $table->string('no_rek')->nullable();
+            $table->string('ukuran_sepatu')->nullable();
+            $table->string('ukuran_baju')->nullable();
+            $table->string('darat_laut_lokasi')->nullable();
+            $table->string('sk')->nullable();
+            $table->string('gol_skala_tht')->nullable();
+            $table->string('skala_tht')->nullable();
+            $table->string('gol_phdp')->nullable();
+            $table->string('gol_skala_phdp')->nullable();
+            $table->string('gol_gaji')->nullable();
+            $table->string('gol_skala_gaji')->nullable();
+            $table->string('segmen')->nullable();
             $table->timestamps();
             # Indexes
-            $table->index('divisi_id');
-            $table->index('jabatan_id');
             $table->index('user_id');
             //foreign key
-            $table->foreign('divisi_id', 'divisi_id_idx')->references('id')->on('divisis');
-            $table->foreign('jabatan_id', 'jabatan_id_idx')->references('id')->on('jabatans');
             $table->foreign('user_id', 'user_id_idx')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
         });
     }
