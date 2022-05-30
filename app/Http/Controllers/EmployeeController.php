@@ -225,14 +225,16 @@ class EmployeeController extends Controller
         $pegawai = User::find($per_id);
 
         $pegawai->pegawai()->update([
-            'status_keluarga'   => $request->status_keluarga,
-            'pendidikan'        => $request->pendidikan,
-            'jurusan'           => $request->jurusan,
-            'nik_ktp'           => $request->nik_ktp,
-            'no_rek'            => $request->no_rek,
-            'npwp'              => $request->npwp,
-            'ukuran_baju'       => $request->ukuran_baju,
-            'ukuran_sepatu'     => $request->ukuran_sepatu,
+            'status_keluarga'           => $request->status_keluarga,
+            'pendidikan'                => $request->pendidikan,
+            'jurusan'                   => $request->jurusan,
+            'nik_ktp'                   => $request->nik_ktp,
+            'no_bpjs_kesehatan'         => $request->no_bpjs_kesehatan,
+            'no_bpjs_ketenagakerjaan'   => $request->no_bpjs_ketenagakerjaan,
+            'no_rek'                    => $request->no_rek,
+            'npwp'                      => $request->npwp,
+            'ukuran_baju'               => $request->ukuran_baju,
+            'ukuran_sepatu'             => $request->ukuran_sepatu,
         ]);
 
         return redirect()->back()->with('success', 'Data personal Berhasil Diubah');
@@ -253,8 +255,6 @@ class EmployeeController extends Controller
         $pegawai->pegawai()->update([
             'sk'                        => $request->sk,
             'segmen'                    => $request->segmen,
-            'no_bpjs_kesehatan'         => $request->no_bpjs_kesehatan,
-            'no_bpjs_ketenagakerjaan'   => $request->no_bpjs_ketenagakerjaan,
             'no_inhealth'               => $request->no_inhealth,
             'darat_laut_lokasi'         => $request->darat_laut_lokasi,
             'gol_skala_tht'             => $request->gol_skala_tht,

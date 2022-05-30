@@ -1,4 +1,4 @@
-<!--edit pegawai form Modal -->
+<!--edit user form Modal -->
 
 <div class="modal fade" id="empedit" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle"
     aria-hidden="true">

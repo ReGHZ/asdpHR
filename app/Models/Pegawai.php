@@ -28,8 +28,8 @@ class Pegawai extends Model
         'gol_skala_gaji',
         'no_inhealth',
         'no_rek',
-        'uk_sepatu',
-        'uk_baju',
+        'ukuran_sepatu',
+        'ukuran_baju',
     ];
 
     use HasFactory;

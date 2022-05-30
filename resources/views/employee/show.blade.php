@@ -59,9 +59,20 @@
                                                         <td>{{ $pegawai->no_hp }}</td>
                                                     </tr>
                                                     <tr>
-                                                        <td>Email</td>
+                                                        <td>Tempat Lahir/Tanggal Lahir</td>
                                                         <td>:</td>
-                                                        <td>{{ $pegawai->email }}</td>
+                                                        <td>{{ $pegawai->tempat_lahir }}/{{ $pegawai->tanggal_lahir }}
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>usia</td>
+                                                        <td>:</td>
+                                                        <td>{{ $pegawai->usia }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Jenis Kelamin</td>
+                                                        <td>:</td>
+                                                        <td>{{ $pegawai->jenis_kelamin }}</td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -72,6 +83,16 @@
                                         <!-- SECOND -->
                                         <table class="table">
                                             <tbody>
+                                                <tr>
+                                                    <td>Email</td>
+                                                    <td>:</td>
+                                                    <td>{{ $pegawai->email }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Alamat</td>
+                                                    <td>:</td>
+                                                    <td>{{ $pegawai->alamat }}</td>
+                                                </tr>
                                                 <tr>
                                                     <td>Nomor Kepegawaian</td>
                                                     <td>:</td>
@@ -97,6 +118,7 @@
                                                     <td>:</td>
                                                     <td>{{ $pegawai->masa_jabatan }}</td>
                                                 </tr>
+
                                             </tbody>
                                         </table>
                                         <!-- END SECOND -->
@@ -104,7 +126,7 @@
                                     <div class="d-flex justify-content-end">
                                         <button value="{{ $pegawai->id }}"
                                             class="btn icon icon-left btn-secondary editbtn"><i
-                                                data-feather="edit"></i>edit</button>
+                                                data-feather="edit"></i>Edit</button>
 
                                     </div>
                                 </div>
@@ -132,28 +154,7 @@
                                         </div>
                                         <table class="table">
                                             <tbody>
-                                                <tr>
-                                                    <td>Tempat/Tanggal Lahir</td>
-                                                    <td>:</td>
-                                                    <td>{{ $pegawai->tempat_lahir }}/{{ $pegawai->tanggal_lahir }}
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                <tr>
-                                                    <td>usia</td>
-                                                    <td>:</td>
-                                                    <td>{{ $pegawai->usia }}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Jenis Kelamin</td>
-                                                    <td>:</td>
-                                                    <td>{{ $pegawai->jenis_kelamin }}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Alamat</td>
-                                                    <td>:</td>
-                                                    <td>{{ $pegawai->alamat }}</td>
-                                                </tr>
+
                                                 <tr>
                                                     <td>Status Keluarga</td>
                                                     <td>:</td>
@@ -173,6 +174,16 @@
                                                     <td>KTP</td>
                                                     <td>:</td>
                                                     <td>{{ $pegawai->pegawai->nik_ktp }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>BPJS Kesehatan</td>
+                                                    <td>:</td>
+                                                    <td>{{ $pegawai->pegawai->no_bpjs_kesehatan }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>BPJS Ketenagakerjaan</td>
+                                                    <td>:</td>
+                                                    <td>{{ $pegawai->pegawai->no_bpjs_ketenagakerjaan }}</td>
                                                 </tr>
                                                 <tr>
                                                     <td>Nomor Rekening</td>
@@ -200,7 +211,7 @@
                                         <div class="d-flex justify-content-end">
                                             <button value="{{ $pegawai->id }}"
                                                 class="btn icon icon-left btn-secondary editbtnpersonal"><i
-                                                    data-feather="edit"></i>edit</button>
+                                                    data-feather="edit"></i>Edit</button>
 
                                         </div>
                                     </div>
@@ -237,17 +248,7 @@
                                                     <td>{{ $pegawai->pegawai->segmen }}</td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Nomor BPJS Kesehatan</td>
-                                                    <td>:</td>
-                                                    <td>{{ $pegawai->pegawai->no_bpjs_kesehatan }}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Nomor BPJS Ketenagakerjaan</td>
-                                                    <td>:</td>
-                                                    <td>{{ $pegawai->pegawai->no_bpjs_ketenagakerjaan }}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Nomor Inhealth</td>
+                                                    <td>Inhealth</td>
                                                     <td>:</td>
                                                     <td>{{ $pegawai->pegawai->no_inhealth }}</td>
                                                 </tr>
@@ -291,7 +292,7 @@
                                         <div class="d-flex justify-content-end">
                                             <button value="{{ $pegawai->id }}"
                                                 class="btn icon icon-left btn-secondary editbtnkantor"><i
-                                                    data-feather="edit"></i>edit</button>
+                                                    data-feather="edit"></i>Edit</button>
 
                                         </div>
                                     </div>
@@ -348,40 +349,6 @@
     <script>
         $(document).ready(function() {
 
-            $(document).on('click', '.editbtnkantor', function() {
-                var kan_id = $(this).val();
-                // alert(per_id);
-                $('#editkantor').modal('show');
-
-                $.ajax({
-                    type: "GET",
-                    url: "/employee/" + kan_id + "/edit",
-                    success: function(response) {
-                        // console.log(response.user.pegawai.sk);
-                        $('#kan_id').val(response.user.id);
-                        $('#sk').val(response.user.pegawai.sk);
-                        $('#segmen').val(response.user.pegawai.segmen);
-                        $('#no_bpjs_kesehatan').val(response.user.pegawai.no_bpjs_kesehatan);
-                        $('#no_bpjs_ketenagakerjaan').val(response.user.pegawai
-                            .no_bpjs_ketenagakerjaan);
-                        $('#no_inhealth').val(response.user.pegawai.no_inhealth);
-                        $('#darat_laut_lokasi').val(response.user.pegawai.darat_laut_lokasi);
-                        $('#gol_skala_tht').val(response.user.pegawai.gol_skala_tht);
-                        $('#skala_tht').val(response.user.pegawai.skala_tht);
-                        $('#gol_skala_phdp').val(response.user.pegawai.gol_skala_phdp);
-                        $('#gol_phdp').val(response.user.pegawai.gol_phdp);
-                        $('#gol_skala_gaji').val(response.user.pegawai.gol_skala_gaji);
-                        $('#gol_gaji').val(response.user.pegawai.gol_gaji);
-                    }
-                });
-            });
-        });
-    </script>
-
-    {{-- edit data kantor --}}
-    <script>
-        $(document).ready(function() {
-
             $(document).on('click', '.editbtnpersonal', function() {
                 var per_id = $(this).val();
                 // alert(per_id);
@@ -397,10 +364,44 @@
                         $('#pendidikan').val(response.user.pegawai.pendidikan);
                         $('#jurusan').val(response.user.pegawai.jurusan);
                         $('#nik_ktp').val(response.user.pegawai.nik_ktp);
+                        $('#no_bpjs_kesehatan').val(response.user.pegawai.no_bpjs_kesehatan);
+                        $('#no_bpjs_ketenagakerjaan').val(response.user.pegawai
+                            .no_bpjs_ketenagakerjaan);
                         $('#no_rek').val(response.user.pegawai.no_rek);
                         $('#npwp').val(response.user.pegawai.npwp);
                         $('#ukuran_baju').val(response.user.pegawai.ukuran_baju);
                         $('#ukuran_sepatu').val(response.user.pegawai.ukuran_sepatu);
+                    }
+                });
+            });
+        });
+    </script>
+
+    {{-- edit data kantor --}}
+    <script>
+        $(document).ready(function() {
+
+            $(document).on('click', '.editbtnkantor', function() {
+                var kan_id = $(this).val();
+                // alert(kan_id);
+                $('#editkantor').modal('show');
+
+                $.ajax({
+                    type: "GET",
+                    url: "/employee/" + kan_id + "/edit",
+                    success: function(response) {
+                        // console.log(response.user.pegawai.sk);
+                        $('#kan_id').val(response.user.id);
+                        $('#sk').val(response.user.pegawai.sk);
+                        $('#segmen').val(response.user.pegawai.segmen);
+                        $('#no_inhealth').val(response.user.pegawai.no_inhealth);
+                        $('#darat_laut_lokasi').val(response.user.pegawai.darat_laut_lokasi);
+                        $('#gol_skala_tht').val(response.user.pegawai.gol_skala_tht);
+                        $('#skala_tht').val(response.user.pegawai.skala_tht);
+                        $('#gol_skala_phdp').val(response.user.pegawai.gol_skala_phdp);
+                        $('#gol_phdp').val(response.user.pegawai.gol_phdp);
+                        $('#gol_skala_gaji').val(response.user.pegawai.gol_skala_gaji);
+                        $('#gol_gaji').val(response.user.pegawai.gol_gaji);
                     }
                 });
             });
