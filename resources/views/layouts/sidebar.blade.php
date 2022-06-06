@@ -61,7 +61,7 @@
                 </li>
                 <li class="sidebar-title">Menu</li>
 
-                <li class="sidebar-item {{ request()->is('home*') ? 'active' : '' }}">
+                <li class="sidebar-item {{ request()->is('home*') || request()->is('/') ? 'active' : '' }}">
                     <a href="{{ route('home') }}" class='sidebar-link'>
                         <i class="bi bi-house-door-fill"></i>
                         <span>Dashboard</span>
@@ -88,14 +88,14 @@
                     </ul>
                 </li>
 
-                <li class="sidebar-item  has-sub">
+                <li class="sidebar-item  has-sub {{ request()->is('pengajuan-cuti*') ? 'active' : '' }}">
                     <a href="#" class='sidebar-link'>
                         <i class="bi bi-briefcase-fill"></i>
                         <span>Pengajuan Cuti</span>
                     </a>
-                    <ul class="submenu ">
-                        <li class="submenu-item ">
-                            <a href="table-datatable.html">Pengajuan</a>
+                    <ul class="submenu {{ request()->is('pengajuan-cuti*') ? 'active' : '' }}">
+                        <li class="submenu-item {{ request()->is('pengajuan-cuti*') ? 'active' : '' }}">
+                            <a href="{{ route('pengajuan-cuti') }}">Pengajuan</a>
                         </li>
                         <li class="submenu-item ">
                             <a href="table-datatable-jquery.html">Persetujuan</a>
@@ -105,7 +105,7 @@
 
                 <li class="sidebar-item  has-sub">
                     <a href="#" class='sidebar-link'>
-                        <i class="bi bi-briefcase-fill"></i>
+                        <i class="bi bi-pin-map-fill"></i>
                         <span>Perjalanan Dinas</span>
                     </a>
                     <ul class="submenu ">

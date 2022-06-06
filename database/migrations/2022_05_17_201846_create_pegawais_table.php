@@ -38,6 +38,8 @@ return new class extends Migration
             $table->string('gol_gaji')->nullable();
             $table->string('gol_skala_gaji')->nullable();
             $table->string('segmen')->nullable();
+            $table->string('foto')->nullable();
+            $table->integer('kuota_cuti')->nullable();
             $table->timestamps();
             # Indexes
             $table->index('user_id');

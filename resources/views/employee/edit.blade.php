@@ -52,6 +52,15 @@
                                         </span>
                                     @enderror
                                 </div>
+                                <div class="form-group">
+                                    <label class="form-control-label">Role</label>
+                                    <select name="role" id="role" class="form-control">
+                                        @foreach ($allRoles as $item)
+                                            <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                        @endforeach
+
+                                    </select>
+                                </div>
                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
                                         <label class="form-control-label">Alamat</label>
@@ -64,14 +73,16 @@
                                     </div>
                                     <div class="col-sm-6">
                                         <label class="form-control-label">Jenis Kelamin</label>
-                                        <select id="jenis_kelamin" name="jenis_kelamin"
+                                        <select name="jenis_kelamin"
                                             class="form-control @error('jenis_kelamin') is-invalid @enderror"
                                             data-live-search=" true">
-                                            <option value="L"
-                                                @if (old('jenis_kelamin') == 'L') selected="selected" @endif>L
+                                            <option value="Laki-laki"
+                                                @if (old('jenis_kelamin') == 'Laki-laki') selected="selected" @endif>
+                                                Laki-laki
                                             </option>
-                                            <option value="P"
-                                                @if (old('jenis_kelamin') == 'P') selected="selected" @endif>P
+                                            <option value="Perempuan"
+                                                @if (old('jenis_kelamin') == 'Perempuan') selected="selected" @endif>
+                                                Perempuan
                                             </option>
                                         </select>
                                         @error('jenis_kelamin')
@@ -127,7 +138,7 @@
                                             class="form-control @error('divisi_id') is-invalid @enderror">
                                             @foreach ($divisi as $item)
                                                 <option value={{ $item->id }}
-                                                    @if ($item->id == $pegawai->divisi_id) selected @endif>
+                                                    @if ($item->id == $user->divisi_id) selected @endif>
                                                     {{ $item->nama_divisi }}
                                                 </option>
                                             @endforeach
@@ -142,7 +153,7 @@
                                             class="form-control @error('jabatan_id') is-invalid @enderror">
                                             @foreach ($jabatan as $item)
                                                 <option value={{ $item->id }}
-                                                    @if ($item->id == $pegawai->jabatan_id) selected @endif>
+                                                    @if ($item->id == $user->jabatan_id) selected @endif>
                                                     {{ $item->nama_jabatan }}
                                                 </option>
                                             @endforeach

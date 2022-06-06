@@ -4,11 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Divisi;
 use App\Models\Jabatan;
-use App\Models\Pegawai;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
+use jeremykenedy\LaravelRoles\Models\Role;
 
 class EmployeeController extends Controller
 {
@@ -23,7 +24,8 @@ class EmployeeController extends Controller
         $divisi = Divisi::all();
         $jabatan = Jabatan::all();
         $user = User::with('pegawai')->get();
-        return view('employee.index', compact('divisi', 'jabatan', 'user'));
+        $allRoles = Role::all();
+        return view('employee.index', compact('divisi', 'jabatan', 'user', 'allRoles'));
     }
 
     /**
@@ -50,12 +52,13 @@ class EmployeeController extends Controller
             'password'                  => 'required',
             'jabatan_id'                => 'required',
             'divisi_id'                 => 'required',
-            'nik'                       => 'required',
+            'nik'                       => 'required||unique:users,nik',
             'tempat_lahir'              => 'required',
             'tanggal_lahir'             => 'required',
             'jenis_kelamin'             => 'required',
             'tanggal_masuk_kerja'       => 'required',
             'tanggal_pilih_jabatan'     => 'required',
+            'role'                      => 'required',
 
         ], [
             'name.required'                      => 'nama Pegawai harus diisi',
@@ -69,6 +72,7 @@ class EmployeeController extends Controller
             'jenis_kelamin.required'             => 'jenis kelamin harus diisi',
             'tanggal_masuk_kerja.required'       => 'tanggal masuk kerja harus diisi',
             'tanggal_pilih_jabatan.required'     => 'tanggal dipilih jabatan harus diisi',
+            'role.required'                      => 'Role harus diisi',
         ]);
 
         //calculate umur
@@ -82,7 +86,7 @@ class EmployeeController extends Controller
         $tanggal_pilih_jabatan = Carbon::parse($request['tanggal_pilih_jabatan']);
         $masa_jabatan = $tanggal_pilih_jabatan->diff(\Carbon\Carbon::now())->format('%y Tahun, %m Bulan');
 
-        $pegawai = User::create([
+        $user = User::create([
             'name'                      => $request->name,
             'email'                     => $request->email,
             'password'                  => Hash::make($request->password),
@@ -102,11 +106,20 @@ class EmployeeController extends Controller
             'masa_jabatan'              => $masa_jabatan,
         ]);
 
+        // if ($request->hasFile('foto')) {
 
-        $pegawai->pegawai()->create([
-            'user_id'                   => $pegawai->id,
+
+        //     $request->file('foto')->move('fotoPegawai/', $request->file('foto')->getClientoriginalName());
+        //     $user->pegawai->foto = $request->file('foto')->getClientOriginalName();
+        //     $user->pegawai->save();
+        // }
+        $user->pegawai()->create([
+            'user_id'                   => $user->id,
+            'kuota_cuti'                => $request->kuota_cuti = 12,
 
         ]);
+
+        $user->roles()->attach($request->role);
 
         return redirect('/employee')->with('sukses', 'Pegawai berhasil ditambahkan');
     }
@@ -121,8 +134,9 @@ class EmployeeController extends Controller
     {
         $divisi = Divisi::all();
         $jabatan = Jabatan::all();
-        $pegawai = User::findorfail($id);
-        return view('employee.show', compact('pegawai', 'divisi', 'jabatan'));
+        $allRoles = Role::all();
+        $user = User::findorfail($id);
+        return view('employee.show', compact('user', 'divisi', 'jabatan', 'allRoles'));
     }
 
     /**
@@ -133,12 +147,14 @@ class EmployeeController extends Controller
      */
     public function edit($id)
     {
-        $user = User::with('pegawai')->find($id);
 
+        $user = User::with('pegawai')->find($id);
+        $user->syncRoles($user->roles);
         return response()->json([
             'status' => 200,
             'user' => $user,
         ]);
+        // return dd($user);
     }
 
     /**
@@ -186,28 +202,31 @@ class EmployeeController extends Controller
         $masa_jabatan = $tanggal_pilih_jabatan->diff(\Carbon\Carbon::now())->format('%y Tahun, %m Bulan');
 
         $emp_id = $request->emp_id;
-        $pegawai = User::find($emp_id);
+        $user = User::find($emp_id);
 
-        $pegawai->name = $request->name;
-        $pegawai->email = $request->email;
+        $user->name = $request->name;
+        $user->email = $request->email;
         if ($request->password != null) {
-            $pegawai->password = Hash::make($request->password);
+            $user->password = Hash::make($request->password);
         }
-        $pegawai->jabatan_id = $request->jabatan_id;
-        $pegawai->divisi_id = $request->divisi_id;
-        $pegawai->nik = $request->nik;
-        $pegawai->tempat_lahir = $request->tempat_lahir;
-        $pegawai->tanggal_lahir = $request->tanggal_lahir;
-        $pegawai->usia = $usia;
-        $pegawai->jenis_kelamin = $request->jenis_kelamin;
-        $pegawai->no_hp = $request->no_hp;
-        $pegawai->alamat = $request->alamat;
-        $pegawai->tanggal_masuk_kerja = $request->tanggal_masuk_kerja;
-        $pegawai->masa_kerja = $masa_kerja;
-        $pegawai->tanggal_pilih_jabatan = $request->tanggal_pilih_jabatan;
-        $pegawai->masa_jabatan = $masa_jabatan;
+        $user->jabatan_id = $request->jabatan_id;
+        $user->divisi_id = $request->divisi_id;
+        $user->nik = $request->nik;
+        $user->tempat_lahir = $request->tempat_lahir;
+        $user->tanggal_lahir = $request->tanggal_lahir;
+        $user->usia = $usia;
+        $user->jenis_kelamin = $request->jenis_kelamin;
+        $user->no_hp = $request->no_hp;
+        $user->alamat = $request->alamat;
+        $user->tanggal_masuk_kerja = $request->tanggal_masuk_kerja;
+        $user->masa_kerja = $masa_kerja;
+        $user->tanggal_pilih_jabatan = $request->tanggal_pilih_jabatan;
+        $user->masa_jabatan = $masa_jabatan;
 
-        $pegawai->update();
+        $user->update();
+
+        $user->detachRole($user->roles);
+        $user->attachRole($request->role);
 
         return redirect()->back()->with('success', 'Data Pegawai Berhasil Diubah');
     }
@@ -222,9 +241,9 @@ class EmployeeController extends Controller
     public function updatePersonal(Request $request)
     {
         $per_id = $request->per_id;
-        $pegawai = User::find($per_id);
+        $user = User::find($per_id);
 
-        $pegawai->pegawai()->update([
+        $user->pegawai()->update([
             'status_keluarga'           => $request->status_keluarga,
             'pendidikan'                => $request->pendidikan,
             'jurusan'                   => $request->jurusan,
@@ -250,9 +269,9 @@ class EmployeeController extends Controller
     public function updateKantor(Request $request)
     {
         $kan_id = $request->kan_id;
-        $pegawai = User::find($kan_id);
+        $user = User::find($kan_id);
 
-        $pegawai->pegawai()->update([
+        $user->pegawai()->update([
             'sk'                        => $request->sk,
             'segmen'                    => $request->segmen,
             'no_inhealth'               => $request->no_inhealth,
@@ -269,6 +288,31 @@ class EmployeeController extends Controller
     }
 
     /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updateFotoPegawai(Request $request, $id)
+    {
+
+        $user = User::find($id);
+
+        if ($request->hasFile('foto')) {
+
+            $lokasi = 'fotoPegawai/' . $user->pegawai->foto;
+            if (File::exists($lokasi)) {
+                File::delete($lokasi);
+            }
+            $request->file('foto')->move('fotoPegawai/', $request->file('foto')->getClientoriginalName());
+            $user->pegawai->foto = $request->file('foto')->getClientOriginalName();
+            $user->pegawai->update();
+        }
+
+        return redirect()->back()->with('success', 'Data Kantor Berhasil Diubah');
+    }
+    /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
@@ -276,9 +320,9 @@ class EmployeeController extends Controller
      */
     public function destroy($id)
     {
-        $pegawai = User::find($id);
-        if ($pegawai != null) {
-            $pegawai->delete();
+        $user = User::find($id);
+        if ($user != null) {
+            $user->delete();
             return redirect()->route('employee')->with(['message' => 'Pegawai berhasil dihapus']);
         }
 

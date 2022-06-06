@@ -11,7 +11,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('employee.store') }}" method="POST">
+                <form action="{{ route('employee.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
                         <div class="col-lg-12">
@@ -19,10 +19,14 @@
                                 <div class="text-center">
                                     <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
                                 </div>
+                                {{-- <div class="form-group">
+                                    <label class="form-control-label">Masukkan foto pegawai</label>
+                                    <input name="foto" id="foto" type="file" placeholder="Foto" class="form-control">
+                                </div> --}}
                                 <div class="form-group">
                                     <label class="form-control-label">Nama Lengkap</label>
-                                    <input id="name" type="text" placeholder="Nama Lengkap" type="text"
-                                        class="form-control @error('name') is-invalid @enderror" name="name"
+                                    <input name="name" id="name" type="text" placeholder="Nama Lengkap"
+                                        class="form-control @error('name') is-invalid @enderror"
                                         value="{{ old('name') }}">
                                     @error('name')
                                         <span class="invalid-feedback" role="alert">
@@ -32,8 +36,8 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="form-control-label">Email </label>
-                                    <input id="email" type="email" placeholder="Email"
-                                        class="form-control @error('email') is-invalid @enderror" name="email"
+                                    <input name="email" id="email" type="email" placeholder="Email"
+                                        class="form-control @error('email') is-invalid @enderror"
                                         value="{{ old('email') }}">
                                     @error('email')
                                         <span class="invalid-feedback" role="alert">
@@ -43,13 +47,24 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="form-control-label">Password</label>
-                                    <input type="password" placeholder="Password"
-                                        class="form-control @error('password') is-invalid @enderror" name="password">
+                                    <input name="password" type="password" placeholder="Password"
+                                        class="form-control @error('password') is-invalid @enderror">
                                     @error('password')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
                                     @enderror
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-control-label">Role</label>
+                                    <select name="role" id="role" class="form-control">
+                                        @foreach ($allRoles as $item)
+                                            <option value="{{ $item->id }}"
+                                                @if (old('role') == $item->id) selected @endif>{{ $item->name }}
+                                            </option>
+                                        @endforeach
+
+                                    </select>
                                 </div>
                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
@@ -66,11 +81,11 @@
                                         <select name="jenis_kelamin"
                                             class="form-control @error('jenis_kelamin') is-invalid @enderror"
                                             data-live-search=" true">
-                                            <option value="L"
-                                                @if (old('jenis_kelamin') == 'L') selected="selected" @endif>L
+                                            <option value="Laki-laki"
+                                                @if (old('jenis_kelamin') == 'Laki-laki') selected="selected" @endif>Laki-laki
                                             </option>
-                                            <option value="P"
-                                                @if (old('jenis_kelamin') == 'P') selected="selected" @endif>P
+                                            <option value="Perempuan"
+                                                @if (old('jenis_kelamin') == 'Perempuan') selected="selected" @endif>Perempuan
                                             </option>
                                         </select>
                                         @error('jenis_kelamin')
@@ -120,7 +135,7 @@
                                 </div>
                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <label class="form-control-label">Department</label>
+                                        <label class="form-control-label">Divisi</label>
                                         <select name="divisi_id"
                                             class="form-control @error('divisi_id') is-invalid @enderror">
                                             @foreach ($divisi as $item)

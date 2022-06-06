@@ -4,7 +4,7 @@
         <div class="page-title">
             <div class="row">
                 <div class="col-12 col-md-6 order-md-1 order-last">
-                    <h3>Tabel Divisi</h3>
+                    <h3>Tabel Pengajuan Cuti</h3>
                     <p class="text-subtitle text-muted"></p>
                 </div>
                 <div class="col-12 col-md-6 order-md-2 order-first">
@@ -33,10 +33,12 @@
                 </div>
             @endif
 
+
             <div class="pb-3">
-                <a href="" class="btn icon btn-primary pull-right" data-bs-toggle="modal"
-                    data-bs-target="#exampleModalScrollable"><i data-feather="plus"></i>
-                    Tambah</a>
+                <a href="" class="btn icon btn-primary pull-right" data-bs-toggle="modal" data-bs-target="#createcuti">
+                    <i data-feather="user-plus"></i>
+                    Tambah
+                </a>
             </div>
             <div class="card shadow-lg">
                 <div class="card-body">
@@ -44,66 +46,50 @@
                         <thead>
                             <tr>
                                 <th>NO</th>
-                                <th>Divisi</th>
-                                <th>Deskripsi</th>
+                                <th>Nama</th>
+                                <th>Nik</th>
+                                <th>Jenis Cuti</th>
+                                <th>Lama Hari</th>
+                                <th>Status</th>
                                 <th>action</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            @foreach ($divisi as $i => $row)
+                        {{-- <tbody>
+                            @foreach (user as $i => $row)
                                 <tr>
                                     <td>{{ ++$i }}</td>
-                                    <td>{{ $row->nama_divisi }}</td>
-                                    <td>{{ $row->deskripsi }}</td>
-
+                                    <td>{{ $row->name }}</td>
+                                    <td>{{ $row->nik }}</td>
+                                    <td>{{ $row->masa_kerja }}</td>
+                                    <td>{{ $row->masa_jabatan }}</td>
 
                                     <td class="d-flex">
-                                        <button value="{{ $row->id }}"
-                                            class="btn icon icon-left btn-secondary me-2 editbtn"><i
-                                                data-feather="edit"></i>
-                                            Edit</button>
-                                        <form action="{{ route('divisi.destroy', $row->id) }}" method="post">
+                                        <a href="{{ route('employee.show', $row->id) }}"
+                                            class="btn icon icon-left btn-secondary me-2"><i data-feather="user"></i>
+                                            Lihat</a>
+                                        <form action="{{ route('employee.destroy', $row->id) }}" method="post">
                                             @method('delete')
                                             @csrf
-                                            <button class="btn icon icon-left btn-danger"><i
-                                                    data-feather="alert-circle"></i>
-                                                Hapus</button>
+                                            <button 
+                                                class="btn icon icon-left btn-danger"
+                                            >
+                                                <i data-feather="alert-circle"></i>
+                                                Hapus
+                                            </button>
                                         </form>
                                     </td>
                                 </tr>
                             @endforeach
-
-                        </tbody>
+                        </tbody> --}}
                     </table>
                 </div>
             </div>
 
         </section>
-        @include('employee.departements.create')
-        @include('employee.departements.edit')
+        <!-- {{ $user }} -->
+        @include('cuti.create', ['user' => $user])
     </div>
 @endsection
-
 @section('script')
-    <script>
-        $(document).ready(function() {
-
-            $(document).on('click', '.editbtn', function() {
-                var div_id = $(this).val();
-                // alert(div_id);
-                $('#divisiedit').modal('show');
-
-                $.ajax({
-                    type: "GET",
-                    url: "divisi/" + div_id + "/edit",
-                    success: function(response) {
-                        // console.log(response.divisi.nama_divisi);
-                        $('#div_id').val(response.divisi.id);
-                        $('#nama_divisi').val(response.divisi.nama_divisi);
-                        $('#deskripsi').val(response.divisi.deskripsi);
-                    }
-                });
-            });
-        });
-    </script>
+    <script></script>
 @endsection

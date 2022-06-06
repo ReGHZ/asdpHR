@@ -26,7 +26,7 @@
                                             <label class="form-control-label">Jabatan</label>
                                             <input name="nama_jabatan" id="nama_jabatan" type="text"
                                                 class="form-control @error('nama_jabatan') is-invalid @enderror"
-                                                value="{{ old('nama_jabatan') }}" placeholder="Divisi" />
+                                                value="{{ old('nama_jabatan') }}" placeholder="Jabatan" />
                                             @error('nama_jabatan')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
@@ -35,7 +35,7 @@
                                             <label class="form-control-label">Deskripsi</label>
                                             <textarea name="deskripsi" id="deskripsi" type="text" class="form-control @error('deskripsi') is-invalid @enderror"
                                                 value="{{ old('deskripsi') }}"
-                                                placeholder="Keterangan Divisi" /></textarea>
+                                                placeholder="Keterangan Jabatan" /></textarea>
                                             @error('deskripsi')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror

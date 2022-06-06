@@ -18,6 +18,21 @@
             </div>
         </div>
         <section id="content-types">
+
+            @if (session()->get('success'))
+                <div class="alert alert-success alert-dismissible show fade"><i class="bi bi-check-circle"></i>
+                    {{ session()->get('success') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
+
+            @if (session()->get('error'))
+                <div class="alert alert-danger alert-dismissible show fade"><i class="bi bi-file-excel"></i>
+                    {{ session()->get('error') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
+
             <div class="pb-3">
                 <a href="{{ route('employee') }}" class="btn icon btn-primary pull-right"><i
                         data-feather="arrow-left"></i>
@@ -32,6 +47,26 @@
                                 <div class="text-center">
                                     <h1 class="h4 text-gray-900 mb-4">Profile</h1>
                                 </div>
+
+                                {{-- profile pict --}}
+                                <form action="{{ route('employee.updateFotoPegawai', $user->id) }}" method="POST"
+                                    enctype="multipart/form-data">
+                                    @csrf
+
+                                    @method('PUT')
+
+
+                                    <div class="upload mb-3">
+                                        <img src="{{ asset('fotoPegawai/' . $user->pegawai->foto) }}" width=100 height=100
+                                            alt="">
+                                        <div class="round">
+                                            <input name="foto" type="file" id="file" onchange="this.form.submit()">
+                                            <i class="feather-16" data-feather="camera" style="color: white ;"></i>
+                                        </div>
+                                    </div>
+                                </form>
+                                {{-- end profile pict --}}
+
                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
                                         <!-- FIRST -->
@@ -41,38 +76,38 @@
                                                     <tr>
                                                         <td>Nama</td>
                                                         <td>:</td>
-                                                        <td>{{ $pegawai->name }}</td>
+                                                        <td>{{ $user->name }}</td>
                                                     </tr>
                                                     <tr>
                                                         <td>Divisi</td>
                                                         <td>:</td>
-                                                        <td>{{ $pegawai->divisi->nama_divisi }}</td>
+                                                        <td>{{ $user->divisi->nama_divisi }}</td>
                                                     </tr>
                                                     <tr>
                                                         <td>Jabatan</td>
                                                         <td>:</td>
-                                                        <td>{{ $pegawai->Jabatan->nama_jabatan }}</td>
+                                                        <td>{{ $user->Jabatan->nama_jabatan }}</td>
                                                     </tr>
                                                     <tr>
                                                         <td>Nomor HP</td>
                                                         <td>:</td>
-                                                        <td>{{ $pegawai->no_hp }}</td>
+                                                        <td>{{ $user->no_hp }}</td>
                                                     </tr>
                                                     <tr>
                                                         <td>Tempat Lahir/Tanggal Lahir</td>
                                                         <td>:</td>
-                                                        <td>{{ $pegawai->tempat_lahir }}/{{ $pegawai->tanggal_lahir }}
+                                                        <td>{{ $user->tempat_lahir }}/{{ $user->tanggal_lahir }}
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <td>usia</td>
                                                         <td>:</td>
-                                                        <td>{{ $pegawai->usia }}</td>
+                                                        <td>{{ $user->usia }}</td>
                                                     </tr>
                                                     <tr>
                                                         <td>Jenis Kelamin</td>
                                                         <td>:</td>
-                                                        <td>{{ $pegawai->jenis_kelamin }}</td>
+                                                        <td>{{ $user->jenis_kelamin }}</td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -86,37 +121,37 @@
                                                 <tr>
                                                     <td>Email</td>
                                                     <td>:</td>
-                                                    <td>{{ $pegawai->email }}</td>
+                                                    <td>{{ $user->email }}</td>
                                                 </tr>
                                                 <tr>
                                                     <td>Alamat</td>
                                                     <td>:</td>
-                                                    <td>{{ $pegawai->alamat }}</td>
+                                                    <td>{{ $user->alamat }}</td>
                                                 </tr>
                                                 <tr>
                                                     <td>Nomor Kepegawaian</td>
                                                     <td>:</td>
-                                                    <td>{{ $pegawai->nik }}</td>
+                                                    <td>{{ $user->nik }}</td>
                                                 </tr>
                                                 <tr>
                                                     <td>Tanggal Diterima Kerja</td>
                                                     <td>:</td>
-                                                    <td>{{ $pegawai->tanggal_masuk_kerja }}</td>
+                                                    <td>{{ $user->tanggal_masuk_kerja }}</td>
                                                 </tr>
                                                 <tr>
                                                     <td>Masa Kerja</td>
                                                     <td>:</td>
-                                                    <td>{{ $pegawai->masa_kerja }}</td>
+                                                    <td>{{ $user->masa_kerja }}</td>
                                                 </tr>
                                                 <tr>
                                                     <td>Tanggal Menjabat</td>
                                                     <td>:</td>
-                                                    <td>{{ $pegawai->tanggal_pilih_jabatan }}</td>
+                                                    <td>{{ $user->tanggal_pilih_jabatan }}</td>
                                                 </tr>
                                                 <tr>
                                                     <td>Masa Jabatan</td>
                                                     <td>:</td>
-                                                    <td>{{ $pegawai->masa_jabatan }}</td>
+                                                    <td>{{ $user->masa_jabatan }}</td>
                                                 </tr>
 
                                             </tbody>
@@ -124,7 +159,7 @@
                                         <!-- END SECOND -->
                                     </div>
                                     <div class="d-flex justify-content-end">
-                                        <button value="{{ $pegawai->id }}"
+                                        <button value="{{ $user->id }}"
                                             class="btn icon icon-left btn-secondary editbtn"><i
                                                 data-feather="edit"></i>Edit</button>
 
@@ -158,58 +193,58 @@
                                                 <tr>
                                                     <td>Status Keluarga</td>
                                                     <td>:</td>
-                                                    <td>{{ $pegawai->pegawai->status_keluarga }}</td>
+                                                    <td>{{ $user->pegawai->status_keluarga }}</td>
                                                 </tr>
                                                 <tr>
                                                     <td>Pendidikan Terakhir</td>
                                                     <td>:</td>
-                                                    <td>{{ $pegawai->pegawai->pendidikan }}</td>
+                                                    <td>{{ $user->pegawai->pendidikan }}</td>
                                                 </tr>
                                                 <tr>
                                                     <td>Jurusan</td>
                                                     <td>:</td>
-                                                    <td>{{ $pegawai->pegawai->jurusan }}</td>
+                                                    <td>{{ $user->pegawai->jurusan }}</td>
                                                 </tr>
                                                 <tr>
                                                     <td>KTP</td>
                                                     <td>:</td>
-                                                    <td>{{ $pegawai->pegawai->nik_ktp }}</td>
+                                                    <td>{{ $user->pegawai->nik_ktp }}</td>
                                                 </tr>
                                                 <tr>
                                                     <td>BPJS Kesehatan</td>
                                                     <td>:</td>
-                                                    <td>{{ $pegawai->pegawai->no_bpjs_kesehatan }}</td>
+                                                    <td>{{ $user->pegawai->no_bpjs_kesehatan }}</td>
                                                 </tr>
                                                 <tr>
                                                     <td>BPJS Ketenagakerjaan</td>
                                                     <td>:</td>
-                                                    <td>{{ $pegawai->pegawai->no_bpjs_ketenagakerjaan }}</td>
+                                                    <td>{{ $user->pegawai->no_bpjs_ketenagakerjaan }}</td>
                                                 </tr>
                                                 <tr>
                                                     <td>Nomor Rekening</td>
                                                     <td>:</td>
-                                                    <td>{{ $pegawai->pegawai->no_rek }}</td>
+                                                    <td>{{ $user->pegawai->no_rek }}</td>
                                                 </tr>
                                                 <tr>
                                                     <td>npwp</td>
                                                     <td>:</td>
-                                                    <td>{{ $pegawai->pegawai->npwp }}</td>
+                                                    <td>{{ $user->pegawai->npwp }}</td>
                                                 </tr>
                                                 <tr>
                                                     <td>Ukuran Baju</td>
                                                     <td>:</td>
-                                                    <td>{{ $pegawai->pegawai->ukuran_baju }}</td>
+                                                    <td>{{ $user->pegawai->ukuran_baju }}</td>
                                                 </tr>
                                                 <tr>
                                                     <td>Ukuran Sepatu</td>
                                                     <td>:</td>
-                                                    <td>{{ $pegawai->pegawai->ukuran_sepatu }}</td>
+                                                    <td>{{ $user->pegawai->ukuran_sepatu }}</td>
                                                 </tr>
 
                                             </tbody>
                                         </table>
                                         <div class="d-flex justify-content-end">
-                                            <button value="{{ $pegawai->id }}"
+                                            <button value="{{ $user->id }}"
                                                 class="btn icon icon-left btn-secondary editbtnpersonal"><i
                                                     data-feather="edit"></i>Edit</button>
 
@@ -239,58 +274,58 @@
                                                 <tr>
                                                     <td>SK</td>
                                                     <td>:</td>
-                                                    <td>{{ $pegawai->pegawai->sk }}
+                                                    <td>{{ $user->pegawai->sk }}
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td>Segmen</td>
                                                     <td>:</td>
-                                                    <td>{{ $pegawai->pegawai->segmen }}</td>
+                                                    <td>{{ $user->pegawai->segmen }}</td>
                                                 </tr>
                                                 <tr>
                                                     <td>Inhealth</td>
                                                     <td>:</td>
-                                                    <td>{{ $pegawai->pegawai->no_inhealth }}</td>
+                                                    <td>{{ $user->pegawai->no_inhealth }}</td>
                                                 </tr>
                                                 <tr>
                                                     <td>Unit Kerja</td>
                                                     <td>:</td>
-                                                    <td>{{ $pegawai->pegawai->darat_laut_lokasi }}</td>
+                                                    <td>{{ $user->pegawai->darat_laut_lokasi }}</td>
                                                 </tr>
                                                 <tr>
                                                     <td>Golongan Skala THT</td>
                                                     <td>:</td>
-                                                    <td>{{ $pegawai->pegawai->gol_skala_tht }}</td>
+                                                    <td>{{ $user->pegawai->gol_skala_tht }}</td>
                                                 </tr>
                                                 <tr>
                                                     <td>Skala THT</td>
                                                     <td>:</td>
-                                                    <td>{{ $pegawai->pegawai->skala_tht }}</td>
+                                                    <td>{{ $user->pegawai->skala_tht }}</td>
                                                 </tr>
                                                 <tr>
                                                     <td>Golongan Skala PHDP</td>
                                                     <td>:</td>
-                                                    <td>{{ $pegawai->pegawai->gol_skala_phdp }}</td>
+                                                    <td>{{ $user->pegawai->gol_skala_phdp }}</td>
                                                 </tr>
                                                 <tr>
                                                     <td>Golongan PHDP</td>
                                                     <td>:</td>
-                                                    <td>{{ $pegawai->pegawai->gol_phdp }}</td>
+                                                    <td>{{ $user->pegawai->gol_phdp }}</td>
                                                 </tr>
                                                 <tr>
                                                     <td>Golongan Skala Gaji</td>
                                                     <td>:</td>
-                                                    <td>{{ $pegawai->pegawai->gol_skala_gaji }}</td>
+                                                    <td>{{ $user->pegawai->gol_skala_gaji }}</td>
                                                 </tr>
                                                 <tr>
                                                     <td>Golongan Gaji</td>
                                                     <td>:</td>
-                                                    <td>{{ $pegawai->pegawai->gol_gaji }}</td>
+                                                    <td>{{ $user->pegawai->gol_gaji }}</td>
                                                 </tr>
                                             </tbody>
                                         </table>
                                         <div class="d-flex justify-content-end">
-                                            <button value="{{ $pegawai->id }}"
+                                            <button value="{{ $user->id }}"
                                                 class="btn icon icon-left btn-secondary editbtnkantor"><i
                                                     data-feather="edit"></i>Edit</button>
 
@@ -323,8 +358,9 @@
                 $.ajax({
                     type: "GET",
                     url: "/employee/" + emp_id + "/edit",
+                    dataType: 'json',
                     success: function(response) {
-                        // console.log(response.user.password);
+                        // console.log(response.user.roles[].name);
                         $('#emp_id').val(response.user.id);
                         $('#name').val(response.user.name);
                         $('#email').val(response.user.email);
@@ -339,6 +375,7 @@
                         $('#jabatan_id').val(response.user.jabatan_id);
                         $('#tanggal_masuk_kerja').val(response.user.tanggal_masuk_kerja);
                         $('#tanggal_pilih_jabatan').val(response.user.tanggal_pilih_jabatan);
+                        // $('#role').val(response.user.roles[0].name);
                     }
                 });
             });

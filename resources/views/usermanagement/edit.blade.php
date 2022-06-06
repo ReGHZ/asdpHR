@@ -64,14 +64,16 @@
                                     </div>
                                     <div class="col-sm-6">
                                         <label class="form-control-label">Jenis Kelamin</label>
-                                        <select id="jenis_kelamin" name="jenis_kelamin"
+                                        <select name="jenis_kelamin"
                                             class="form-control @error('jenis_kelamin') is-invalid @enderror"
                                             data-live-search=" true">
-                                            <option value="L"
-                                                @if (old('jenis_kelamin') == 'L') selected="selected" @endif>L
+                                            <option value="Laki-laki"
+                                                @if (old('jenis_kelamin') == 'Laki-laki') selected="selected" @endif>
+                                                Laki-laki
                                             </option>
-                                            <option value="P"
-                                                @if (old('jenis_kelamin') == 'P') selected="selected" @endif>P
+                                            <option value="Perempuan"
+                                                @if (old('jenis_kelamin') == 'Perempuan') selected="selected" @endif>
+                                                Perempuan
                                             </option>
                                         </select>
                                         @error('jenis_kelamin')

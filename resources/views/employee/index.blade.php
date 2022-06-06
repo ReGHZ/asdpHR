@@ -18,6 +18,21 @@
             </div>
         </div>
         <section class="section">
+
+            @if (session()->get('success'))
+                <div class="alert alert-success alert-dismissible show fade"><i class="bi bi-check-circle"></i>
+                    {{ session()->get('success') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
+
+            @if (session()->get('error'))
+                <div class="alert alert-danger alert-dismissible show fade"><i class="bi bi-file-excel"></i>
+                    {{ session()->get('error') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
+
             <div class="pb-3">
                 <a href="" class="btn icon btn-primary pull-right" data-bs-toggle="modal" data-bs-target="#createpegawai"><i
                         data-feather="user-plus"></i>

@@ -14,6 +14,47 @@
     <link rel="stylesheet" href="{{ asset('backend/assets/css/pages/simple-datatables.css') }}">
 
     <link rel="stylesheet" href="{{ asset('backend/assets/css/shared/iconly.css') }}">
+
+    <style>
+        .upload {
+            width: 100px;
+            position: relative;
+            margin: auto;
+        }
+
+        .upload img {
+            border-radius: 50%;
+            border: 6px solid rgb(217, 215, 210);
+        }
+
+        .upload .round {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background: grey;
+            width: 32px;
+            height: 32px;
+            line-height: 33px;
+            text-align: center;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+
+        .upload .round input[type='file'] {
+            position: absolute;
+            transform: scale(2);
+            opacity: 0;
+        }
+
+        input[type='file']::-webkit-file-upload-button {
+            cursor: pointer;
+        }
+
+        .feather-16 {
+            width: 16px;
+            height: 16px;
+        }
+    </style>
 </head>
 
 <body>

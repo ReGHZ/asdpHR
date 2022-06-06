@@ -17,16 +17,44 @@
                 </div>
             </div>
         </div>
+
+        @if (session()->get('success'))
+            <div class="alert alert-success alert-dismissible show fade"><i class="bi bi-check-circle"></i>
+                {{ session()->get('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+
+        @if (session()->get('error'))
+            <div class="alert alert-danger alert-dismissible show fade"><i class="bi bi-file-excel"></i>
+                {{ session()->get('error') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+
         <div class="container py-4">
             <div class="row">
                 <div class="col-lg-4">
                     <div class="card mb-4">
                         <div class="card-body text-center">
-                            <img src="https://i.ibb.co/LhS2DxN/wojak-sad.jpg" alt="avatar" class="rounded-circle img-fluid"
-                                style="width: 150px;">
+                            <form action="{{ route('employee.updateFotoPegawai', Auth::user()->id) }}" method="POST"
+                                enctype="multipart/form-data">
+                                @csrf
+
+                                @method('PUT')
+                                <div class="upload mb-3">
+                                    <img src="{{ asset('fotoPegawai/' . Auth::user()->pegawai->foto) }}" width=100
+                                        height=100 alt="">
+                                    <div class="round">
+                                        <input name="foto" type="file" id="file" onchange="this.form.submit()">
+                                        <i class="feather-16" data-feather="camera" style="color: white ;"></i>
+                                    </div>
+                                </div>
+                            </form>
                             <h5 class="my-3">{{ Auth::user()->name }}</h5>
                             <p class="text-muted mb-1">
-                                {{ Auth::user()->jabatan->nama_jabatan }} / {{ Auth::user()->divisi->nama_divisi }}</p>
+                                {{ Auth::user()->jabatan->nama_jabatan }} / {{ Auth::user()->divisi->nama_divisi }}
+                            </p>
                             <p class="text-muted mb-4">{{ Auth::user()->alamat }}</p>
                             <div class="d-flex justify-content-center mb-2">
                                 <button type="button" value="{{ Auth::user()->id }}"
@@ -55,6 +83,11 @@
                                 <li class="list-group-item d-flex justify-content-between align-items-center p-3">
                                     <p class="mb-0">Masa Jabatan :
                                         {{ Auth::user()->masa_jabatan }}
+                                    </p>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                                    <p class="mb-0">Kuota cuti Tahunan:
+                                        {{ Auth::user()->pegawai->kuota_cuti }}
                                     </p>
                                 </li>
                             </ul>
