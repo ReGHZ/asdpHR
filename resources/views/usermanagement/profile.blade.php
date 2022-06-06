@@ -42,14 +42,25 @@
                                 @csrf
 
                                 @method('PUT')
-                                <div class="upload mb-3">
-                                    <img src="{{ asset('fotoPegawai/' . Auth::user()->pegawai->foto) }}" width=100
-                                        height=100 alt="">
-                                    <div class="round">
-                                        <input name="foto" type="file" id="file" onchange="this.form.submit()">
-                                        <i class="feather-16" data-feather="camera" style="color: white ;"></i>
+                                @if (isset(Auth::user()->pegawai->foto))
+                                    <div class="upload mb-3">
+                                        <img src="{{ asset('fotoPegawai/' . Auth::user()->pegawai->foto) }}" width=100
+                                            height=100 alt="">
+                                        <div class="round">
+                                            <input name="foto" type="file" id="file" onchange="this.form.submit()">
+                                            <i class="feather-16" data-feather="camera" style="color: white ;"></i>
+                                        </div>
                                     </div>
-                                </div>
+                                @else
+                                    <div class="upload mb-3">
+                                        <img src="{{ asset('backend/assets/images/faces/2.jpg') }}" width=100 height=100
+                                            alt="">
+                                        <div class="round">
+                                            <input name="foto" type="file" id="file" onchange="this.form.submit()">
+                                            <i class="feather-16" data-feather="camera" style="color: white ;"></i>
+                                        </div>
+                                    </div>
+                                @endif
                             </form>
                             <h5 class="my-3">{{ Auth::user()->name }}</h5>
                             <p class="text-muted mb-1">

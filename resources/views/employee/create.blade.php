@@ -19,10 +19,10 @@
                                 <div class="text-center">
                                     <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
                                 </div>
-                                {{-- <div class="form-group">
+                                <div class="form-group">
                                     <label class="form-control-label">Masukkan foto pegawai</label>
                                     <input name="foto" id="foto" type="file" placeholder="Foto" class="form-control">
-                                </div> --}}
+                                </div>
                                 <div class="form-group">
                                     <label class="form-control-label">Nama Lengkap</label>
                                     <input name="name" id="name" type="text" placeholder="Nama Lengkap"

@@ -106,18 +106,20 @@ class EmployeeController extends Controller
             'masa_jabatan'              => $masa_jabatan,
         ]);
 
-        // if ($request->hasFile('foto')) {
-
-
-        //     $request->file('foto')->move('fotoPegawai/', $request->file('foto')->getClientoriginalName());
-        //     $user->pegawai->foto = $request->file('foto')->getClientOriginalName();
-        //     $user->pegawai->save();
-        // }
         $user->pegawai()->create([
             'user_id'                   => $user->id,
             'kuota_cuti'                => $request->kuota_cuti = 12,
 
         ]);
+
+        if ($request->hasFile('foto')) {
+
+
+            $request->file('foto')->move('fotoPegawai/', $request->file('foto')->getClientoriginalName());
+            $user->pegawai->foto = $request->file('foto')->getClientOriginalName();
+            $user->pegawai->save();
+        }
+
 
         $user->roles()->attach($request->role);
 

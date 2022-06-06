@@ -55,15 +55,25 @@
 
                                     @method('PUT')
 
-
-                                    <div class="upload mb-3">
-                                        <img src="{{ asset('fotoPegawai/' . $user->pegawai->foto) }}" width=100 height=100
-                                            alt="">
-                                        <div class="round">
-                                            <input name="foto" type="file" id="file" onchange="this.form.submit()">
-                                            <i class="feather-16" data-feather="camera" style="color: white ;"></i>
+                                    @if (isset($user->pegawai->foto))
+                                        <div class="upload mb-3">
+                                            <img src="{{ asset('fotoPegawai/' . $user->pegawai->foto) }}" width=100
+                                                height=100 alt="">
+                                            <div class="round">
+                                                <input name="foto" type="file" id="file" onchange="this.form.submit()">
+                                                <i class="feather-16" data-feather="camera" style="color: white ;"></i>
+                                            </div>
                                         </div>
-                                    </div>
+                                    @else
+                                        <div class="upload mb-3">
+                                            <img src="{{ asset('backend/assets/images/faces/2.jpg') }}" width=100
+                                                height=100 alt="">
+                                            <div class="round">
+                                                <input name="foto" type="file" id="file" onchange="this.form.submit()">
+                                                <i class="feather-16" data-feather="camera" style="color: white ;"></i>
+                                            </div>
+                                        </div>
+                                    @endif
                                 </form>
                                 {{-- end profile pict --}}
 
