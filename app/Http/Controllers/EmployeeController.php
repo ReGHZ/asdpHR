@@ -20,10 +20,14 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-
+        //get data divisi and jabatan
         $divisi = Divisi::all();
         $jabatan = Jabatan::all();
+
+        //get data user 
         $user = User::with('pegawai')->get();
+
+        //get data role
         $allRoles = Role::all();
         return view('employee.index', compact('divisi', 'jabatan', 'user', 'allRoles'));
     }
@@ -45,14 +49,14 @@ class EmployeeController extends Controller
      */
     public function store(Request $request)
     {
-
+        //validator
         $request->validate([
             'name'                      => 'required',
             'email'                     => 'required',
             'password'                  => 'required',
             'jabatan_id'                => 'required',
             'divisi_id'                 => 'required',
-            'nik'                       => 'required||unique:users,nik',
+            'nik'                       => 'required|unique:users,nik',
             'tempat_lahir'              => 'required',
             'tanggal_lahir'             => 'required',
             'jenis_kelamin'             => 'required',
@@ -75,7 +79,7 @@ class EmployeeController extends Controller
             'role.required'                      => 'Role harus diisi',
         ]);
 
-        //calculate umur
+        //calculate usia
         $tanggal_lahir = Carbon::parse($request['tanggal_lahir']);
         $usia = $tanggal_lahir->age;
 
@@ -86,6 +90,7 @@ class EmployeeController extends Controller
         $tanggal_pilih_jabatan = Carbon::parse($request['tanggal_pilih_jabatan']);
         $masa_jabatan = $tanggal_pilih_jabatan->diff(\Carbon\Carbon::now())->format('%y Tahun, %m Bulan');
 
+        //user create
         $user = User::create([
             'name'                      => $request->name,
             'email'                     => $request->email,
@@ -106,12 +111,14 @@ class EmployeeController extends Controller
             'masa_jabatan'              => $masa_jabatan,
         ]);
 
+        //user create relation table pegawai
         $user->pegawai()->create([
             'user_id'                   => $user->id,
             'kuota_cuti'                => $request->kuota_cuti = 12,
 
         ]);
 
+        //upload foto pegawai
         if ($request->hasFile('foto')) {
 
 
@@ -120,7 +127,7 @@ class EmployeeController extends Controller
             $user->pegawai->save();
         }
 
-
+        //attach role user
         $user->roles()->attach($request->role);
 
         return redirect('/employee')->with('sukses', 'Pegawai berhasil ditambahkan');
@@ -134,6 +141,7 @@ class EmployeeController extends Controller
      */
     public function show($id)
     {
+        // get data user
         $divisi = Divisi::all();
         $jabatan = Jabatan::all();
         $allRoles = Role::all();
@@ -149,8 +157,10 @@ class EmployeeController extends Controller
      */
     public function edit($id)
     {
-
+        //get user dengan relasi pegawai
         $user = User::with('pegawai')->find($id);
+
+        //sync role user
         $user->syncRoles($user->roles);
         return response()->json([
             'status' => 200,
@@ -168,12 +178,17 @@ class EmployeeController extends Controller
      */
     public function updatePegawai(Request $request)
     {
+        //user id
+        $emp_id = $request->emp_id;
+        $user = User::find($emp_id);
+
+        //validator
         $request->validate([
             'name'                      => 'required',
-            'email'                     => 'required',
+            'email'                     => ['required', 'unique:users,email,' . $emp_id],
             'jabatan_id'                => 'required',
             'divisi_id'                 => 'required',
-            'nik'                       => 'required',
+            'nik'                       => ['required', 'unique:users,nik,' . $emp_id],
             'tempat_lahir'              => 'required',
             'tanggal_lahir'             => 'required',
             'jenis_kelamin'             => 'required',
@@ -193,6 +208,7 @@ class EmployeeController extends Controller
             'tanggal_pilih_jabatan.required'     => 'tanggal dipilih jabatan harus diisi',
         ]);
 
+        //calculate usia
         $tanggal_lahir = Carbon::parse($request['tanggal_lahir']);
         $usia = $tanggal_lahir->age;
 
@@ -203,9 +219,7 @@ class EmployeeController extends Controller
         $tanggal_pilih_jabatan = Carbon::parse($request['tanggal_pilih_jabatan']);
         $masa_jabatan = $tanggal_pilih_jabatan->diff(\Carbon\Carbon::now())->format('%y Tahun, %m Bulan');
 
-        $emp_id = $request->emp_id;
-        $user = User::find($emp_id);
-
+        //update data
         $user->name = $request->name;
         $user->email = $request->email;
         if ($request->password != null) {
@@ -227,7 +241,10 @@ class EmployeeController extends Controller
 
         $user->update();
 
+        //detach role user
         $user->detachRole($user->roles);
+
+        //attach role user
         $user->attachRole($request->role);
 
         return redirect()->back()->with('success', 'Data Pegawai Berhasil Diubah');
@@ -242,9 +259,11 @@ class EmployeeController extends Controller
      */
     public function updatePersonal(Request $request)
     {
+        //user id
         $per_id = $request->per_id;
         $user = User::find($per_id);
 
+        //update data pegawai
         $user->pegawai()->update([
             'status_keluarga'           => $request->status_keluarga,
             'pendidikan'                => $request->pendidikan,
@@ -270,9 +289,11 @@ class EmployeeController extends Controller
      */
     public function updateKantor(Request $request)
     {
+        //user id
         $kan_id = $request->kan_id;
         $user = User::find($kan_id);
 
+        //update data kantor
         $user->pegawai()->update([
             'sk'                        => $request->sk,
             'segmen'                    => $request->segmen,
@@ -298,9 +319,10 @@ class EmployeeController extends Controller
      */
     public function updateFotoPegawai(Request $request, $id)
     {
-
+        //user id
         $user = User::find($id);
 
+        //update foto pegawai
         if ($request->hasFile('foto')) {
 
             $lokasi = 'fotoPegawai/' . $user->pegawai->foto;
@@ -312,8 +334,9 @@ class EmployeeController extends Controller
             $user->pegawai->update();
         }
 
-        return redirect()->back()->with('success', 'Data Kantor Berhasil Diubah');
+        return redirect()->back()->with('success', 'Foto Pegawai Berhasil Diubah');
     }
+
     /**
      * Remove the specified resource from storage.
      *
@@ -322,7 +345,10 @@ class EmployeeController extends Controller
      */
     public function destroy($id)
     {
+        //user id
         $user = User::find($id);
+
+        //delete user
         if ($user != null) {
             $user->delete();
             return redirect()->route('employee')->with(['message' => 'Pegawai berhasil dihapus']);

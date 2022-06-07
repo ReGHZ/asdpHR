@@ -20,6 +20,8 @@ class DatabaseSeeder extends Seeder
         $this->call(PermissionsTableSeeder::class);
         $this->call(RolesTableSeeder::class);
         $this->call(ConnectRelationshipsSeeder::class);
+        $this->call(DivisiSeeder::class);
+        $this->call(JabatanSeeder::class);
         $this->call(AdminSeeder::class);
         //$this->call('UsersTableSeeder');
 

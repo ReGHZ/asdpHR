@@ -11,7 +11,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('employee.updatePegawai') }}" method="POST">
+                <form action="{{ route('profile.updateProfile') }}" method="POST">
                     @csrf
 
                     @method('PUT')
@@ -124,12 +124,12 @@
                                 </div>
                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <label class="form-control-label">Department</label>
+                                        <label class="form-control-label">Divisi</label>
                                         <select id="divisi_id" name="divisi_id"
                                             class="form-control @error('divisi_id') is-invalid @enderror">
                                             @foreach ($divisi as $item)
                                                 <option value={{ $item->id }}
-                                                    @if ($item->id == $pegawai->divisi_id) selected @endif>
+                                                    @if ($item->id == $user->divisi_id) selected @endif>
                                                     {{ $item->nama_divisi }}
                                                 </option>
                                             @endforeach
@@ -144,7 +144,7 @@
                                             class="form-control @error('jabatan_id') is-invalid @enderror">
                                             @foreach ($jabatan as $item)
                                                 <option value={{ $item->id }}
-                                                    @if ($item->id == $pegawai->jabatan_id) selected @endif>
+                                                    @if ($item->id == $user->jabatan_id) selected @endif>
                                                     {{ $item->nama_jabatan }}
                                                 </option>
                                             @endforeach
@@ -203,7 +203,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('employee.updatePersonal') }}" method="POST">
+                <form action="{{ route('profile.updatePersonal') }}" method="POST">
                     @csrf
 
                     @method('PUT')
@@ -347,7 +347,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('employee.updateKantor') }}" method="POST">
+                <form action="{{ route('profile.updateKantor') }}" method="POST">
                     @csrf
 
                     @method('PUT')

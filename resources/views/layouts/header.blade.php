@@ -11,13 +11,22 @@
                     <li class="breadcrumb-item dropdown">
                         <a class="dropdown-toggle text-gray-600" href="#" data-bs-toggle="dropdown"
                             aria-expanded="false">
-                            <i class='bi bi-bell bi-sub fs-4'></i>
+                            <i class='bi bi-bell bi-sub fs-4'></i><span
+                                class="position-absolute top-0 start-99 translate-middle badge rounded-pill bg-danger">
+                                {{ Auth::user()->unreadnotifications->count() }}
+                                <span class="visually-hidden">unread messages</span>
+                            </span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
                             <li>
                                 <h6 class="dropdown-header">Notifications</h6>
                             </li>
-                            <li><a class="dropdown-item">No notification available</a></li>
+                            @foreach (Auth::user()->unreadnotifications as $notification)
+                                <li><a href="{{ route('home') }}"
+                                        class="dropdown-item">{{ $notification->data['user_name'] }}
+                                        mengajukan {{ $notification->data['jenis_cuti'] }} selama
+                                        {{ $notification->data['lama_hari'] }} hari</a> </li>
+                            @endforeach
                         </ul>
                     </li>
 

@@ -37,7 +37,7 @@
                 <div class="col-lg-4">
                     <div class="card mb-4">
                         <div class="card-body text-center">
-                            <form action="{{ route('employee.updateFotoPegawai', Auth::user()->id) }}" method="POST"
+                            <form action="{{ route('profile.updateFotoProfile', Auth::user()->id) }}" method="POST"
                                 enctype="multipart/form-data">
                                 @csrf
 
@@ -171,60 +171,62 @@
                                 <div class="card-body">
                                     <p class="mb-4"><span class="text-primary font-italic me-1">personal</span>
                                     </p>
-                                    <table class="table">
-                                        <tbody>
-                                            <tr>
-                                                <td>Status Keluarga</td>
-                                                <td>:</td>
-                                                <td>{{ Auth::user()->pegawai->status_keluarga }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Pendidikan Terakhir</td>
-                                                <td>:</td>
-                                                <td>{{ Auth::user()->pegawai->pendidikan }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Jurusan</td>
-                                                <td>:</td>
-                                                <td>{{ Auth::user()->pegawai->jurusan }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>KTP</td>
-                                                <td>:</td>
-                                                <td>{{ Auth::user()->pegawai->nik_ktp }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Nomor Rekening</td>
-                                                <td>:</td>
-                                                <td>{{ Auth::user()->pegawai->no_rek }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>npwp</td>
-                                                <td>:</td>
-                                                <td>{{ Auth::user()->pegawai->npwp }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Ukuran Baju</td>
-                                                <td>:</td>
-                                                <td>{{ Auth::user()->pegawai->ukuran_baju }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Ukuran Sepatu</td>
-                                                <td>:</td>
-                                                <td>{{ Auth::user()->pegawai->ukuran_sepatu }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>BPJS Kesehatan</td>
-                                                <td>:</td>
-                                                <td>{{ Auth::user()->pegawai->no_bpjs_kesehatan }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>BPJS Ketenagakerjaan</td>
-                                                <td>:</td>
-                                                <td>{{ Auth::user()->pegawai->no_bpjs_ketenagakerjaan }}</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <tbody>
+                                                <tr>
+                                                    <td>Status Keluarga</td>
+                                                    <td>:</td>
+                                                    <td>{{ Auth::user()->pegawai->status_keluarga }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Pendidikan Terakhir</td>
+                                                    <td>:</td>
+                                                    <td>{{ Auth::user()->pegawai->pendidikan }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Jurusan</td>
+                                                    <td>:</td>
+                                                    <td>{{ Auth::user()->pegawai->jurusan }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>KTP</td>
+                                                    <td>:</td>
+                                                    <td>{{ Auth::user()->pegawai->nik_ktp }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Nomor Rekening</td>
+                                                    <td>:</td>
+                                                    <td>{{ Auth::user()->pegawai->no_rek }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>npwp</td>
+                                                    <td>:</td>
+                                                    <td>{{ Auth::user()->pegawai->npwp }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Ukuran Baju</td>
+                                                    <td>:</td>
+                                                    <td>{{ Auth::user()->pegawai->ukuran_baju }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Ukuran Sepatu</td>
+                                                    <td>:</td>
+                                                    <td>{{ Auth::user()->pegawai->ukuran_sepatu }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>BPJS Kesehatan</td>
+                                                    <td>:</td>
+                                                    <td>{{ Auth::user()->pegawai->no_bpjs_kesehatan }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>BPJS Ketenagakerjaan</td>
+                                                    <td>:</td>
+                                                    <td>{{ Auth::user()->pegawai->no_bpjs_ketenagakerjaan }}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                     <div class="d-flex justify-content-end">
                                         <button value="{{ Auth::user()->id }}"
                                             class="btn icon icon-left btn-secondary editbtnpersonal"><i
@@ -240,61 +242,63 @@
                                     <p class="mb-4"><span class="text-primary font-italic me-1">data
                                             kantor</span>
                                     </p>
-                                    <table class="table">
-                                        <tbody>
-                                            <tr>
-                                                <td>SK</td>
-                                                <td>:</td>
-                                                <td>{{ Auth::user()->pegawai->sk }}
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Segmen</td>
-                                                <td>:</td>
-                                                <td>{{ Auth::user()->pegawai->segmen }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Inhealth</td>
-                                                <td>:</td>
-                                                <td>{{ Auth::user()->pegawai->no_inhealth }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Unit Kerja</td>
-                                                <td>:</td>
-                                                <td>{{ Auth::user()->pegawai->darat_laut_lokasi }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Golongan Skala THT</td>
-                                                <td>:</td>
-                                                <td>{{ Auth::user()->pegawai->gol_skala_tht }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Skala THT</td>
-                                                <td>:</td>
-                                                <td>{{ Auth::user()->pegawai->skala_tht }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Golongan Skala PHDP</td>
-                                                <td>:</td>
-                                                <td>{{ Auth::user()->pegawai->gol_skala_phdp }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Golongan PHDP</td>
-                                                <td>:</td>
-                                                <td>{{ Auth::user()->pegawai->gol_phdp }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Golongan Skala Gaji</td>
-                                                <td>:</td>
-                                                <td>{{ Auth::user()->pegawai->gol_skala_gaji }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Golongan Gaji</td>
-                                                <td>:</td>
-                                                <td>{{ Auth::user()->pegawai->gol_gaji }}</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <tbody>
+                                                <tr>
+                                                    <td>SK</td>
+                                                    <td>:</td>
+                                                    <td>{{ Auth::user()->pegawai->sk }}
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Segmen</td>
+                                                    <td>:</td>
+                                                    <td>{{ Auth::user()->pegawai->segmen }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Inhealth</td>
+                                                    <td>:</td>
+                                                    <td>{{ Auth::user()->pegawai->no_inhealth }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Unit Kerja</td>
+                                                    <td>:</td>
+                                                    <td>{{ Auth::user()->pegawai->darat_laut_lokasi }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Golongan Skala THT</td>
+                                                    <td>:</td>
+                                                    <td>{{ Auth::user()->pegawai->gol_skala_tht }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Skala THT</td>
+                                                    <td>:</td>
+                                                    <td>{{ Auth::user()->pegawai->skala_tht }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Golongan Skala PHDP</td>
+                                                    <td>:</td>
+                                                    <td>{{ Auth::user()->pegawai->gol_skala_phdp }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Golongan PHDP</td>
+                                                    <td>:</td>
+                                                    <td>{{ Auth::user()->pegawai->gol_phdp }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Golongan Skala Gaji</td>
+                                                    <td>:</td>
+                                                    <td>{{ Auth::user()->pegawai->gol_skala_gaji }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Golongan Gaji</td>
+                                                    <td>:</td>
+                                                    <td>{{ Auth::user()->pegawai->gol_gaji }}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                     <div class="d-flex justify-content-end">
                                         <button value="{{ Auth::user()->id }}"
                                             class="btn icon icon-left btn-secondary editbtnkantor"><i

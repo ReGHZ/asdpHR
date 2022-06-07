@@ -80,7 +80,7 @@
                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
                                         <!-- FIRST -->
-                                        <div style="margin-left: 7mm;">
+                                        <div class="table-responsive" style="margin-left: 7mm;">
                                             <table class="table">
                                                 <tbody>
                                                     <tr>
@@ -124,7 +124,7 @@
                                         </div>
                                         <!-- END FIRST -->
                                     </div>
-                                    <div class="col-sm-6">
+                                    <div class="table-responsive col-sm-6">
                                         <!-- SECOND -->
                                         <table class="table">
                                             <tbody>
@@ -197,62 +197,65 @@
                                         <div style="margin-bottom: 4mm;">
                                             <h4>Informasi Personal</h4>
                                         </div>
-                                        <table class="table">
-                                            <tbody>
+                                        <div class="table-responsive">
 
-                                                <tr>
-                                                    <td>Status Keluarga</td>
-                                                    <td>:</td>
-                                                    <td>{{ $user->pegawai->status_keluarga }}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Pendidikan Terakhir</td>
-                                                    <td>:</td>
-                                                    <td>{{ $user->pegawai->pendidikan }}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Jurusan</td>
-                                                    <td>:</td>
-                                                    <td>{{ $user->pegawai->jurusan }}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>KTP</td>
-                                                    <td>:</td>
-                                                    <td>{{ $user->pegawai->nik_ktp }}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>BPJS Kesehatan</td>
-                                                    <td>:</td>
-                                                    <td>{{ $user->pegawai->no_bpjs_kesehatan }}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>BPJS Ketenagakerjaan</td>
-                                                    <td>:</td>
-                                                    <td>{{ $user->pegawai->no_bpjs_ketenagakerjaan }}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Nomor Rekening</td>
-                                                    <td>:</td>
-                                                    <td>{{ $user->pegawai->no_rek }}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>npwp</td>
-                                                    <td>:</td>
-                                                    <td>{{ $user->pegawai->npwp }}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Ukuran Baju</td>
-                                                    <td>:</td>
-                                                    <td>{{ $user->pegawai->ukuran_baju }}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Ukuran Sepatu</td>
-                                                    <td>:</td>
-                                                    <td>{{ $user->pegawai->ukuran_sepatu }}</td>
-                                                </tr>
+                                            <table class="table">
+                                                <tbody>
 
-                                            </tbody>
-                                        </table>
+                                                    <tr>
+                                                        <td>Status Keluarga</td>
+                                                        <td>:</td>
+                                                        <td>{{ $user->pegawai->status_keluarga }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Pendidikan Terakhir</td>
+                                                        <td>:</td>
+                                                        <td>{{ $user->pegawai->pendidikan }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Jurusan</td>
+                                                        <td>:</td>
+                                                        <td>{{ $user->pegawai->jurusan }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>KTP</td>
+                                                        <td>:</td>
+                                                        <td>{{ $user->pegawai->nik_ktp }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>BPJS Kesehatan</td>
+                                                        <td>:</td>
+                                                        <td>{{ $user->pegawai->no_bpjs_kesehatan }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>BPJS Ketenagakerjaan</td>
+                                                        <td>:</td>
+                                                        <td>{{ $user->pegawai->no_bpjs_ketenagakerjaan }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Nomor Rekening</td>
+                                                        <td>:</td>
+                                                        <td>{{ $user->pegawai->no_rek }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>npwp</td>
+                                                        <td>:</td>
+                                                        <td>{{ $user->pegawai->npwp }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Ukuran Baju</td>
+                                                        <td>:</td>
+                                                        <td>{{ $user->pegawai->ukuran_baju }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Ukuran Sepatu</td>
+                                                        <td>:</td>
+                                                        <td>{{ $user->pegawai->ukuran_sepatu }}</td>
+                                                    </tr>
+
+                                                </tbody>
+                                            </table>
+                                        </div>
                                         <div class="d-flex justify-content-end">
                                             <button value="{{ $user->id }}"
                                                 class="btn icon icon-left btn-secondary editbtnpersonal"><i
@@ -278,62 +281,64 @@
                                         <div style="margin-bottom: 4mm;">
                                             <h4>Data Kantor</h4>
                                         </div>
-                                        <table class="table">
-                                            <tbody>
+                                        <div class="table-responsive">
+                                            <table class="table">
+                                                <tbody>
 
-                                                <tr>
-                                                    <td>SK</td>
-                                                    <td>:</td>
-                                                    <td>{{ $user->pegawai->sk }}
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Segmen</td>
-                                                    <td>:</td>
-                                                    <td>{{ $user->pegawai->segmen }}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Inhealth</td>
-                                                    <td>:</td>
-                                                    <td>{{ $user->pegawai->no_inhealth }}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Unit Kerja</td>
-                                                    <td>:</td>
-                                                    <td>{{ $user->pegawai->darat_laut_lokasi }}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Golongan Skala THT</td>
-                                                    <td>:</td>
-                                                    <td>{{ $user->pegawai->gol_skala_tht }}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Skala THT</td>
-                                                    <td>:</td>
-                                                    <td>{{ $user->pegawai->skala_tht }}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Golongan Skala PHDP</td>
-                                                    <td>:</td>
-                                                    <td>{{ $user->pegawai->gol_skala_phdp }}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Golongan PHDP</td>
-                                                    <td>:</td>
-                                                    <td>{{ $user->pegawai->gol_phdp }}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Golongan Skala Gaji</td>
-                                                    <td>:</td>
-                                                    <td>{{ $user->pegawai->gol_skala_gaji }}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Golongan Gaji</td>
-                                                    <td>:</td>
-                                                    <td>{{ $user->pegawai->gol_gaji }}</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
+                                                    <tr>
+                                                        <td>SK</td>
+                                                        <td>:</td>
+                                                        <td>{{ $user->pegawai->sk }}
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Segmen</td>
+                                                        <td>:</td>
+                                                        <td>{{ $user->pegawai->segmen }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Inhealth</td>
+                                                        <td>:</td>
+                                                        <td>{{ $user->pegawai->no_inhealth }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Unit Kerja</td>
+                                                        <td>:</td>
+                                                        <td>{{ $user->pegawai->darat_laut_lokasi }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Golongan Skala THT</td>
+                                                        <td>:</td>
+                                                        <td>{{ $user->pegawai->gol_skala_tht }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Skala THT</td>
+                                                        <td>:</td>
+                                                        <td>{{ $user->pegawai->skala_tht }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Golongan Skala PHDP</td>
+                                                        <td>:</td>
+                                                        <td>{{ $user->pegawai->gol_skala_phdp }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Golongan PHDP</td>
+                                                        <td>:</td>
+                                                        <td>{{ $user->pegawai->gol_phdp }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Golongan Skala Gaji</td>
+                                                        <td>:</td>
+                                                        <td>{{ $user->pegawai->gol_skala_gaji }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Golongan Gaji</td>
+                                                        <td>:</td>
+                                                        <td>{{ $user->pegawai->gol_gaji }}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
                                         <div class="d-flex justify-content-end">
                                             <button value="{{ $user->id }}"
                                                 class="btn icon icon-left btn-secondary editbtnkantor"><i

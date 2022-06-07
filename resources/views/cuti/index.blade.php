@@ -54,33 +54,32 @@
                                 <th>action</th>
                             </tr>
                         </thead>
-                        {{-- <tbody>
-                            @foreach (user as $i => $row)
+                        <tbody>
+                            @foreach ($dataCuti as $i => $row)
                                 <tr>
                                     <td>{{ ++$i }}</td>
-                                    <td>{{ $row->name }}</td>
-                                    <td>{{ $row->nik }}</td>
-                                    <td>{{ $row->masa_kerja }}</td>
-                                    <td>{{ $row->masa_jabatan }}</td>
+                                    <td>{{ $row->usercuti->name }}</td>
+                                    <td>{{ $row->usercuti->nik }}</td>
+                                    <td>{{ $row->jenis_cuti }}</td>
+                                    <td>{{ $row->lama_hari }}</td>
+                                    <td>{{ $row->status }}</td>
 
                                     <td class="d-flex">
-                                        <a href="{{ route('employee.show', $row->id) }}"
-                                            class="btn icon icon-left btn-secondary me-2"><i data-feather="user"></i>
+                                        <a href="" class="btn icon icon-left btn-secondary me-2"><i
+                                                class="bi bi-eye"></i>
                                             Lihat</a>
-                                        <form action="{{ route('employee.destroy', $row->id) }}" method="post">
+                                        <form action="" method="post">
                                             @method('delete')
                                             @csrf
-                                            <button 
-                                                class="btn icon icon-left btn-danger"
-                                            >
-                                                <i data-feather="alert-circle"></i>
+                                            <button class="btn icon icon-left btn-danger"><i
+                                                    class="bi bi-exclamation-circle"></i>
                                                 Hapus
                                             </button>
                                         </form>
                                     </td>
                                 </tr>
                             @endforeach
-                        </tbody> --}}
+                        </tbody>
                     </table>
                 </div>
             </div>

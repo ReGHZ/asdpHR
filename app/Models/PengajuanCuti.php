@@ -20,8 +20,8 @@ class PengajuanCuti extends Model
         'status',
     ];
 
-    // public function usercuti()
-    // {
-    //     return $this->belongsTo(User::class, 'id', 'usercuti_id');
-    // }
+    public function usercuti()
+    {
+        return $this->belongsTo(User::class, 'usercuti_id', 'id');
+    }
 }

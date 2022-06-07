@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Pegawai;
 use App\Models\PengajuanCuti;
 use App\Models\User;
+use App\Notifications\NotifCuti;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Auth;
 
 class PengajuanCutiController extends Controller
@@ -18,9 +20,13 @@ class PengajuanCutiController extends Controller
      */
     public function index()
     {
+        //get user
         $user = Auth::user();
 
-        return view('cuti.index', compact('user'));
+        //get all data cuti
+        $dataCuti = PengajuanCuti::with('usercuti')->get();
+
+        return view('cuti.index', compact('user', 'dataCuti'));
     }
 
     /**
@@ -41,6 +47,7 @@ class PengajuanCutiController extends Controller
      */
     public function store(Request $request)
     {
+        //validator
         $request->validate([
             'tanggal_mulai'                      => 'required',
             'jenis_cuti'                         => 'required',
@@ -54,24 +61,31 @@ class PengajuanCutiController extends Controller
             'keterangan.required'                => 'Keterangan harus diisi',
         ]);
 
+        //generate nomor surat thats reset every year
         $nomorSurat = PengajuanCuti::whereYear("created_at", Carbon::now()->year)->count();
+
+        //generate tanggal surat now
         $tanggal_surat = Carbon::now();
 
+        //get auth user
         $pegawai = Auth::user();
+
+        // Condition if user select cuti tahunan
         // return json_encode($request->jenis_cuti);
         if ($request->jenis_cuti == 'Cuti tahunan') {
-            $kuota_cuti = Pegawai::where('id', $pegawai->id)->where('kuota_cuti', '>=', $request->lama_hari)->first();
+            $cuti = Pegawai::where('id', $pegawai->id)->where('kuota_cuti', '>=', $request->lama_hari)->first();
             // return json_encode($kuota_cuti);
-            if ($kuota_cuti) {
-                $kuota_cuti->kuota_cuti = $kuota_cuti->kuota_cuti - $request->lama_hari;
-                $kuota_cuti->update();
+            if ($cuti) {
+                $cuti->kuota_cuti = $cuti->kuota_cuti - $request->lama_hari;
+                $cuti->update();
                 // return redirect()->back()->with('success', 'Pengajuan cuti berhasil');
             } else {
                 return redirect()->back()->with('error', 'Cuti ditolak, dikarenakan melebihi Kuota cuti tahun ini');
             }
         }
 
-        $kuota_cuti = PengajuanCuti::create([
+        //create new pengajuan cuti
+        $cuti = PengajuanCuti::create([
             'usercuti_id'           => $pegawai->id,
             'nomor_surat'           => $nomorSurat,
             'tanggal_mulai'         => $request->tanggal_mulai,
@@ -82,7 +96,15 @@ class PengajuanCutiController extends Controller
             'status'                => 'Pending',
         ]);
 
-        $kuota_cuti->save();
+        $cuti->save();
+
+        //get data user that have role admin & manajer
+        $user = User::with('roles')->whereIn('id', [1, 3])->get();
+        // return dd($user);
+
+        //send notification to admin
+        Notification::send($user, new NotifCuti($cuti));
+        // User::where('id')->firstOrFail()->notify($user, new NotifCuti($kuota_cuti));
 
         return redirect()->back()->with('success', 'Pengajuan cuti berhasil');
     }

@@ -18,14 +18,6 @@ class AdminSeeder extends Seeder
      */
     public function run()
     {
-        $divisi = Divisi::create([
-            'nama_divisi' => 'Admin',
-            'deskripsi' => 'Divisi Admin'
-        ]);
-        $jabatan = Jabatan::create([
-            'nama_jabatan' => 'Admin',
-            'deskripsi' => 'Admin',
-        ]);
 
         //calculate umur
         $tanggal_lahir = Carbon::parse('2000-01-01');
@@ -44,9 +36,8 @@ class AdminSeeder extends Seeder
                 'name' => 'Admin',
                 'email' => 'admin@gmail.com',
                 'password' => bcrypt('123456'),
-
-                'divisi_id' => $divisi->id,
-                'jabatan_id' => $jabatan->id,
+                'divisi_id' => 15,
+                'jabatan_id' => 46,
                 'nik' => '123',
                 'tempat_lahir'              => 'Jakarta',
                 'tanggal_lahir'             => '2000-01-01',

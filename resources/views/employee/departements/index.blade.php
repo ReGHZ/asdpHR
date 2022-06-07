@@ -60,13 +60,13 @@
                                     <td class="d-flex">
                                         <button value="{{ $row->id }}"
                                             class="btn icon icon-left btn-secondary me-2 editbtn"><i
-                                                data-feather="edit"></i>
+                                                class="bi bi-pencil-square"></i>
                                             Edit</button>
                                         <form action="{{ route('divisi.destroy', $row->id) }}" method="post">
                                             @method('delete')
                                             @csrf
                                             <button class="btn icon icon-left btn-danger"><i
-                                                    data-feather="alert-circle"></i>
+                                                    class="bi bi-exclamation-circle"></i>
                                                 Hapus</button>
                                         </form>
                                     </td>

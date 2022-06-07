@@ -30,6 +30,10 @@ Route::group(['middleware' => 'auth'], function () {
     // ----------------------------- user profile ------------------------------//
     Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'index'])->name('profile');
     Route::get('/profile/{id}/edit', [App\Http\Controllers\ProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('/profile/updateProfile', [App\Http\Controllers\ProfileController::class, 'updateProfile'])->name('profile.updateProfile');
+    Route::put('/profile/updatePersonal', [App\Http\Controllers\ProfileController::class, 'updatePersonal'])->name('profile.updatePersonal');
+    Route::put('/profile/updateKantor', [App\Http\Controllers\ProfileController::class, 'updateKantor'])->name('profile.updateKantor');
+    Route::put('/profile/updateFotoProfile/{id}', [App\Http\Controllers\ProfileController::class, 'updateFotoPegawai'])->name('profile.updateFotoProfile');
     // ----------------------------- user employee ------------------------------//
     Route::get('/employee', [App\Http\Controllers\EmployeeController::class, 'index'])->name('employee');
     Route::get('/employee/{id}/edit/', [App\Http\Controllers\EmployeeController::class, 'edit'])->name('employee.edit');
@@ -57,6 +61,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/pengajuan-cuti/store', [App\Http\Controllers\PengajuanCutiController::class, 'store'])->name('pengajuan-cuti.store');
 });
 
-Auth::routes();
+Auth::routes(['register' => false]);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

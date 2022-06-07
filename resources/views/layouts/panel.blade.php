@@ -12,6 +12,7 @@
     <link rel="shortcut icon" href="{{ asset('backend/assets/images/logo/favicon.png') }}" type="image/png">
 
     <link rel="stylesheet" href="{{ asset('backend/assets/css/pages/simple-datatables.css') }}">
+    {{-- <link rel="stylesheet" href="{{ asset('backend/assets/css/pages/datatables.css') }}"> --}}
 
     <link rel="stylesheet" href="{{ asset('backend/assets/css/shared/iconly.css') }}">
 
@@ -69,7 +70,11 @@
         <script src="{{ asset('backend/assets/js/pages/dashboard.js') }}"></script>
     @endif
 
-    <script src="{{ asset('backend/assets/js/extensions/simple-datatables.js') }}"></script>
+    @if (Route::current()->getName() == 'employee' || Route::current()->getName() == 'divisi' || Route::current()->getName() == 'jabatan')
+        <script src="{{ asset('backend/assets/js/extensions/simple-datatables.js') }}"></script>
+    @endif
+
+    {{-- <script src="{{ asset('backend/assets/js/extensions/datatables.js') }}"></script> --}}
 
     <script src="{{ asset('backend/assets/js/app.js') }}"></script>
 

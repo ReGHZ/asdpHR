@@ -62,13 +62,14 @@
 
                                     <td class="d-flex">
                                         <a href="{{ route('employee.show', $row->id) }}"
-                                            class="btn icon icon-left btn-secondary me-2"><i data-feather="user"></i>
+                                            class="btn icon icon-left btn-secondary me-2"><i
+                                                class="bi bi-person-rolodex"></i>
                                             Lihat</a>
                                         <form action="{{ route('employee.destroy', $row->id) }}" method="post">
                                             @method('delete')
                                             @csrf
                                             <button class="btn icon icon-left btn-danger"><i
-                                                    data-feather="alert-circle"></i>
+                                                    class="bi bi-exclamation-circle"></i>
                                                 Hapus</button>
                                         </form>
                                     </td>
