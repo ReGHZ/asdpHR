@@ -62,9 +62,9 @@ class NotifCuti extends Notification
 
         return [
             'id' => $this->pengajuanCuti->id,
-            'usercuti_id' => $this->pengajuanCuti->usercuti_id,
-            'user_name' => $this->pengajuanCuti->usercuti->name,
-            'user_nik' => $this->pengajuanCuti->usercuti->nik,
+            'user_id' => $this->pengajuanCuti->user_id,
+            'user_name' => $this->pengajuanCuti->user->name,
+            'user_nik' => $this->pengajuanCuti->user->nik,
             'nomor_surat' => $this->pengajuanCuti->nomor_surat,
             'tanggal_surat' => $this->pengajuanCuti->tanggal_surat,
             'jenis_cuti' => $this->pengajuanCuti->jenis_cuti,

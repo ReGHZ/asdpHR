@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Jabatan;
+use App\Models\Divisi;
 use App\Models\Pegawai;
 use App\Models\PengajuanCuti;
 use App\Models\User;
 use App\Notifications\NotifCuti;
 use Carbon\Carbon;
+use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Auth;
@@ -24,7 +27,7 @@ class PengajuanCutiController extends Controller
         $user = Auth::user();
 
         //get all data cuti
-        $dataCuti = PengajuanCuti::with('usercuti')->get();
+        $dataCuti = PengajuanCuti::with('user')->get();
 
         return view('cuti.index', compact('user', 'dataCuti'));
     }
@@ -50,14 +53,14 @@ class PengajuanCutiController extends Controller
         //validator
         $request->validate([
             'tanggal_mulai'                      => 'required',
+            'tanggal_selesai'                    => 'required',
             'jenis_cuti'                         => 'required',
-            'lama_hari'                          => 'required|numeric|min:1|max:30',
             'keterangan'                         => 'required',
 
         ], [
             'tanggal_mulai.required'             => 'Tanggal mulai harus diisi',
+            'tanggal_selesai.required'           => 'Tanggal selesai harus diisi',
             'jenis_cuti.required'                => 'Jenis cuti harus diisi',
-            'lama_hari.required'                 => 'Hari harus diisi',
             'keterangan.required'                => 'Keterangan harus diisi',
         ]);
 
@@ -70,13 +73,21 @@ class PengajuanCutiController extends Controller
         //get auth user
         $pegawai = Auth::user();
 
+        //get lama hari
+        $tanggal_mulai = $request->tanggal_mulai;
+        $tanggal_selesai = $request->tanggal_selesai;
+        $datetime1 = new DateTime($tanggal_mulai);
+        $datetime2 = new DateTime($tanggal_selesai);
+        $interval = $datetime1->diff($datetime2);
+        $lama_hari = $interval->format('%a');
+
         // Condition if user select cuti tahunan
         // return json_encode($request->jenis_cuti);
         if ($request->jenis_cuti == 'Cuti tahunan') {
-            $cuti = Pegawai::where('id', $pegawai->id)->where('kuota_cuti', '>=', $request->lama_hari)->first();
-            // return json_encode($kuota_cuti);
+            $cuti = Pegawai::where('id', $pegawai->id)->where('kuota_cuti', '>=', $lama_hari)->first();
+            // return json_encode($cuti);
             if ($cuti) {
-                $cuti->kuota_cuti = $cuti->kuota_cuti - $request->lama_hari;
+                $cuti->kuota_cuti = $cuti->kuota_cuti - $lama_hari;
                 $cuti->update();
                 // return redirect()->back()->with('success', 'Pengajuan cuti berhasil');
             } else {
@@ -86,14 +97,15 @@ class PengajuanCutiController extends Controller
 
         //create new pengajuan cuti
         $cuti = PengajuanCuti::create([
-            'usercuti_id'           => $pegawai->id,
+            'user_id'               => $pegawai->id,
             'nomor_surat'           => $nomorSurat,
             'tanggal_mulai'         => $request->tanggal_mulai,
+            'tanggal_selesai'       => $request->tanggal_selesai,
             'jenis_cuti'            => $request->jenis_cuti,
-            'lama_hari'             => $request->lama_hari,
-            'tanggal_surat'         =>  $tanggal_surat,
+            'lama_hari'             => $lama_hari,
+            'tanggal_surat'         => $tanggal_surat,
             'keterangan'            => $request->keterangan,
-            'status'                => 'Pending',
+            'status'                => 'menunggu konfirmasi',
         ]);
 
         $cuti->save();
@@ -115,9 +127,39 @@ class PengajuanCutiController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    public function markNotif($id)
+    {
+        if ($id) {
+
+            auth()->user()->unreadNotifications->where('id', $id)->markAsRead();
+        }
+
+        return redirect('/pengajuan-cuti');
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function markAll()
+    {
+
+        auth()->user()->unreadNotifications->markAsRead();
+        return redirect()->back();
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function show($id)
     {
-        //
+        $cuti = PengajuanCuti::with('user.pegawai')->find($id);
+        return view('cuti.suratCuti', compact('cuti'));
     }
 
     /**
@@ -128,7 +170,6 @@ class PengajuanCutiController extends Controller
      */
     public function edit($id)
     {
-        //
     }
 
     /**

@@ -58,7 +58,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::put('/jabatan/update', [App\Http\Controllers\JabatanController::class, 'update'])->name('jabatan.update');
     // ----------------------------- pengajuan cuti ------------------------------//
     Route::get('/pengajuan-cuti', [App\Http\Controllers\PengajuanCutiController::class, 'index'])->name('pengajuan-cuti');
+    Route::get('/pengajuan-cuti/{id}/show', [App\Http\Controllers\PengajuanCutiController::class, 'show'])->name('pengajuan-cuti.show');
     Route::post('/pengajuan-cuti/store', [App\Http\Controllers\PengajuanCutiController::class, 'store'])->name('pengajuan-cuti.store');
+    Route::get('/pengajuan-cuti/mark-notif/{id}', [App\Http\Controllers\PengajuanCutiController::class, 'markNotif'])->name('pengajuan-cuti.mark-notif');
+    Route::get('/pengajuan-cuti/mark-all', [App\Http\Controllers\PengajuanCutiController::class, 'markAll'])->name('pengajuan-cuti.mark-all');
 });
 
 Auth::routes(['register' => false]);

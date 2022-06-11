@@ -19,14 +19,25 @@
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
                             <li>
-                                <h6 class="dropdown-header">Notifications</h6>
+                                <a href="{{ route('pengajuan-cuti.mark-all') }}"
+                                    class="dropdown-header btn icon btn-sm btn-success"><i class="bi bi-check"></i>
+                                    Tandai
+                                    Terbaca Semua</a>
                             </li>
-                            @foreach (Auth::user()->unreadnotifications as $notification)
-                                <li><a href="{{ route('home') }}"
+
+                            @forelse  (Auth::user()->unreadnotifications as $notification)
+                                <li><a href="{{ route('pengajuan-cuti.mark-notif', $notification->id) }}"
                                         class="dropdown-item">{{ $notification->data['user_name'] }}
                                         mengajukan {{ $notification->data['jenis_cuti'] }} selama
                                         {{ $notification->data['lama_hari'] }} hari</a> </li>
-                            @endforeach
+                            @empty
+                                <li>
+                                    <a class="dropdown-item ">
+                                        Belum ada pemberitahuan
+                                    </a>
+                                </li>
+                            @endforelse
+
                         </ul>
                     </li>
 

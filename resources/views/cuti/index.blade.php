@@ -50,6 +50,8 @@
                                 <th>Nik</th>
                                 <th>Jenis Cuti</th>
                                 <th>Lama Hari</th>
+                                <th>Tanggal Mulai</th>
+                                <th>Tanggal Selesai</th>
                                 <th>Status</th>
                                 <th>action</th>
                             </tr>
@@ -58,14 +60,17 @@
                             @foreach ($dataCuti as $i => $row)
                                 <tr>
                                     <td>{{ ++$i }}</td>
-                                    <td>{{ $row->usercuti->name }}</td>
-                                    <td>{{ $row->usercuti->nik }}</td>
+                                    <td>{{ $row->user->name }}</td>
+                                    <td>{{ $row->user->nik }}</td>
                                     <td>{{ $row->jenis_cuti }}</td>
-                                    <td>{{ $row->lama_hari }}</td>
+                                    <td>{{ $row->lama_hari }} Hari</td>
+                                    <td>{{ $row->tanggal_mulai }}</td>
+                                    <td>{{ $row->tanggal_selesai }}</td>
                                     <td>{{ $row->status }}</td>
 
                                     <td class="d-flex">
-                                        <a href="" class="btn icon icon-left btn-secondary me-2"><i
+                                        <a href="{{ route('pengajuan-cuti.show', $row->id) }}"
+                                            class="btn icon icon-left btn-secondary me-2" id="show-cuti"><i
                                                 class="bi bi-eye"></i>
                                             Lihat</a>
                                         <form action="" method="post">
@@ -83,12 +88,7 @@
                     </table>
                 </div>
             </div>
-
         </section>
-        <!-- {{ $user }} -->
-        @include('cuti.create', ['user' => $user])
+        @include('cuti.create')
     </div>
-@endsection
-@section('script')
-    <script></script>
 @endsection
