@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('persetujuan_cutis', function (Blueprint $table) {
             //id
             $table->id();
+            $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('pengajuan_cuti_id')->nullable();
             //table isi
             $table->string('nomor_surat')->nullable();
@@ -25,6 +26,7 @@ return new class extends Migration
             # Indexes
             $table->index('pengajuan_cuti_id');
             //foreign key
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('pengajuan_cuti_id', 'pengajuan_cuti_id_idx')->references('id')->on('pengajuan_cutis');
         });
     }

@@ -11,33 +11,63 @@
                     <li class="breadcrumb-item dropdown">
                         <a class="dropdown-toggle text-gray-600" href="#" data-bs-toggle="dropdown"
                             aria-expanded="false">
-                            <i class='bi bi-bell bi-sub fs-4'></i><span
-                                class="position-absolute top-0 start-99 translate-middle badge rounded-pill bg-danger">
-                                {{ Auth::user()->unreadnotifications->count() }}
-                                <span class="visually-hidden">unread messages</span>
-                            </span>
+                            @if (Auth::user()->hasRole('admin') || Auth::user()->hasRole('user manajer'))
+                                <i class='bi bi-bell bi-sub fs-4'></i><span
+                                    class="position-absolute top-0 start-99 translate-middle badge rounded-pill bg-danger">
+                                    {{ Auth::user()->unreadnotifications->where('type', 'App\Notifications\NotifCuti')->count() }}
+                                    <span class="visually-hidden">unread messages</span>
+                                </span>
+                            @endif
+                            @if (Auth::user()->hasRole('user'))
+                                <i class='bi bi-bell bi-sub fs-4'></i><span
+                                    class="position-absolute top-0 start-99 translate-middle badge rounded-pill bg-danger">
+                                    {{ Auth::user()->unreadnotifications->whereIn('type', ['App\Notifications\NotifTolakCuti', 'App\Notifications\NotifTerimaCuti'])->count() }}
+                                    <span class="visually-hidden">unread messages</span>
+                                </span>
+                            @endif
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
-                            <li>
-                                <a href="{{ route('pengajuan-cuti.mark-all') }}"
-                                    class="dropdown-header btn icon btn-sm btn-success"><i class="bi bi-check"></i>
-                                    Tandai
-                                    Terbaca Semua</a>
-                            </li>
-
-                            @forelse  (Auth::user()->unreadnotifications as $notification)
-                                <li><a href="{{ route('pengajuan-cuti.mark-notif', $notification->id) }}"
-                                        class="dropdown-item">{{ $notification->data['user_name'] }}
-                                        mengajukan {{ $notification->data['jenis_cuti'] }} selama
-                                        {{ $notification->data['lama_hari'] }} hari</a> </li>
-                            @empty
+                            @if (Auth::user()->hasRole('admin') || Auth::user()->hasRole('user manajer'))
                                 <li>
-                                    <a class="dropdown-item ">
-                                        Belum ada pemberitahuan
-                                    </a>
+                                    <a href="{{ route('pengajuan-cuti.mark-all') }}"
+                                        class="dropdown-header btn icon btn-sm btn-success"><i
+                                            class="bi bi-check"></i>
+                                        Tandai
+                                        Terbaca Semua</a>
                                 </li>
-                            @endforelse
 
+                                @forelse  (Auth::user()->unreadnotifications->where('type', 'App\Notifications\NotifCuti') as $notification)
+                                    <li><a href="{{ route('pengajuan-cuti.mark-notif', $notification->id) }}"
+                                            class="dropdown-item">{{ $notification->data['user_name'] }}
+                                            mengajukan {{ $notification->data['jenis_cuti'] }} selama
+                                            {{ $notification->data['lama_hari'] }} hari</a> </li>
+                                @empty
+                                    <li>
+                                        <a class="dropdown-item ">
+                                            Belum ada pemberitahuan
+                                        </a>
+                                    </li>
+                                @endforelse
+                            @endif
+
+                            @if (Auth::user()->hasRole('user'))
+                                <li>
+                                    <a href="" class="dropdown-header btn icon btn-sm btn-success"><i
+                                            class="bi bi-check"></i>
+                                        Tandai
+                                        Terbaca Semua</a>
+                                </li>
+
+                                @forelse  (Auth::user()->unreadnotifications->where('type', 'App\Notifications\NotifTolakCuti') as $notification)
+                                    <li><a href="" class="dropdown-item">Pengajuan Cuti Anda Ditolak</a> </li>
+                                @empty
+                                    <li>
+                                        <a class="dropdown-item ">
+                                            Belum ada pemberitahuan
+                                        </a>
+                                    </li>
+                                @endforelse
+                            @endif
                         </ul>
                     </li>
 

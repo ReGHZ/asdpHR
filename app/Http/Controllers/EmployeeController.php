@@ -159,12 +159,14 @@ class EmployeeController extends Controller
     {
         //get user dengan relasi pegawai
         $user = User::with('pegawai')->find($id);
-
         //sync role user
-        $user->syncRoles($user->roles);
+        $roles = $user->roles()->get();
+
         return response()->json([
             'status' => 200,
             'user' => $user,
+            'roles' => $roles,
+
         ]);
         // return dd($user);
     }

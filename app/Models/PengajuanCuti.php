@@ -41,4 +41,8 @@ class PengajuanCuti extends Model
     {
         return $this->belongsToThrough(Divisi::class, User::class);
     }
+    public function persetujuanCuti()
+    {
+        return $this->hasOne(PersetujuanCuti::class);
+    }
 }

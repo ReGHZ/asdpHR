@@ -62,6 +62,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/pengajuan-cuti/store', [App\Http\Controllers\PengajuanCutiController::class, 'store'])->name('pengajuan-cuti.store');
     Route::get('/pengajuan-cuti/mark-notif/{id}', [App\Http\Controllers\PengajuanCutiController::class, 'markNotif'])->name('pengajuan-cuti.mark-notif');
     Route::get('/pengajuan-cuti/mark-all', [App\Http\Controllers\PengajuanCutiController::class, 'markAll'])->name('pengajuan-cuti.mark-all');
+    Route::get('/pengajuan-cuti/{pengajuan}/reject', [App\Http\Controllers\PengajuanCutiController::class, 'updateReject'])->name('pengajuan-cuti.reject');
+    Route::get('/pengajuan-cuti/{pengajuan}/approve', [App\Http\Controllers\PengajuanCutiController::class, 'updateApprove'])->name('pengajuan-cuti.approve');
 });
 
 Auth::routes(['register' => false]);

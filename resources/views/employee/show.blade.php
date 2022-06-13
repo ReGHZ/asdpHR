@@ -375,7 +375,7 @@
                     url: "/employee/" + emp_id + "/edit",
                     dataType: 'json',
                     success: function(response) {
-                        // console.log(response.user.roles[].name);
+                        // console.log(response.roles[0].name);
                         $('#emp_id').val(response.user.id);
                         $('#name').val(response.user.name);
                         $('#email').val(response.user.email);
@@ -390,7 +390,7 @@
                         $('#jabatan_id').val(response.user.jabatan_id);
                         $('#tanggal_masuk_kerja').val(response.user.tanggal_masuk_kerja);
                         $('#tanggal_pilih_jabatan').val(response.user.tanggal_pilih_jabatan);
-                        // $('#role').val(response.user.roles[0].name);
+                        $('#role').val(response.roles[0].name);
                     }
                 });
             });

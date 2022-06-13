@@ -8,6 +8,8 @@ use App\Models\Pegawai;
 use App\Models\PengajuanCuti;
 use App\Models\User;
 use App\Notifications\NotifCuti;
+use App\Notifications\NotifTerimaCuti;
+use App\Notifications\NotifTolakCuti;
 use Carbon\Carbon;
 use DateTime;
 use Illuminate\Http\Request;
@@ -179,9 +181,47 @@ class PengajuanCutiController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function updateReject(PengajuanCuti $pengajuan)
     {
-        //
+
+        $pengajuan->status = 'ditolak';
+        $pengajuan->update();
+
+        //get data user that have role user
+        $user = User::where('id', $pengajuan->user_id)->get();
+        //send notification to user
+        Notification::send($user, new NotifTolakCuti($pengajuan));
+
+        return redirect('/pengajuan-cuti')->with('success', 'Pengajuan cuti ditolak');
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updateApprove(PengajuanCuti $pengajuan)
+    {
+        //generate nomor surat thats reset every year
+        $nomorSurat = PengajuanCuti::whereYear("created_at", Carbon::now()->year)->count();
+
+        $pengajuan->status = 'disetujui';
+        $pengajuan->update();
+        $pengajuan->persetujuanCuti()->create([
+            'pengajuan_cuti_id' => $pengajuan->id,
+            'user_id' => $pengajuan->user_id,
+            'nomor_surat' => $nomorSurat,
+            'tanggal_surat' => $pengajuan->tanggal_surat,
+            'keterangan' => $pengajuan->keterangan,
+        ]);
+
+        $user = User::where('id', $pengajuan->user_id)->get();
+        //send notification to user
+        Notification::send($user, new NotifTerimaCuti($pengajuan));
+
+        return redirect('/pengajuan-cuti')->with('success', 'Pengajuan cuti disetujui');
     }
 
     /**
