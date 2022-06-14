@@ -113,7 +113,9 @@ class PengajuanCutiController extends Controller
         $cuti->save();
 
         //get data user that have role admin & manajer
-        $user = User::with('roles')->whereIn('id', [1, 3])->get();
+        $user = User::whereHas('roles', function ($query) {
+            $query->where('name', 'admin')->orWhere('name', 'manajer');
+        })->get();
         // return dd($user);
 
         //send notification to admin

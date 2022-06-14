@@ -55,6 +55,7 @@
                                 <div class="form-group">
                                     <label class="form-control-label">Role</label>
                                     <select name="role" id="role" class="form-control">
+                                        <option value="" selected disabled>Pilih Role</option>
                                         @foreach ($allRoles as $item)
                                             <option value="{{ $item->id }}">{{ $item->name }}</option>
                                         @endforeach
@@ -76,6 +77,7 @@
                                         <select name="jenis_kelamin"
                                             class="form-control @error('jenis_kelamin') is-invalid @enderror"
                                             data-live-search=" true">
+                                            <option value="" selected disabled>Pilih Jenis Kelamin</option>
                                             <option value="Laki-laki"
                                                 @if (old('jenis_kelamin') == 'Laki-laki') selected="selected" @endif>
                                                 Laki-laki

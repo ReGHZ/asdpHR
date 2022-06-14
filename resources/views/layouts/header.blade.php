@@ -11,7 +11,7 @@
                     <li class="breadcrumb-item dropdown">
                         <a class="dropdown-toggle text-gray-600" href="#" data-bs-toggle="dropdown"
                             aria-expanded="false">
-                            @if (Auth::user()->hasRole('admin') || Auth::user()->hasRole('user manajer'))
+                            @if (Auth::user()->hasRole('admin') || Auth::user()->hasRole('manajer'))
                                 <i class='bi bi-bell bi-sub fs-4'></i><span
                                     class="position-absolute top-0 start-99 translate-middle badge rounded-pill bg-danger">
                                     {{ Auth::user()->unreadnotifications->where('type', 'App\Notifications\NotifCuti')->count() }}
@@ -27,46 +27,38 @@
                             @endif
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
-                            @if (Auth::user()->hasRole('admin') || Auth::user()->hasRole('user manajer'))
+                            @if (Auth::user()->hasRole('admin') || Auth::user()->hasRole('manajer'))
                                 <li>
                                     <a href="{{ route('pengajuan-cuti.mark-all') }}"
-                                        class="dropdown-header btn icon btn-sm btn-success"><i
+                                        class="dropdown-header btn icon btn-sm btn-success me-2 ms-2"><i
                                             class="bi bi-check"></i>
                                         Tandai
                                         Terbaca Semua</a>
                                 </li>
 
-                                @forelse  (Auth::user()->unreadnotifications->where('type', 'App\Notifications\NotifCuti') as $notification)
+                                @foreach (Auth::user()->unreadnotifications->where('type', 'App\Notifications\NotifCuti') as $notification)
                                     <li><a href="{{ route('pengajuan-cuti.mark-notif', $notification->id) }}"
                                             class="dropdown-item">{{ $notification->data['user_name'] }}
                                             mengajukan {{ $notification->data['jenis_cuti'] }} selama
                                             {{ $notification->data['lama_hari'] }} hari</a> </li>
-                                @empty
-                                    <li>
-                                        <a class="dropdown-item ">
-                                            Belum ada pemberitahuan
-                                        </a>
-                                    </li>
-                                @endforelse
+                                @endforeach
                             @endif
 
                             @if (Auth::user()->hasRole('user'))
                                 <li>
-                                    <a href="" class="dropdown-header btn icon btn-sm btn-success"><i
+                                    <a href="{{ route('pengajuan-cuti.mark-all') }}"
+                                        class="dropdown-header btn icon btn-sm btn-success me-2 ms-2"><i
                                             class="bi bi-check"></i>
                                         Tandai
                                         Terbaca Semua</a>
                                 </li>
 
-                                @forelse  (Auth::user()->unreadnotifications->where('type', 'App\Notifications\NotifTolakCuti') as $notification)
+                                @foreach (Auth::user()->unreadnotifications->where('type', 'App\Notifications\NotifTolakCuti') as $notification)
                                     <li><a href="" class="dropdown-item">Pengajuan Cuti Anda Ditolak</a> </li>
-                                @empty
-                                    <li>
-                                        <a class="dropdown-item ">
-                                            Belum ada pemberitahuan
-                                        </a>
-                                    </li>
-                                @endforelse
+                                @endforeach
+                                @foreach (Auth::user()->unreadnotifications->where('type', 'App\Notifications\NotifTerimaCuti') as $notification)
+                                    <li><a href="" class="dropdown-item">Pengajuan Cuti Anda Diterima</a> </li>
+                                @endforeach
                             @endif
                         </ul>
                     </li>

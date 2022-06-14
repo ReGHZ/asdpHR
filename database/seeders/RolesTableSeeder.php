@@ -31,7 +31,7 @@ class RolesTableSeeder extends Seeder
                 'level'       => 1,
             ],
             [
-                'name'        => 'User Manajer',
+                'name'        => 'Manajer',
                 'slug'        => 'manajer',
                 'description' => 'User Manajer Role',
                 'level'       => 4,
