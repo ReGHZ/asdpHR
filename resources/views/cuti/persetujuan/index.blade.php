@@ -4,7 +4,7 @@
         <div class="page-title">
             <div class="row">
                 <div class="col-12 col-md-6 order-md-1 order-last">
-                    <h3>Tabel Pengajuan Cuti</h3>
+                    <h3>Tabel Persetujuan Cuti</h3>
                     <p class="text-subtitle text-muted"></p>
                 </div>
                 <div class="col-12 col-md-6 order-md-2 order-first">
@@ -33,13 +33,6 @@
                 </div>
             @endif
 
-
-            <div class="pb-3">
-                <a href="" class="btn icon btn-primary pull-right" data-bs-toggle="modal" data-bs-target="#createcuti">
-                    <i data-feather="user-plus"></i>
-                    Tambah
-                </a>
-            </div>
             <div class="card shadow-lg">
                 <div class="card-body">
                     <table class="table table-striped" id="table1">
@@ -52,25 +45,27 @@
                                 <th>Lama Hari</th>
                                 <th>Tanggal Mulai</th>
                                 <th>Tanggal Selesai</th>
-                                <th>Status</th>
+                                <th>Keterangan</th>
                                 <th>action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($dataCuti as $i => $row)
+                            @foreach ($persetujuan as $i => $row)
                                 <tr>
                                     <td>{{ ++$i }}</td>
                                     <td>{{ $row->user->name }}</td>
                                     <td>{{ $row->user->nik }}</td>
-                                    <td>{{ $row->jenis_cuti }}</td>
-                                    <td>{{ $row->lama_hari }} Hari</td>
-                                    <td>{{ tanggal_indonesia($row->tanggal_mulai) }}</td>
-                                    <td>{{ tanggal_indonesia($row->tanggal_selesai) }}</td>
-                                    <td>{{ $row->status }}</td>
+                                    <td>{{ $row->pengajuanCuti->jenis_cuti }}</td>
+                                    <td>{{ $row->pengajuanCuti->lama_hari }}</td>
+                                    <td>{{ tanggal_indonesia($row->pengajuanCuti->tanggal_mulai) }}</td>
+                                    <td>{{ tanggal_indonesia($row->pengajuanCuti->tanggal_selesai) }}</td>
+                                    <td>{{ $row->keterangan }}</td>
+
+
 
                                     <td class="d-flex">
-                                        <a href="{{ route('pengajuan-cuti.show', $row->id) }}"
-                                            class="btn icon icon-left btn-secondary me-2" id="show-cuti"><i
+                                        <a href="{{ route('persetujuan-cuti.show', $row->id) }}"
+                                            class="btn icon icon-left btn-secondary me-2" id="show-persetujuan"><i
                                                 class="bi bi-eye"></i>
                                             Lihat</a>
                                         <form action="" method="post">
@@ -89,6 +84,5 @@
                 </div>
             </div>
         </section>
-        @include('cuti.create')
     </div>
 @endsection

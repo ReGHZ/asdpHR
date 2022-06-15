@@ -67,7 +67,7 @@
         <script src="{{ asset('backend/assets/js/pages/dashboard.js') }}"></script>
     @endif
 
-    @if (Route::current()->getName() == 'employee' || Route::current()->getName() == 'divisi' || Route::current()->getName() == 'jabatan' || Route::current()->getName() == 'pengajuan-cuti')
+    @if (Route::current()->getName() == 'employee' || Route::current()->getName() == 'divisi' || Route::current()->getName() == 'jabatan' || Route::current()->getName() == 'pengajuan-cuti' || Route::current()->getName() == 'persetujuan-cuti')
         <script src="{{ asset('backend/assets/js/extensions/simple-datatables.js') }}"></script>
     @endif
 

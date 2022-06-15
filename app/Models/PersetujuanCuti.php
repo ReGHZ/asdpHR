@@ -18,8 +18,12 @@ class PersetujuanCuti extends Model
         'keterangan',
     ];
 
-    public function PengajuanCuti()
+    public function user()
     {
-        return $this->belongsToThrough(User::class, PengajuanCuti::class);
+        return $this->belongsTo(User::class);
+    }
+    public function pengajuanCuti()
+    {
+        return $this->belongsTo(PengajuanCuti::class);
     }
 }

@@ -25,13 +25,11 @@ class PengajuanCutiController extends Controller
      */
     public function index()
     {
-        //get user
-        $user = Auth::user();
 
         //get all data cuti
         $dataCuti = PengajuanCuti::with('user')->get();
 
-        return view('cuti.index', compact('user', 'dataCuti'));
+        return view('cuti.index', compact('dataCuti'));
     }
 
     /**
