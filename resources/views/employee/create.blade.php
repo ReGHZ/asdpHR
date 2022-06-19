@@ -140,6 +140,7 @@
                                         <label class="form-control-label">Divisi</label>
                                         <select name="divisi_id"
                                             class="form-control @error('divisi_id') is-invalid @enderror">
+                                            <option value="" selected disabled>Pilih Divisi</option>
                                             @foreach ($divisi as $item)
                                                 <option value="{{ $item->id }}"
                                                     {{ old('divisi_id') == $item->id ? 'selected' : null }}>
@@ -155,6 +156,7 @@
                                         <label class="form-control-label">Jabatan</label>
                                         <select name="jabatan_id"
                                             class="form-control @error('jabatan_id') is-invalid @enderror">
+                                            <option value="" selected disabled>Pilih Jabatan</option>
                                             @foreach ($jabatan as $item)
                                                 <option value="{{ $item->id }}"
                                                     {{ old('jabatan_id') == $item->id ? 'selected' : null }}>

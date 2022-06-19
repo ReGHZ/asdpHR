@@ -64,6 +64,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/pengajuan-cuti/mark-all', [App\Http\Controllers\PengajuanCutiController::class, 'markAll'])->name('pengajuan-cuti.mark-all');
     Route::get('/pengajuan-cuti/{pengajuan}/reject', [App\Http\Controllers\PengajuanCutiController::class, 'updateReject'])->name('pengajuan-cuti.reject');
     Route::get('/pengajuan-cuti/{pengajuan}/approve', [App\Http\Controllers\PengajuanCutiController::class, 'updateApprove'])->name('pengajuan-cuti.approve');
+    Route::delete('/pengajuan-cuti/{id}/destroy', [App\Http\Controllers\PengajuanCutiController::class, 'destroy'])->name('pengajuan-cuti.destroy');
     // ----------------------------- pengajuan cuti ------------------------------//
     Route::get('/persetujuan-cuti', [App\Http\Controllers\PersetujuanCutiController::class, 'index'])->name('persetujuan-cuti');
     Route::get('/persetujuan-cuti/{persetujuan}/show', [App\Http\Controllers\PersetujuanCutiController::class, 'show'])->name('persetujuan-cuti.show');

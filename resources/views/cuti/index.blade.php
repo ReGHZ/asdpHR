@@ -35,7 +35,8 @@
 
 
             <div class="pb-3">
-                <a href="" class="btn icon btn-primary pull-right" data-bs-toggle="modal" data-bs-target="#createcuti">
+                <a href="" class="btn icon btn-primary pull-right" data-bs-toggle="modal"
+                    data-bs-target="#createcuti">
                     <i data-feather="user-plus"></i>
                     Tambah
                 </a>
@@ -73,7 +74,7 @@
                                             class="btn icon icon-left btn-secondary me-2" id="show-cuti"><i
                                                 class="bi bi-eye"></i>
                                             Lihat</a>
-                                        <form action="" method="post">
+                                        <form action="{{ route('pengajuan-cuti.destroy', $row->id) }}" method="post">
                                             @method('delete')
                                             @csrf
                                             <button class="btn icon icon-left btn-danger"><i

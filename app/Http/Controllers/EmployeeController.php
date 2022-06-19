@@ -122,7 +122,7 @@ class EmployeeController extends Controller
         if ($request->hasFile('foto')) {
 
 
-            $request->file('foto')->move('fotoPegawai/', $request->file('foto')->getClientoriginalName());
+            $request->file('foto')->move('fotoPegawai/', $request->file('foto')->getClientOriginalName());
             $user->pegawai->foto = $request->file('foto')->getClientOriginalName();
             $user->pegawai->save();
         }
@@ -353,9 +353,9 @@ class EmployeeController extends Controller
         //delete user
         if ($user != null) {
             $user->delete();
-            return redirect()->route('employee')->with(['message' => 'Pegawai berhasil dihapus']);
+            return redirect()->route('employee')->with(['success' => 'Pegawai berhasil dihapus']);
         }
 
-        return redirect()->route('employee')->with(['message' => 'Id Salah!!']);
+        return redirect()->route('employee')->with(['success' => 'Id Salah!!']);
     }
 }

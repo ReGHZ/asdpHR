@@ -3,24 +3,24 @@
 @section('css')
     <style>
         /* * {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    padding: 0;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    margin: 0;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    box-sizing: border-box;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                } */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    padding: 0;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    margin: 0;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    box-sizing: border-box;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                } */
 
         /* body {
-                        font-size: 1.125rem;
-                        line-height: 1.625em;
-                        padding: 4rem;
-                        background-color: #a0a0a0;
-                    } */
+                                        font-size: 1.125rem;
+                                        line-height: 1.625em;
+                                        padding: 4rem;
+                                        background-color: #a0a0a0;
+                                    } */
 
         .container {
-            /* max-width: 980px; */
+            max-width: 980px;
             margin: 0 auto;
             background-color: #ffffff;
-            padding: 2rem;
-            box-shadow: 0 0.25rem 1rem rgba(0, 0, 0, 0.1);
+            padding: 64px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
         }
 
         .header {
@@ -34,7 +34,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 6rem;
+            gap: 96px;
             grid-column: 1 / 3;
             border-right: 1px #242424 solid;
         }
@@ -224,7 +224,7 @@
 
         </div>
 
-        <div class="container mb-4">
+        <div class="container mb-4 mt-4">
             <div id="printCuti">
                 <header class="header">
                     <div class="header__left">

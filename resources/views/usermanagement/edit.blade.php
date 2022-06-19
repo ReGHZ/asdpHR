@@ -52,13 +52,24 @@
                                         </span>
                                     @enderror
                                 </div>
+                                <div class="form-group">
+
+                                    <label class="form-control-label">Alamat</label>
+                                    <input id="alamat" name="alamat" type="text"
+                                        class="form-control @error('alamat') is-invalid @enderror"
+                                        value="{{ old('alamat') }}" placeholder="Alamat" />
+                                    @error('alamat')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+
+                                </div>
                                 <div class="form-group row">
-                                    <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <label class="form-control-label">Alamat</label>
-                                        <input id="alamat" name="alamat" type="text"
-                                            class="form-control @error('alamat') is-invalid @enderror"
-                                            value="{{ old('alamat') }}" placeholder="Alamat" />
-                                        @error('alamat')
+                                    <div class="col-sm-6">
+                                        <label class="form-control-label">Nomor Hanphone</label>
+                                        <input id="no_hp" name="no_hp" type="text"
+                                            class="form-control @error('no_hp') is-invalid @enderror"
+                                            value="{{ old('no_hp') }}" placeholder="Nomor Handphone" />
+                                        @error('no_hp')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
@@ -97,75 +108,6 @@
                                             class="form-control @error('tempat_lahir') is-invalid @enderror"
                                             value="{{ old('tempat_lahir') }}">
                                         @error('tempat_lahir')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <label class="form-control-label">NIk</label>
-                                        <input id="nik" name="nik" type="text" placeholder="Nomor Induk Kepegawaian"
-                                            class="form-control @error('nik') is-invalid @enderror"
-                                            value="{{ old('nik') }}" />
-                                        @error('nik')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <label class="form-control-label">Nomor Hanphone</label>
-                                        <input id="no_hp" name="no_hp" type="text"
-                                            class="form-control @error('no_hp') is-invalid @enderror"
-                                            value="{{ old('no_hp') }}" placeholder="Nomor Handphone" />
-                                        @error('no_hp')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <label class="form-control-label">Divisi</label>
-                                        <select id="divisi_id" name="divisi_id"
-                                            class="form-control @error('divisi_id') is-invalid @enderror">
-                                            @foreach ($divisi as $item)
-                                                <option value={{ $item->id }}
-                                                    @if ($item->id == $user->divisi_id) selected @endif>
-                                                    {{ $item->nama_divisi }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                        @error('divisi_id')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <label class="form-control-label">Jabatan</label>
-                                        <select id="jabatan_id" name="jabatan_id"
-                                            class="form-control @error('jabatan_id') is-invalid @enderror">
-                                            @foreach ($jabatan as $item)
-                                                <option value={{ $item->id }}
-                                                    @if ($item->id == $user->jabatan_id) selected @endif>
-                                                    {{ $item->nama_jabatan }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <label class="form-control-label">tanggal Masuk Kerja</label>
-                                        <input id="tanggal_masuk_kerja" name="tanggal_masuk_kerja" type="date"
-                                            class="form-control @error('tanggal_masuk_kerja') is-invalid @enderror"
-                                            value="{{ old('tanggal_masuk_kerja') }}" />
-                                        @error('tanggal_masuk_kerja')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <label class="form-control-label">Tanggal Menjabat</label>
-                                        <input id="tanggal_pilih_jabatan" name="tanggal_pilih_jabatan" type="date"
-                                            class="form-control @error('tanggal_pilih_jabatan') is-invalid @enderror"
-                                            value="{{ old('tanggal_pilih_jabatan') }}" />
-                                        @error('tanggal_pilih_jabatan')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>

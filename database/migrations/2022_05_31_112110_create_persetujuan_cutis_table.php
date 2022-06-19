@@ -27,7 +27,7 @@ return new class extends Migration
             $table->index('pengajuan_cuti_id');
             //foreign key
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('pengajuan_cuti_id', 'pengajuan_cuti_id_idx')->references('id')->on('pengajuan_cutis');
+            $table->foreign('pengajuan_cuti_id', 'pengajuan_cuti_id_idx')->references('id')->on('pengajuan_cutis')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

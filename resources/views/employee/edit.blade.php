@@ -55,10 +55,9 @@
                                 <div class="form-group">
                                     <label class="form-control-label">Role</label>
                                     <select name="role" id="role" class="form-control">
-                                        <option value="" selected disabled>Pilih Role</option>
+                                        <option disabled>Pilih Role</option>
                                         @foreach ($allRoles as $item)
-                                            <option value="{{ $item->id }}">{{ $item->name }}
-                                            </option>
+                                            <option value="{{ $item->id }}">{{ $item->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -133,9 +132,10 @@
                                 </div>
                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <label class="form-control-label">Department</label>
+                                        <label class="form-control-label">Divisi</label>
                                         <select id="divisi_id" name="divisi_id"
                                             class="form-control @error('divisi_id') is-invalid @enderror">
+                                            <option value="" selected disabled>Pilih Divisi</option>
                                             @foreach ($divisi as $item)
                                                 <option value={{ $item->id }}
                                                     @if ($item->id == $user->divisi_id) selected @endif>
@@ -151,6 +151,7 @@
                                         <label class="form-control-label">Jabatan</label>
                                         <select id="jabatan_id" name="jabatan_id"
                                             class="form-control @error('jabatan_id') is-invalid @enderror">
+                                            <option value="" selected disabled>Pilih Jabatan</option>
                                             @foreach ($jabatan as $item)
                                                 <option value={{ $item->id }}
                                                     @if ($item->id == $user->jabatan_id) selected @endif>

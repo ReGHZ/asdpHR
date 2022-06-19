@@ -232,6 +232,12 @@ class PengajuanCutiController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $pengajuan = PengajuanCuti::find($id);
+        if ($pengajuan != null) {
+            $pengajuan->delete();
+            return redirect()->route('pengajuan-cuti')->with(['success' => 'Pengajuan berhasil dihapus']);
+        }
+
+        return redirect()->route('pengajuan-cuti')->with(['success' => 'Id Salah!!']);
     }
 }

@@ -60,7 +60,8 @@
                                             <img src="{{ asset('fotoPegawai/' . $user->pegawai->foto) }}" width=100
                                                 height=100 alt="">
                                             <div class="round">
-                                                <input name="foto" type="file" id="file" onchange="this.form.submit()">
+                                                <input name="foto" type="file" id="file"
+                                                    onchange="this.form.submit()">
                                                 <i class="feather-16" data-feather="camera" style="color: white ;"></i>
                                             </div>
                                         </div>
@@ -69,7 +70,8 @@
                                             <img src="{{ asset('backend/assets/images/faces/2.jpg') }}" width=100
                                                 height=100 alt="">
                                             <div class="round">
-                                                <input name="foto" type="file" id="file" onchange="this.form.submit()">
+                                                <input name="foto" type="file" id="file"
+                                                    onchange="this.form.submit()">
                                                 <i class="feather-16" data-feather="camera" style="color: white ;"></i>
                                             </div>
                                         </div>
@@ -390,7 +392,8 @@
                         $('#jabatan_id').val(response.user.jabatan_id);
                         $('#tanggal_masuk_kerja').val(response.user.tanggal_masuk_kerja);
                         $('#tanggal_pilih_jabatan').val(response.user.tanggal_pilih_jabatan);
-                        $('#role').val(response.roles[0].name);
+                        $(`#role option:contains(${response.roles[0].name})`)
+                            .prop('selected', true);
                     }
                 });
             });

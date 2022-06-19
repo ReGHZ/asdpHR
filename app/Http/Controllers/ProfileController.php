@@ -61,38 +61,23 @@ class ProfileController extends Controller
         $request->validate([
             'name'                      => 'required',
             'email'                     => ['required', 'unique:users,email,' . $emp_id],
-            'jabatan_id'                => 'required',
-            'divisi_id'                 => 'required',
-            'nik'                       => ['required', 'unique:users,nik,' . $emp_id],
             'tempat_lahir'              => 'required',
             'tanggal_lahir'             => 'required',
             'jenis_kelamin'             => 'required',
-            'tanggal_masuk_kerja'       => 'required',
-            'tanggal_pilih_jabatan'     => 'required',
 
         ], [
             'name.required'                      => 'nama Pegawai harus diisi',
             'email.required'                     => 'Email Pegawai harus diisi',
-            'jabatan_id.required'                => 'jabatan harus diisi',
-            'divisi_id.required'                 => 'divisi harus diisi',
             'nik.required'                       => 'NIK harus diisi',
             'tempat_lahir.required'              => 'tempat lahir harus diisi',
             'tanggal_lahir.required'             => 'tanggal lahir harus diisi',
             'jenis_kelamin.required'             => 'jenis kelamin harus diisi',
-            'tanggal_masuk_kerja.required'       => 'tanggal masuk kerja harus diisi',
-            'tanggal_pilih_jabatan.required'     => 'tanggal dipilih jabatan harus diisi',
         ]);
 
         //calculate usia
         $tanggal_lahir = Carbon::parse($request['tanggal_lahir']);
         $usia = $tanggal_lahir->age;
 
-        //calculate masa kerja
-        $tanggal_masuk_kerja = Carbon::parse($request['tanggal_masuk_kerja']);
-        $masa_kerja = $tanggal_masuk_kerja->diff(\Carbon\Carbon::now())->format('%y Tahun, %m Bulan');
-        //calculate masa jabatan
-        $tanggal_pilih_jabatan = Carbon::parse($request['tanggal_pilih_jabatan']);
-        $masa_jabatan = $tanggal_pilih_jabatan->diff(\Carbon\Carbon::now())->format('%y Tahun, %m Bulan');
 
         //update data
         $user->name = $request->name;
@@ -100,19 +85,12 @@ class ProfileController extends Controller
         if ($request->password != null) {
             $user->password = Hash::make($request->password);
         }
-        $user->jabatan_id = $request->jabatan_id;
-        $user->divisi_id = $request->divisi_id;
-        $user->nik = $request->nik;
         $user->tempat_lahir = $request->tempat_lahir;
         $user->tanggal_lahir = $request->tanggal_lahir;
         $user->usia = $usia;
         $user->jenis_kelamin = $request->jenis_kelamin;
         $user->no_hp = $request->no_hp;
         $user->alamat = $request->alamat;
-        $user->tanggal_masuk_kerja = $request->tanggal_masuk_kerja;
-        $user->masa_kerja = $masa_kerja;
-        $user->tanggal_pilih_jabatan = $request->tanggal_pilih_jabatan;
-        $user->masa_jabatan = $masa_jabatan;
 
         $user->update();
 
