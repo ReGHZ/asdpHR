@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Jabatan;
-use App\Models\Divisi;
+
 use App\Models\Pegawai;
 use App\Models\PengajuanCuti;
 use App\Models\User;
@@ -15,6 +14,7 @@ use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class PengajuanCutiController extends Controller
 {
@@ -50,18 +50,18 @@ class PengajuanCutiController extends Controller
      */
     public function store(Request $request)
     {
+
         //validator
         $request->validate([
-            'tanggal_mulai'                      => 'required',
-            'tanggal_selesai'                    => 'required',
             'jenis_cuti'                         => 'required',
             'keterangan'                         => 'required',
-
+            'tanggal_mulai'                      => 'required|date',
+            'tanggal_selesai'                    => 'required|date|after_or_equal:tanggal_mulai',
         ], [
-            'tanggal_mulai.required'             => 'Tanggal mulai harus diisi',
-            'tanggal_selesai.required'           => 'Tanggal selesai harus diisi',
             'jenis_cuti.required'                => 'Jenis cuti harus diisi',
             'keterangan.required'                => 'Keterangan harus diisi',
+            'tanggal_mulai.required'             => 'Tanggal Mulai harus diisi',
+            'tanggal_selesai.required'           => 'Tanggal selesai harus sebelum tanggal mulai',
         ]);
 
         //generate nomor surat thats reset every year
@@ -81,7 +81,7 @@ class PengajuanCutiController extends Controller
         $interval = $datetime1->diff($datetime2);
         $lama_hari = $interval->format('%a');
 
-        // Condition if user select cuti tahunan
+        // Condition if user select cuti tahunan and check condition for kuota cuti
         // return json_encode($request->jenis_cuti);
         if ($request->jenis_cuti == 'Cuti tahunan') {
             $cuti = Pegawai::where('id', $pegawai->id)->where('kuota_cuti', '>=', $lama_hari)->first();
@@ -95,6 +95,30 @@ class PengajuanCutiController extends Controller
             }
         }
 
+        // Condition if user select cuti besar
+        if ($request->jenis_cuti == 'Cuti besar') {
+            $cuti = $lama_hari > 90;
+            if ($cuti) {
+                return redirect()->back()->with('error', 'Cuti besar hanya bisa 90 hari atau 3 bulan');
+            }
+        }
+
+        // Condition if user select cuti bersalin
+        if ($request->jenis_cuti == 'Cuti bersalin') {
+            $cuti = $lama_hari > 45;
+            if ($cuti) {
+                return redirect()->back()->with('error', 'Cuti bersalin hanya bisa 45 hari atau 1.5 bulan');
+            }
+        }
+
+        // Condition if user select cuti sakit
+        if ($request->jenis_cuti == 'Cuti sakit') {
+            $cuti = $lama_hari > 14;
+            if ($cuti) {
+                return redirect()->back()->with('error', 'Cuti sakit hanya bisa 14 hari dan harus disertai surat dokter');
+            }
+        }
+
         //create new pengajuan cuti
         $cuti = PengajuanCuti::create([
             'user_id'               => $pegawai->id,
@@ -105,8 +129,18 @@ class PengajuanCutiController extends Controller
             'lama_hari'             => $lama_hari,
             'tanggal_surat'         => $tanggal_surat,
             'keterangan'            => $request->keterangan,
-            'status'                => 'menunggu konfirmasi',
+            'status'                => 'Menunggu konfirmasi',
+
         ]);
+
+        //if user select cuti sakit and upload file surat keterangan dokter
+        if ($request->jenis_cuti == 'Cuti sakit') {
+            if ($request->hasFile('file_surat_dokter')) {
+                $request->file('file_surat_dokter')->move('suratDokter/', $request->file('file_surat_dokter')->getClientOriginalName());
+                $cuti->file_surat_dokter = $request->file('file_surat_dokter')->getClientOriginalName();
+                $cuti->save();
+            }
+        }
 
         $cuti->save();
 
@@ -122,6 +156,110 @@ class PengajuanCutiController extends Controller
 
         return redirect()->back()->with('success', 'Pengajuan cuti berhasil');
     }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show(PengajuanCuti $pengajuan)
+    {
+        //get data pengajuan cuti and get user where have jabatan manajer
+        $pengajuan = PengajuanCuti::with('user.pegawai')->findOrFail($pengajuan->id);
+        $manajerSDM = User::where('jabatan_id', 3)->get();
+        return view('cuti.suratCuti', compact('pengajuan', 'manajerSDM'));
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updateReject(PengajuanCuti $pengajuan)
+    {
+        //when cuti tahunan ditolak kuota cuti dikembalikan
+        if ($pengajuan->jenis_cuti == 'Cuti tahunan') {
+            $cuti = Pegawai::where('id', $pengajuan->user_id)->first();
+            $cuti->kuota_cuti = $cuti->kuota_cuti + $pengajuan->lama_hari;
+            $cuti->update();
+        }
+        //update status to ditolak when reject
+        $pengajuan->status = 'Ditolak';
+        $pengajuan->update();
+
+        //get data user that have role user
+        $user = User::where('id', $pengajuan->user_id)->get();
+        //send notification to user
+        Notification::send($user, new NotifTolakCuti($pengajuan));
+
+        return redirect('/pengajuan-cuti')->with('success', 'Pengajuan cuti ditolak');
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updateApprove(PengajuanCuti $pengajuan)
+    {
+        //generate nomor surat thats reset every year
+        $nomorSurat = PengajuanCuti::whereYear("created_at", Carbon::now()->year)->count();
+
+        //update status to disetujui when approve
+        $pengajuan->status = 'Disetujui';
+        $pengajuan->update();
+
+        //create file persetujuan cuti when approve
+        $pengajuan->persetujuanCuti()->create([
+            'pengajuan_cuti_id' => $pengajuan->id,
+            'user_id' => $pengajuan->user_id,
+            'nomor_surat' => $nomorSurat,
+            'tanggal_surat' => $pengajuan->tanggal_surat,
+            'keterangan' => $pengajuan->keterangan,
+        ]);
+
+        //get user that send notification
+        $user = User::where('id', $pengajuan->user_id)->get();
+        //send notification to user
+        Notification::send($user, new NotifTerimaCuti($pengajuan));
+
+        return redirect('/pengajuan-cuti')->with('success', 'Pengajuan cuti disetujui');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        //find pengajuan cuti id
+        $pengajuan = PengajuanCuti::find($id);
+        //delete pengajuan cuti
+        if ($pengajuan != null) {
+            $pengajuan->delete();
+            return redirect()->route('pengajuan-cuti')->with(['success' => 'Pengajuan berhasil dihapus']);
+        }
+
+        return redirect()->route('pengajuan-cuti')->with(['success' => 'Id Salah!!']);
+    }
+
 
     /**
      * Display the specified resource.
@@ -152,92 +290,10 @@ class PengajuanCutiController extends Controller
         return redirect()->back();
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        $cuti = PengajuanCuti::with('user.pegawai')->find($id);
-        return view('cuti.suratCuti', compact('cuti'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function updateReject(PengajuanCuti $pengajuan)
-    {
-
-        $pengajuan->status = 'ditolak';
-        $pengajuan->update();
-
-        //get data user that have role user
-        $user = User::where('id', $pengajuan->user_id)->get();
-        //send notification to user
-        Notification::send($user, new NotifTolakCuti($pengajuan));
-
-        return redirect('/pengajuan-cuti')->with('success', 'Pengajuan cuti ditolak');
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function updateApprove(PengajuanCuti $pengajuan)
-    {
-        //generate nomor surat thats reset every year
-        $nomorSurat = PengajuanCuti::whereYear("created_at", Carbon::now()->year)->count();
-
-        $pengajuan->status = 'disetujui';
-        $pengajuan->update();
-        $pengajuan->persetujuanCuti()->create([
-            'pengajuan_cuti_id' => $pengajuan->id,
-            'user_id' => $pengajuan->user_id,
-            'nomor_surat' => $nomorSurat,
-            'tanggal_surat' => $pengajuan->tanggal_surat,
-            'keterangan' => $pengajuan->keterangan,
-        ]);
-
-        $user = User::where('id', $pengajuan->user_id)->get();
-        //send notification to user
-        Notification::send($user, new NotifTerimaCuti($pengajuan));
-
-        return redirect('/pengajuan-cuti')->with('success', 'Pengajuan cuti disetujui');
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    public function downloadFile($id)
     {
         $pengajuan = PengajuanCuti::find($id);
-        if ($pengajuan != null) {
-            $pengajuan->delete();
-            return redirect()->route('pengajuan-cuti')->with(['success' => 'Pengajuan berhasil dihapus']);
-        }
-
-        return redirect()->route('pengajuan-cuti')->with(['success' => 'Id Salah!!']);
+        $file = public_path() . '/suratDokter/' . $pengajuan->file_surat_dokter;
+        return response()->download($file);
     }
 }

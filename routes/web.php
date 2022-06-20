@@ -58,13 +58,14 @@ Route::group(['middleware' => 'auth'], function () {
     Route::put('/jabatan/update', [App\Http\Controllers\JabatanController::class, 'update'])->name('jabatan.update');
     // ----------------------------- pengajuan cuti ------------------------------//
     Route::get('/pengajuan-cuti', [App\Http\Controllers\PengajuanCutiController::class, 'index'])->name('pengajuan-cuti');
-    Route::get('/pengajuan-cuti/{id}/show', [App\Http\Controllers\PengajuanCutiController::class, 'show'])->name('pengajuan-cuti.show');
+    Route::get('/pengajuan-cuti/{pengajuan}/show', [App\Http\Controllers\PengajuanCutiController::class, 'show'])->name('pengajuan-cuti.show');
     Route::post('/pengajuan-cuti/store', [App\Http\Controllers\PengajuanCutiController::class, 'store'])->name('pengajuan-cuti.store');
-    Route::get('/pengajuan-cuti/mark-notif/{id}', [App\Http\Controllers\PengajuanCutiController::class, 'markNotif'])->name('pengajuan-cuti.mark-notif');
-    Route::get('/pengajuan-cuti/mark-all', [App\Http\Controllers\PengajuanCutiController::class, 'markAll'])->name('pengajuan-cuti.mark-all');
     Route::get('/pengajuan-cuti/{pengajuan}/reject', [App\Http\Controllers\PengajuanCutiController::class, 'updateReject'])->name('pengajuan-cuti.reject');
     Route::get('/pengajuan-cuti/{pengajuan}/approve', [App\Http\Controllers\PengajuanCutiController::class, 'updateApprove'])->name('pengajuan-cuti.approve');
     Route::delete('/pengajuan-cuti/{id}/destroy', [App\Http\Controllers\PengajuanCutiController::class, 'destroy'])->name('pengajuan-cuti.destroy');
+    Route::get('/pengajuan-cuti/mark-notif/{id}', [App\Http\Controllers\PengajuanCutiController::class, 'markNotif'])->name('pengajuan-cuti.mark-notif');
+    Route::get('/pengajuan-cuti/mark-all', [App\Http\Controllers\PengajuanCutiController::class, 'markAll'])->name('pengajuan-cuti.mark-all');
+    Route::get('/pengajuan-cuti/{id}/download', [App\Http\Controllers\PengajuanCutiController::class, 'downloadFile'])->name('pengajuan-cuti.download');
     // ----------------------------- pengajuan cuti ------------------------------//
     Route::get('/persetujuan-cuti', [App\Http\Controllers\PersetujuanCutiController::class, 'index'])->name('persetujuan-cuti');
     Route::get('/persetujuan-cuti/{persetujuan}/show', [App\Http\Controllers\PersetujuanCutiController::class, 'show'])->name('persetujuan-cuti.show');

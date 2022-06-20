@@ -16,6 +16,7 @@ class PersetujuanCutiController extends Controller
      */
     public function index()
     {
+        // get data persetujuan cuti
         $persetujuan = PersetujuanCuti::with('pengajuanCuti')->get();
         return view('cuti.persetujuan.index', compact('persetujuan'));
     }
@@ -28,6 +29,7 @@ class PersetujuanCutiController extends Controller
      */
     public function show(PersetujuanCuti $persetujuan)
     {
+        //get data pengajuan cuti and get user that have jabatan manajer
         $persetujuan = PersetujuanCuti::with('pengajuanCuti')->findOrFail($persetujuan->id);
         $manajer = User::where('jabatan_id', 9)->get();
         return view('cuti.persetujuan.suratIzinCuti', compact('persetujuan', 'manajer'));

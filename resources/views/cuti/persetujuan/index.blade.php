@@ -68,14 +68,6 @@
                                             class="btn icon icon-left btn-secondary me-2" id="show-persetujuan"><i
                                                 class="bi bi-eye"></i>
                                             Lihat</a>
-                                        <form action="" method="post">
-                                            @method('delete')
-                                            @csrf
-                                            <button class="btn icon icon-left btn-danger"><i
-                                                    class="bi bi-exclamation-circle"></i>
-                                                Hapus
-                                            </button>
-                                        </form>
                                     </td>
                                 </tr>
                             @endforeach

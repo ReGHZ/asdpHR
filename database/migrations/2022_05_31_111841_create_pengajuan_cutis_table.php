@@ -34,6 +34,7 @@ return new class extends Migration
             )->nullable();
             $table->string('keterangan')->nullable();
             $table->string('status')->nullable();
+            $table->string('file_surat_dokter')->nullable();
             $table->timestamps();
             //foreign key
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

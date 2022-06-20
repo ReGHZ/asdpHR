@@ -20,6 +20,7 @@ class PengajuanCuti extends Model
         'nomor_surat',
         'keterangan',
         'status',
+        'file_surat_dokter'
     ];
 
     public function user()

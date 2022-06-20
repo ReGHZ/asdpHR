@@ -67,7 +67,15 @@
                                     <td>{{ $row->lama_hari }} Hari</td>
                                     <td>{{ tanggal_indonesia($row->tanggal_mulai) }}</td>
                                     <td>{{ tanggal_indonesia($row->tanggal_selesai) }}</td>
-                                    <td>{{ $row->status }}</td>
+                                    @if ($row->status == 'Menunggu konfirmasi')
+                                        <td><span class="badge bg-secondary">{{ $row->status }}</span></td>
+                                    @endif
+                                    @if ($row->status == 'Disetujui')
+                                        <td><span class="badge bg-success">{{ $row->status }}</span></td>
+                                    @endif
+                                    @if ($row->status == 'Ditolak')
+                                        <td><span class="badge bg-danger">{{ $row->status }}</span></td>
+                                    @endif
 
                                     <td class="d-flex">
                                         <a href="{{ route('pengajuan-cuti.show', $row->id) }}"

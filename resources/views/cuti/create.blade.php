@@ -12,7 +12,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('pengajuan-cuti.store') }}" method="POST">
+                <form action="{{ route('pengajuan-cuti.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
                         <div class="col-lg-12">
@@ -23,19 +23,20 @@
                                             <label class="form-control-label">Jenis Cuti</label>
                                             <select name="jenis_cuti"
                                                 class="form-control @error('jenis_cuti') is-invalid @enderror">
+                                                <option selected disabled>Pilih Jenis Cuti</option>
                                                 <option value="Cuti tahunan"
-                                                    @if (old('Cuti tahunan') == '') selected="selected" @endif>Cuti
+                                                    @if (old('jenis_cuti') == 'Cuti tahunan') selected="selected" @endif>Cuti
                                                     tahunan
                                                 </option>
-                                                <option value="Cuti sakit"
-                                                    @if (old('Cuti sakit') == '') selected="selected" @endif>Cuti
-                                                    sakit</option>
-                                                <option value="Cuti bersalin"
-                                                    @if (old('Cuti sakit') == '') selected="selected" @endif>Cuti
-                                                    bersalin</option>
                                                 <option value="Cuti besar"
-                                                    @if (old('Cuti besar') == '') selected="selected" @endif>Cuti
+                                                    @if (old('jenis_cuti') == 'Cuti besar') selected="selected" @endif>Cuti
                                                     besar</option>
+                                                <option value="Cuti bersalin"
+                                                    @if (old('jenis_cuti') == 'Cuti bersalin') selected="selected" @endif>Cuti
+                                                    bersalin</option>
+                                                <option value="Cuti sakit"
+                                                    @if (old('jenis_cuti') == 'Cuti sakit') selected="selected" @endif>Cuti
+                                                    sakit</option>
                                             </select>
                                             @error('jenis_cuti')
                                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -66,6 +67,11 @@
                                             @error('keterangan')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
+                                        </div>
+                                        <div class="col-sm-12 mb-3 mb-sm-0">
+                                            <label class="form-control-label">Surat Dokter(untuk cuti sakit)</label>
+                                            <input name="file_surat_dokter" id="file_surat_dokter" type="file"
+                                                placeholder="jika memilih cuti sakit" class="form-control">
                                         </div>
                                     </div>
                             </div>

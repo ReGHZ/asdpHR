@@ -3,17 +3,17 @@
 @section('css')
     <style>
         /* * {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            padding: 0;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            margin: 0;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            box-sizing: border-box;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        } */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    padding: 0;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    margin: 0;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    box-sizing: border-box;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                } */
 
         /* body {
-                                                                                                                                                                                                                                                                                                                font-size: 1.125rem;
-                                                                                                                                                                                                                                                                                                                line-height: 1.625em;
-                                                                                                                                                                                                                                                                                                                padding: 4rem;
-                                                                                                                                                                                                                                                                                                                background-color: #a0a0a0;
-                                                                                                                                                                                                                                                                                                            } */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                        font-size: 1.125rem;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                        line-height: 1.625em;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                        padding: 4rem;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                        background-color: #a0a0a0;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                    } */
 
         .container {
             max-width: 980px;
@@ -198,26 +198,25 @@
         <div class="page-title">
             <div class="row">
                 <div class="col-12 col-md-6 order-md-1 order-last">
-                    <h3>Form Permohonan Cuti</h3>
+                    <h3>Form Surat Izin Cuti</h3>
                     <p class="text-subtitle text-muted"></p>
                 </div>
                 <div class="col-12 col-md-6 order-md-2 order-first">
                     <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="{{ route('home') }}">Dashboard</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Form persetujuan cuti</li>
+                            <li class="breadcrumb-item active" aria-current="page">Form Surat Izin cuti</li>
                         </ol>
                     </nav>
                 </div>
             </div>
         </div>
         <div class="row mb-2">
-            <div class="col-sm-10">
-                <a href="{{ route('pengajuan-cuti') }}" class="btn icon btn-primary"><i data-feather="arrow-left"></i>
+            <div class="col">
+                <a href="{{ route('persetujuan-cuti') }}" class="btn icon btn-primary"><i data-feather="arrow-left"></i>
                     Kembali
                 </a>
-            </div>
-            <div class="col-sm-2">
+
                 <a id="btnPrint" class="btn icon btn-secondary me-1"><i data-feather="printer"></i>
                     Cetak
                 </a>
@@ -226,7 +225,7 @@
         </div>
 
         <div class="container mb-2 mt-4">
-            <div id="printCuti">
+            <div id="printIzinCUti">
                 <header class="header">
                     <div class="header__left">
                         <img class="header__logo" src="{{ asset('backend/assets/images/logo/ASDP.png') }}"
@@ -254,7 +253,7 @@
                 </header>
                 <section class="sender">
                     <div class="sender__detail" id="senderkiri">
-                        <table style="width:45%">
+                        <table style="width:100%">
                             <tr>
                                 <td>Nomor</td>
                                 <td>:</td>
@@ -263,7 +262,13 @@
                             <tr>
                                 <td>Lampiran</td>
                                 <td>:</td>
-                                <td>Tidak ada</td>
+                                @if ($persetujuan->pengajuanCuti->jenis_cuti == 'Cuti sakit' && $persetujuan->pengajuanCuti->file_surat_dokter)
+                                    <td>{{ $persetujuan->pengajuanCuti->file_surat_dokter }}</td>
+                                @elseif ($persetujuan->pengajuanCuti->file_surat_dokter == null)
+                                    <td>Tidak ada</td>
+                                @else
+                                    <td>Tidak ada</td>
+                                @endif
                             </tr>
                             <tr>
                                 <td>Perihal</td>
@@ -395,7 +400,7 @@
                             @foreach ($manajer as $item)
                                 <u><strong>{{ $item->name }}</strong></u>
                                 <br>
-                                <u><strong>NIK : {{ $item->nik }}</strong></u>
+                                <strong>NIK : {{ $item->nik }}</strong>
                             @endforeach
                         </span>
                     </div>
@@ -438,7 +443,7 @@
 @section('script')
     <script>
         document.getElementById("btnPrint").onclick = function() {
-            printElement(document.getElementById("printCuti"));
+            printElement(document.getElementById("printIzinCUti"));
             window.print();
         }
 

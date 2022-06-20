@@ -3,17 +3,17 @@
 @section('css')
     <style>
         /* * {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    padding: 0;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    margin: 0;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    box-sizing: border-box;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                } */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                padding: 0;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                margin: 0;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                box-sizing: border-box;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            } */
 
         /* body {
-                                        font-size: 1.125rem;
-                                        line-height: 1.625em;
-                                        padding: 4rem;
-                                        background-color: #a0a0a0;
-                                    } */
+                                                                                                                                                                                                                                                                    font-size: 1.125rem;
+                                                                                                                                                                                                                                                                    line-height: 1.625em;
+                                                                                                                                                                                                                                                                    padding: 4rem;
+                                                                                                                                                                                                                                                                    background-color: #a0a0a0;
+                                                                                                                                                                                                                                                                } */
 
         .container {
             max-width: 980px;
@@ -31,10 +31,10 @@
         }
 
         .header__left {
+            padding-left: 20px;
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 96px;
+            justify-content: left;
             grid-column: 1 / 3;
             border-right: 1px #242424 solid;
         }
@@ -45,7 +45,9 @@
 
         .header__title {
             color: #242424;
-            font-size: 1.500rem;
+            font-size: 26px;
+            text-align: center;
+            flex-grow: 1;
         }
 
         .header__detail {
@@ -58,7 +60,7 @@
         .header__item {
             display: flex;
             width: 100%;
-            padding: 0 0.75rem;
+            padding: 0 12px;
         }
 
         .header__item:not(:last-child) {
@@ -71,13 +73,15 @@
         }
 
         .sender {
-            padding-top: 1.5rem;
+
+            padding-top: 24;
         }
 
         .sender__detail {
+
             display: grid;
             grid-template-rows: repeat(8, 1fr);
-            grid-template-columns: 4rem 1fr;
+            grid-template-columns: 64px 1fr;
             margin-left: auto;
             width: 50%;
         }
@@ -86,7 +90,7 @@
             justify-self: end;
             grid-row: 3 / 4;
             grid-column: 1 / 2;
-            margin-right: 1rem;
+            margin-right: 16px;
         }
 
         .sender__data:nth-child(2) {
@@ -98,38 +102,42 @@
         }
 
         .content {
-            padding-top: 2rem;
+
+            padding-top: 32px;
         }
 
         .content__item {
+
             display: grid;
-            grid-template-columns: 2rem 1fr;
-            padding: 0.5rem 0;
+            grid-template-columns: 32px 1fr;
+            padding: 8px 0;
         }
 
         .content__detail {
-            padding-left: 4rem;
+            padding-left: 64px;
         }
 
         .detail__profile {
-            padding: 1rem 0 1rem 4rem;
+            padding: 16px 0 16px 64px;
         }
 
         .detail__profile-item {
+
             display: grid;
-            grid-template-columns: 10rem 2rem 1fr;
+            grid-template-columns: 160px 32px 1fr;
         }
 
         .signature {
+
             display: flex;
-            padding-top: 4rem;
+            padding-top: 64px;
             align-items: stretch;
             justify-content: center;
-            height: 14rem;
+            height: 224px;
         }
 
         .signature {
-            padding-top: 4rem;
+            padding-top: 64px;
         }
 
         .signature__title,
@@ -138,6 +146,7 @@
         }
 
         .signature__item {
+
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -145,17 +154,19 @@
         }
 
         .consideration {
-            padding-top: 4rem;
+
+            padding-top: 64px;
         }
 
         .consideration__field {
-            height: 1.25rem;
-            margin-left: 2rem;
+
+            height: 20px;
+            margin-left: 32px;
             border-bottom: 2px #242424 dotted;
         }
 
         .note {
-            padding-top: 4rem;
+            padding-top: 64px;
         }
 
         @media screen {
@@ -203,32 +214,41 @@
             </div>
         </div>
         <div class="row mb-2">
-            <div class="col-sm-9">
+            <div class="col">
                 <a href="{{ route('pengajuan-cuti') }}" class="btn icon btn-primary"><i data-feather="arrow-left"></i>
                     Kembali
                 </a>
-            </div>
-            <div class="col-sm-3">
+
                 <a id="btnPrint" class="btn icon btn-secondary me-1"><i data-feather="printer"></i>
                     Cetak
                 </a>
-                <a href="{{ route('pengajuan-cuti.reject', $cuti->id) }}" class="btn icon btn-danger me-1"><i
-                        data-feather="x-circle"></i>
-                    Tolak
-                </a>
-                <a href="{{ route('pengajuan-cuti.approve', $cuti->id) }}" class="btn icon btn-success "><i
-                        data-feather="check"></i>
-                    Terima
-                </a>
+                @if (isset($pengajuan->status) && $pengajuan->status == 'Menunggu konfirmasi')
+                    <a href="{{ route('pengajuan-cuti.reject', $pengajuan->id) }}" class="btn icon btn-danger me-1"><i
+                            data-feather="x-circle"></i>
+                        Tolak
+                    </a>
+                @endif
+                @if (isset($pengajuan->status) && $pengajuan->status == 'Menunggu konfirmasi')
+                    <a href="{{ route('pengajuan-cuti.approve', $pengajuan->id) }}" class="btn icon btn-success "><i
+                            data-feather="check"></i>
+                        Terima
+                    </a>
+                @endif
+                @if ($pengajuan->jenis_cuti == 'Cuti sakit' && isset($pengajuan->file_surat_dokter))
+                    <a href="{{ route('pengajuan-cuti.download', $pengajuan->id) }}" class="btn icon btn-secondary "><i
+                            data-feather="download"></i>
+                        Surat Dokter
+                    </a>
+                @endif
             </div>
 
         </div>
-
         <div class="container mb-4 mt-4">
             <div id="printCuti">
                 <header class="header">
                     <div class="header__left">
-                        <img class="header__logo" src="{{ asset('backend/assets/images/logo/ASDP.png') }}" alt="logo" />
+                        <img class="header__logo" src="{{ asset('backend/assets/images/logo/ASDP.png') }}"
+                            alt="logo" />
                         <h1 class="header__title">FORMULIR PERMOHONAN CUTI</h1>
                     </div>
                     <div class="header__detail">
@@ -242,7 +262,7 @@
                         </div>
                         <div class="header__item">
                             <span class="header__key">Berlaku Efektif</span>
-                            <span class="header__value">: </span>
+                            <span class="header__value">: ~</span>
                         </div>
                         <div class="header__item">
                             <span class="header__key">Halaman</span>
@@ -253,7 +273,8 @@
                 <section class="sender">
                     <div class="sender__detail">
                         <div class="sender__detail-prefix">Yth.</div>
-                        <div class="sender__data">Ketapang, <span>{{ tanggal_indonesia($cuti->tanggal_surat) }}</span>
+                        <div class="sender__data mt-2">Ketapang,
+                            <span>{{ tanggal_indonesia($pengajuan->tanggal_surat) }}</span>
                         </div>
                         <div class="sender__data">Kepada:</div>
                         <div class="sender__data">General Manager</div>
@@ -271,33 +292,33 @@
                     <div class="content__detail">
                         <div class="detail__profile">
                             <div class="detail__profile-item">
-                                <span>-Nama</span><span>:</span><span
-                                    class="name">{{ $cuti->user->name }}</span>
+                                <span>-Nama</span><span>:</span><span class="name">{{ $pengajuan->user->name }}</span>
                             </div>
                             <div class="detail__profile-item">
-                                <span>-N I K</span><span>:</span><span
-                                    class="nik">{{ $cuti->user->nik }}</span>
+                                <span>-N I K</span><span>:</span><span class="nik">{{ $pengajuan->user->nik }}</span>
                             </div>
                             <div class="detail__profile-item">
                                 <span>-Jabatan</span><span>:</span><span
-                                    class="jabatan">{{ $cuti->user->jabatan->nama_jabatan }}</span>
+                                    class="jabatan">{{ $pengajuan->user->jabatan->nama_jabatan }}</span>
                             </div>
                             <div class="detail__profile-item">
                                 <span>-Unit Kerja</span><span>:</span><span
-                                    class="segmen">{{ $cuti->user->pegawai->segmen }}</span>
+                                    class="segmen">{{ $pengajuan->user->pegawai->segmen }}</span>
                             </div>
                             <div class="detail__profile-item">
                                 <span>-No. HP</span><span>:</span><span
-                                    class="no_hp">{{ $cuti->user->no_hp }}</span>
+                                    class="no_hp">{{ $pengajuan->user->no_hp }}</span>
                             </div>
                         </div>
                         <ul>
                             <li>
                                 <p>
-                                    Mengajukan permohonan {{ $cuti->jenis_cuti }} Selama {{ $cuti->lama_hari }} (
-                                    {{ terbilang($cuti->lama_hari) }} ) hari kerja, terhitung mulai tanggal <br>
-                                    {{ tanggal_indonesia($cuti->tanggal_mulai) }} s/d
-                                    {{ tanggal_indonesia($cuti->tanggal_selesai) }}
+                                    Mengajukan permohonan {{ $pengajuan->jenis_cuti }} Selama
+                                    {{ $pengajuan->lama_hari }} ({{ terbilang($pengajuan->lama_hari) }}) hari kerja,
+                                    terhitung mulai tanggal
+                                    {{ tanggal_indonesia($pengajuan->tanggal_mulai) }} s/d
+                                    {{ tanggal_indonesia($pengajuan->tanggal_selesai) }}
+
                                 </p>
                             </li>
                         </ul>
@@ -305,7 +326,8 @@
                     <div class="content__item">
                         <span>2.</span>
                         <span>
-                            Selama menjalankan bundir alamat kami adalah : <span> {{ $cuti->user->alamat }}</span>
+                            Selama menjalankan {{ $pengajuan->jenis_cuti }} alamat kami adalah :
+                            {{ $pengajuan->user->alamat }}
                         </span>
                     </div>
                     <div class="content__item">
@@ -321,10 +343,12 @@
                         <span class="signature__title">
                             <strong>Mengetahui,</strong>
                             <br />
-                            <strong>Manager SDM & Umum </strong>
+                            <strong>Manager SDM & Umum</strong>
                         </span>
                         <span class="signature__name">
-                            <u><strong>Dontol</strong></u>
+                            @foreach ($manajerSDM as $item)
+                                <u><strong>{{ $item->name }}</strong></u>
+                            @endforeach
                         </span>
                     </div>
                     <div class="signature__item">
@@ -332,7 +356,7 @@
                             <strong>Pemohon</strong>
                         </span>
                         <span class="signature__name">
-                            <u><strong class="name">{{ $cuti->user->name }}</strong></u>
+                            <u><strong>{{ $pengajuan->user->name }}</strong></u>
                         </span>
                     </div>
                 </section>
@@ -350,12 +374,12 @@
                     </p>
                     <p>
                         <sup>1</sup>)
-                        <span style="padding-left: 0.5rem">= Coret yang tidak perlu;</span>
+                        <span style="padding-left: 8px">= Coret yang tidak perlu;</span>
                     </p>
                     <p>
                         <sup>2</sup>)
-                        <span style="padding-left: 0.5rem">
-                            = Harus diisi oleh Nakhoda / atasan langsung yang bersangkutan
+                        <span style="padding-left: 8px">
+                            = Harus diisi oleh Nahkoda / atasan langsung yang bersangkutan
                         </span>
                     </p>
                 </section>
