@@ -18,6 +18,7 @@
             </div>
         </div>
 
+        {{-- Alert --}}
         @if (session()->get('success'))
             <div class="alert alert-success alert-dismissible show fade"><i class="bi bi-check-circle"></i>
                 {{ session()->get('success') }}
@@ -32,10 +33,11 @@
             </div>
         @endif
 
+        {{-- profile content --}}
         <div class="container py-4">
             <div class="row">
                 <div class="col-lg-4">
-                    <div class="card mb-4">
+                    <div class="card mb-4 shadow">
                         <div class="card-body text-center">
                             <form action="{{ route('profile.updateFotoProfile', Auth::user()->id) }}" method="POST"
                                 enctype="multipart/form-data">
@@ -47,7 +49,8 @@
                                         <img src="{{ asset('fotoPegawai/' . Auth::user()->pegawai->foto) }}" width=100
                                             height=100 alt="">
                                         <div class="round">
-                                            <input name="foto" type="file" id="file" onchange="this.form.submit()">
+                                            <input name="foto" type="file" id="file"
+                                                onchange="this.form.submit()">
                                             <i class="feather-16" data-feather="camera" style="color: white ;"></i>
                                         </div>
                                     </div>
@@ -56,7 +59,8 @@
                                         <img src="{{ asset('backend/assets/images/faces/2.jpg') }}" width=100 height=100
                                             alt="">
                                         <div class="round">
-                                            <input name="foto" type="file" id="file" onchange="this.form.submit()">
+                                            <input name="foto" type="file" id="file"
+                                                onchange="this.form.submit()">
                                             <i class="feather-16" data-feather="camera" style="color: white ;"></i>
                                         </div>
                                     </div>
@@ -73,7 +77,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card mb-4 mb-lg-0">
+                    <div class="card mb-4 mb-lg-0 shadow">
                         <div class="card-body p-0">
                             <ul class="list-group list-group-flush rounded-3">
                                 <li class="list-group-item d-flex justify-content-between align-items-center p-3">
@@ -106,7 +110,7 @@
                     </div>
                 </div>
                 <div class="col-lg-8">
-                    <div class="card mb-4">
+                    <div class="card mb-4 shadow">
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-sm-4">
@@ -167,7 +171,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-6">
-                            <div class="card mb-4 mb-md-0">
+                            <div class="card mb-4 mb-md-0 shadow">
                                 <div class="card-body">
                                     <p class="mb-4"><span class="text-primary font-italic me-1">personal</span>
                                     </p>
@@ -237,7 +241,7 @@
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="card mb-4 mb-md-0">
+                            <div class="card mb-4 mb-md-0 shadow">
                                 <div class="card-body">
                                     <p class="mb-4"><span class="text-primary font-italic me-1">data
                                             kantor</span>

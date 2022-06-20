@@ -18,7 +18,7 @@
             </div>
         </div>
         <section class="section">
-
+            {{-- Alert --}}
             @if (session()->get('success'))
                 <div class="alert alert-success alert-dismissible show fade"><i class="bi bi-check-circle"></i>
                     {{ session()->get('success') }}
@@ -34,10 +34,12 @@
             @endif
 
             <div class="pb-3">
-                <a href="" class="btn icon btn-primary pull-right" data-bs-toggle="modal" data-bs-target="#createjabatan"><i
-                        data-feather="plus"></i>
+                <a href="" class="btn icon btn-primary pull-right" data-bs-toggle="modal"
+                    data-bs-target="#createjabatan"><i data-feather="plus"></i>
                     Tambah</a>
             </div>
+
+            {{-- Tabel jabatan --}}
             <div class="card shadow-lg">
                 <div class="card-body">
                     <table class="table table-striped" id="table1">
@@ -56,19 +58,30 @@
                                     <td>{{ $row->nama_jabatan }}</td>
                                     <td>{{ $row->deskripsi }}</td>
 
+                                    <td>
+                                        <div class="dropdown position-static">
+                                            <a class="dropdown" href="#" role="button" id="actionlink"
+                                                data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="bi bi-three-dots-vertical"></i>
+                                            </a>
 
-                                    <td class="d-flex">
-                                        <button value="{{ $row->id }}"
-                                            class="btn icon icon-left btn-secondary me-2 editbtn"><i
-                                                class="bi bi-pencil-square"></i>
-                                            Edit</button>
-                                        <form action="{{ route('jabatan.destroy', $row->id) }}" method="post">
-                                            @method('delete')
-                                            @csrf
-                                            <button class="btn icon icon-left btn-danger"><i
-                                                    class="bi bi-exclamation-circle"></i>
-                                                Hapus</button>
-                                        </form>
+                                            <ul class="dropdown-menu shadow" aria-labelledby="actionlink"
+                                                style="min-width:inherit;">
+                                                <li><button value="{{ $row->id }}" class="dropdown-item editbtn"><i
+                                                            class="bi bi-pencil text-secondary"></i>
+                                                        Edit</button>
+                                                </li>
+                                                <li>
+                                                    <hr class="dropdown-divider">
+                                                </li>
+                                                <li><button value="{{ $row->id }}" class="dropdown-item btnJabDel"><i
+                                                            class="bi bi-exclamation-circle text-danger"></i>
+                                                        Hapus
+                                                    </button>
+
+                                                </li>
+                                            </ul>
+                                        </div>
                                     </td>
                                 </tr>
                             @endforeach
@@ -81,11 +94,19 @@
         </section>
         @include('employee.positions.create')
         @include('employee.positions.edit')
+        @include('employee.positions.delete')
     </div>
 @endsection
 
 @section('script')
     <script>
+        $(document).on('click', '.btnJabDel', function() {
+            var jabatan_id = $(this).val();
+            // alert(jabatan_id);
+            $('#jabatanDelete').modal('show');
+            $('#jabatan_id').val(jabatan_id);
+        });
+
         $(document).ready(function() {
 
             $(document).on('click', '.editbtn', function() {

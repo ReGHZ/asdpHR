@@ -18,7 +18,7 @@
             </div>
         </div>
         <section class="section">
-
+            {{-- Alert --}}
             @if (session()->get('success'))
                 <div class="alert alert-success alert-dismissible show fade"><i class="bi bi-check-circle"></i>
                     {{ session()->get('success') }}
@@ -34,10 +34,12 @@
             @endif
 
             <div class="pb-3">
-                <a href="" class="btn icon btn-primary pull-right" data-bs-toggle="modal" data-bs-target="#createpegawai"><i
-                        data-feather="user-plus"></i>
+                <a href="" class="btn icon btn-primary pull-right" data-bs-toggle="modal"
+                    data-bs-target="#createpegawai"><i data-feather="user-plus"></i>
                     Tambah</a>
             </div>
+
+            {{-- Tabel pegawai --}}
             <div class="card shadow-lg">
                 <div class="card-body">
                     <table class="table table-striped" id="table1">
@@ -60,18 +62,29 @@
                                     <td>{{ $row->masa_kerja }}</td>
                                     <td>{{ $row->masa_jabatan }}</td>
 
-                                    <td class="d-flex">
-                                        <a href="{{ route('employee.show', $row->id) }}"
-                                            class="btn icon icon-left btn-secondary me-2"><i
-                                                class="bi bi-person-rolodex"></i>
-                                            Lihat</a>
-                                        <form action="{{ route('employee.destroy', $row->id) }}" method="post">
-                                            @method('delete')
-                                            @csrf
-                                            <button class="btn icon icon-left btn-danger"><i
-                                                    class="bi bi-exclamation-circle"></i>
-                                                Hapus</button>
-                                        </form>
+                                    <td>
+                                        <div class="dropdown position-static">
+                                            <a class="dropdown" href="#" role="button" id="actionlink"
+                                                data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="bi bi-three-dots-vertical"></i>
+                                            </a>
+
+                                            <ul class="dropdown-menu shadow" aria-labelledby="actionlink"
+                                                style="min-width:inherit;">
+                                                <li><a href="{{ route('employee.show', $row->id) }}"
+                                                        class="dropdown-item"><i class="bi bi-eye text-success"></i>
+                                                        Lihat</a></li>
+                                                <li>
+                                                    <hr class="dropdown-divider">
+                                                </li>
+                                                <li><button value="{{ $row->id }}" class="dropdown-item btnEmpDel"><i
+                                                            class="bi bi-exclamation-circle text-danger"></i>
+                                                        Hapus
+                                                    </button>
+
+                                                </li>
+                                            </ul>
+                                        </div>
                                     </td>
                                 </tr>
                             @endforeach
@@ -79,8 +92,18 @@
                     </table>
                 </div>
             </div>
-
         </section>
         @include('employee.create')
+        @include('employee.delete')
     </div>
+@endsection
+@section('script')
+    <script>
+        $(document).on('click', '.btnEmpDel', function() {
+            var user_id = $(this).val();
+            // alert(user_id);
+            $('#pegawaiDelete').modal('show');
+            $('#user_id').val(user_id);
+        });
+    </script>
 @endsection

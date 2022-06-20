@@ -14,18 +14,9 @@ class DivisiController extends Controller
      */
     public function index()
     {
+        //get all divisi
         $divisi = Divisi::all();
         return view('employee.departements.index', compact('divisi'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -36,12 +27,15 @@ class DivisiController extends Controller
      */
     public function store(Request $request)
     {
+        //validate request
         $request->validate([
             'nama_divisi'                      => 'required',
 
         ], [
             'nama_divisi.required'             => 'Nama Divisi harus diisi',
         ]);
+
+        //create new divisi
         $divisi = Divisi::create([
             'nama_divisi' => $request->nama_divisi,
             'deskripsi' => $request->deskripsi,
@@ -55,17 +49,6 @@ class DivisiController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
@@ -73,8 +56,10 @@ class DivisiController extends Controller
      */
     public function edit($id)
     {
+        //find divisi by id
         $divisi = Divisi::find($id);
 
+        //return json with divisi
         return response()->json([
             'status' => 200,
             'divisi' => $divisi
@@ -90,6 +75,7 @@ class DivisiController extends Controller
      */
     public function update(Request $request)
     {
+        //validate request
         $request->validate([
             'nama_divisi'                      => 'required',
 
@@ -97,6 +83,7 @@ class DivisiController extends Controller
             'nama_divisi.required'             => 'Nama Divisi harus diisi',
         ]);
 
+        //find divisi by id and update divisi
         $div_id = $request->div_id;
         $divisi = Divisi::find($div_id);
         $divisi->nama_divisi = $request->nama_divisi;
@@ -113,14 +100,18 @@ class DivisiController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        $divisi = Divisi::find($id);
+        //get divisi id from request by id
+        $divisi_id = $request->input('divisi_id');
+
+        //find divisi by id and delete jabatan
+        $divisi = Divisi::find($divisi_id);
         if ($divisi != null) {
             $divisi->delete();
-            return redirect()->route('divisi')->with(['message' => 'Divisi berhasil dihapus']);
+            return redirect()->route('divisi')->with(['success' => 'Divisi berhasil dihapus']);
         }
 
-        return redirect()->route('divisi')->with(['message' => 'Id Salah!!']);
+        return redirect()->route('divisi')->with(['success' => 'Id Salah!!']);
     }
 }

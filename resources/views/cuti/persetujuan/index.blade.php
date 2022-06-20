@@ -18,7 +18,7 @@
             </div>
         </div>
         <section class="section">
-
+            {{-- alert --}}
             @if (session()->get('success'))
                 <div class="alert alert-success alert-dismissible show fade"><i class="bi bi-check-circle"></i>
                     {{ session()->get('success') }}
@@ -33,6 +33,7 @@
                 </div>
             @endif
 
+            {{-- Tabel persetujuan cuti --}}
             <div class="card shadow-lg">
                 <div class="card-body">
                     <table class="table table-striped" id="table1">
@@ -61,13 +62,22 @@
                                     <td>{{ tanggal_indonesia($row->pengajuanCuti->tanggal_selesai) }}</td>
                                     <td>{{ $row->keterangan }}</td>
 
+                                    <td>
+                                        <div class="dropdown position-static">
+                                            <a class="dropdown" href="#" role="button" id="actionlink"
+                                                data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="bi bi-three-dots-vertical"></i>
+                                            </a>
 
-
-                                    <td class="d-flex">
-                                        <a href="{{ route('persetujuan-cuti.show', $row->id) }}"
-                                            class="btn icon icon-left btn-secondary me-2" id="show-persetujuan"><i
-                                                class="bi bi-eye"></i>
-                                            Lihat</a>
+                                            <ul class="dropdown-menu shadow" aria-labelledby="actionlink"
+                                                style="min-width:inherit;">
+                                                <li><a href="{{ route('persetujuan-cuti.show', $row->id) }}"
+                                                        class="dropdown-item" id="show-persetujuan"><i
+                                                            class="bi bi-eye text-success"></i>
+                                                        Lihat</a></li>
+                                                <li>
+                                            </ul>
+                                        </div>
                                     </td>
                                 </tr>
                             @endforeach

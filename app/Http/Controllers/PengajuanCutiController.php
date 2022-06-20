@@ -14,7 +14,7 @@ use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\File;
 
 class PengajuanCutiController extends Controller
 {
@@ -196,12 +196,14 @@ class PengajuanCutiController extends Controller
             $cuti->kuota_cuti = $cuti->kuota_cuti + $pengajuan->lama_hari;
             $cuti->update();
         }
+
         //update status to ditolak when reject
         $pengajuan->status = 'Ditolak';
         $pengajuan->update();
 
         //get data user that have role user
         $user = User::where('id', $pengajuan->user_id)->get();
+
         //send notification to user
         Notification::send($user, new NotifTolakCuti($pengajuan));
 
@@ -235,6 +237,7 @@ class PengajuanCutiController extends Controller
 
         //get user that send notification
         $user = User::where('id', $pengajuan->user_id)->get();
+
         //send notification to user
         Notification::send($user, new NotifTerimaCuti($pengajuan));
 
@@ -247,10 +250,24 @@ class PengajuanCutiController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
+        //get data pengajuan cuti from request by id
+        $cuti_id = $request->input('cuti_id');
+
         //find pengajuan cuti id
-        $pengajuan = PengajuanCuti::find($id);
+        $pengajuan = PengajuanCuti::find($cuti_id);
+
+        //delete file pengajuan cuti sakit
+        if ($pengajuan->jenis_cuti == 'Cuti sakit') {
+            if ($pengajuan->file_surat_dokter != null) {
+                $lokasi = 'suratDokter/' . $pengajuan->file_surat_dokter;
+                if (File::exists($lokasi)) {
+                    File::delete($lokasi);
+                }
+            }
+        }
+
         //delete pengajuan cuti
         if ($pengajuan != null) {
             $pengajuan->delete();
@@ -269,6 +286,7 @@ class PengajuanCutiController extends Controller
      */
     public function markNotif($id)
     {
+        //if get id auth user marj notif
         if ($id) {
 
             auth()->user()->unreadNotifications->where('id', $id)->markAsRead();
@@ -285,14 +303,17 @@ class PengajuanCutiController extends Controller
      */
     public function markAll()
     {
-
+        //mark all auth user notif
         auth()->user()->unreadNotifications->markAsRead();
         return redirect()->back();
     }
 
     public function downloadFile($id)
     {
+        //find pengajuan cuti id
         $pengajuan = PengajuanCuti::find($id);
+
+        //download file 
         $file = public_path() . '/suratDokter/' . $pengajuan->file_surat_dokter;
         return response()->download($file);
     }

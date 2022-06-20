@@ -14,18 +14,9 @@ class JabatanController extends Controller
      */
     public function index()
     {
+        //get all jabatan
         $jabatan = Jabatan::all();
         return view('employee.positions.index', compact('jabatan'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -36,6 +27,7 @@ class JabatanController extends Controller
      */
     public function store(Request $request)
     {
+        //validate request
         $request->validate([
             'nama_jabatan'                      => 'required',
 
@@ -43,6 +35,7 @@ class JabatanController extends Controller
             'nama_jabatan.required'             => 'Nama jabatan harus diisi',
         ]);
 
+        //create new jabatan
         $jabatan = Jabatan::create(
             [
                 'nama_jabatan' => $request->nama_jabatan,
@@ -55,17 +48,6 @@ class JabatanController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
@@ -73,8 +55,10 @@ class JabatanController extends Controller
      */
     public function edit($id)
     {
+        //find jabatan by id
         $jabatan = Jabatan::find($id);
 
+        // return json with jabatan
         return response()->json([
             'status' => 200,
             'jabatan' => $jabatan
@@ -90,6 +74,7 @@ class JabatanController extends Controller
      */
     public function update(Request $request)
     {
+        //validate request
         $request->validate([
             'nama_jabatan'                      => 'required',
 
@@ -97,6 +82,7 @@ class JabatanController extends Controller
             'nama_jabatan.required'             => 'Nama jabatan harus diisi',
         ]);
 
+        //find jabatan by id and update jabatan
         $jab_id = $request->jab_id;
         $jabatan = Jabatan::find($jab_id);
         $jabatan->nama_jabatan = $request->nama_jabatan;
@@ -113,14 +99,18 @@ class JabatanController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        $jabatan = Jabatan::find($id);
+        //get jabatan id from request by id
+        $jabatan_id = $request->input('jabatan_id');
+
+        //find jabatan by id and delete jabatan
+        $jabatan = Jabatan::find($jabatan_id);
         if ($jabatan != null) {
             $jabatan->delete();
-            return redirect()->route('jabatan')->with(['message' => 'Jabatan berhasil dihapus']);
+            return redirect()->route('jabatan')->with(['success' => 'Jabatan berhasil dihapus']);
         }
 
-        return redirect()->route('jabatan')->with(['message' => 'Id Salah!!']);
+        return redirect()->route('jabatan')->with(['success' => 'Id Salah!!']);
     }
 }

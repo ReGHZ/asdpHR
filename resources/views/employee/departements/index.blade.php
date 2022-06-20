@@ -18,7 +18,7 @@
             </div>
         </div>
         <section class="section">
-
+            {{-- Alert --}}
             @if (session()->get('success'))
                 <div class="alert alert-success alert-dismissible show fade"><i class="bi bi-check-circle"></i>
                     {{ session()->get('success') }}
@@ -38,6 +38,7 @@
                     data-bs-target="#exampleModalScrollable"><i data-feather="plus"></i>
                     Tambah</a>
             </div>
+            {{-- Tabel divisi --}}
             <div class="card shadow-lg">
                 <div class="card-body">
                     <table class="table table-striped" id="table1">
@@ -56,19 +57,30 @@
                                     <td>{{ $row->nama_divisi }}</td>
                                     <td>{{ $row->deskripsi }}</td>
 
+                                    <td>
+                                        <div class="dropdown position-static">
+                                            <a class="dropdown" href="#" role="button" id="actionlink"
+                                                data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="bi bi-three-dots-vertical"></i>
+                                            </a>
 
-                                    <td class="d-flex">
-                                        <button value="{{ $row->id }}"
-                                            class="btn icon icon-left btn-secondary me-2 editbtn"><i
-                                                class="bi bi-pencil-square"></i>
-                                            Edit</button>
-                                        <form action="{{ route('divisi.destroy', $row->id) }}" method="post">
-                                            @method('delete')
-                                            @csrf
-                                            <button class="btn icon icon-left btn-danger"><i
-                                                    class="bi bi-exclamation-circle"></i>
-                                                Hapus</button>
-                                        </form>
+                                            <ul class="dropdown-menu shadow" aria-labelledby="actionlink"
+                                                style="min-width:inherit;">
+                                                <li><button value="{{ $row->id }}" class="dropdown-item editbtn"><i
+                                                            class="bi bi-pencil text-secondary"></i>
+                                                        Edit</button>
+                                                </li>
+                                                <li>
+                                                    <hr class="dropdown-divider">
+                                                </li>
+                                                <li><button value="{{ $row->id }}" class="dropdown-item btnDivDel"><i
+                                                            class="bi bi-exclamation-circle text-danger"></i>
+                                                        Hapus
+                                                    </button>
+
+                                                </li>
+                                            </ul>
+                                        </div>
                                     </td>
                                 </tr>
                             @endforeach
@@ -81,11 +93,19 @@
         </section>
         @include('employee.departements.create')
         @include('employee.departements.edit')
+        @include('employee.departements.delete')
     </div>
 @endsection
 
 @section('script')
     <script>
+        $(document).on('click', '.btnDivDel', function() {
+            var divisi_id = $(this).val();
+            // alert(divisi_id);
+            $('#divisiDelete').modal('show');
+            $('#divisi_id').val(divisi_id);
+        });
+
         $(document).ready(function() {
 
             $(document).on('click', '.editbtn', function() {

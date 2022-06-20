@@ -33,15 +33,6 @@ class EmployeeController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -345,12 +336,13 @@ class EmployeeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //user id
-        $user = User::find($id);
+        //get user from request by id
+        $user_id = $request->input('user_id');
 
-        //delete user
+        //find user id and delete jabatan
+        $user = User::find($user_id);
         if ($user != null) {
             $user->delete();
             return redirect()->route('employee')->with(['success' => 'Pegawai berhasil dihapus']);
