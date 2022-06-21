@@ -91,7 +91,7 @@
 
                 <li class="sidebar-item  has-sub {{ request()->is('perjalanan-dinas*') ? 'active' : '' }}">
                     <a href="#" class='sidebar-link'>
-                        <i class="bi bi-pin-map-fill"></i>
+                        <i class="fas fa-plane"></i>
                         <span>Perjalanan Dinas</span>
                     </a>
                     <ul class="submenu {{ request()->is('perjalanan-dinas*') ? 'active' : '' }}">

@@ -35,9 +35,8 @@
 
 
             <div class="pb-3">
-                <a href="" class="btn icon btn-primary pull-right" data-bs-toggle="modal"
-                    data-bs-target="#createcuti">
-                    <i data-feather="user-plus"></i>
+                <a href="" class="btn btn-primary pull-right" data-bs-toggle="modal" data-bs-target="#createcuti">
+                    <i class="fas fa-suitcase-rolling"></i>
                     Tambah
                 </a>
             </div>
