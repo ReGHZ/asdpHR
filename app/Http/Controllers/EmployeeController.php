@@ -44,15 +44,15 @@ class EmployeeController extends Controller
         $request->validate([
             'name'                      => 'required',
             'email'                     => 'required',
-            'password'                  => 'required',
+            'password'                  => 'required|min:6',
             'jabatan_id'                => 'required',
             'divisi_id'                 => 'required',
             'nik'                       => 'required|unique:users,nik',
             'tempat_lahir'              => 'required',
             'tanggal_lahir'             => 'required',
             'jenis_kelamin'             => 'required',
-            'tanggal_masuk_kerja'       => 'required',
-            'tanggal_pilih_jabatan'     => 'required',
+            'tanggal_masuk_kerja'       => 'required|date',
+            'tanggal_pilih_jabatan'     => 'required|date|after_or_equal:tanggal_masuk_kerja',
             'role'                      => 'required',
 
         ], [
@@ -185,8 +185,9 @@ class EmployeeController extends Controller
             'tempat_lahir'              => 'required',
             'tanggal_lahir'             => 'required',
             'jenis_kelamin'             => 'required',
-            'tanggal_masuk_kerja'       => 'required',
-            'tanggal_pilih_jabatan'     => 'required',
+            'tanggal_masuk_kerja'       => 'required|date',
+            'tanggal_pilih_jabatan'     => 'required|date|after_or_equal:tanggal_masuk_kerja',
+            'role'                      => 'required',
 
         ], [
             'name.required'                      => 'nama Pegawai harus diisi',
@@ -199,6 +200,7 @@ class EmployeeController extends Controller
             'jenis_kelamin.required'             => 'jenis kelamin harus diisi',
             'tanggal_masuk_kerja.required'       => 'tanggal masuk kerja harus diisi',
             'tanggal_pilih_jabatan.required'     => 'tanggal dipilih jabatan harus diisi',
+            'role.required'                      => 'Role harus diisi',
         ]);
 
         //calculate usia
