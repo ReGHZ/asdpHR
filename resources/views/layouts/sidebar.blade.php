@@ -89,17 +89,17 @@
                     </ul>
                 </li>
 
-                <li class="sidebar-item  has-sub">
+                <li class="sidebar-item  has-sub {{ request()->is('perjalanan-dinas*') ? 'active' : '' }}">
                     <a href="#" class='sidebar-link'>
                         <i class="bi bi-pin-map-fill"></i>
                         <span>Perjalanan Dinas</span>
                     </a>
-                    <ul class="submenu ">
-                        <li class="submenu-item ">
-                            <a href="table-datatable.html">Pengajuan</a>
+                    <ul class="submenu {{ request()->is('perjalanan-dinas*') ? 'active' : '' }}">
+                        <li class="submenu-item {{ request()->is('perjalanan-dinas*') ? 'active' : '' }}">
+                            <a href="{{ route('perjalanan-dinas') }}">Pengajuan</a>
                         </li>
                         <li class="submenu-item ">
-                            <a href="table-datatable-jquery.html">Persetujuan</a>
+                            <a href="table-datatable-jquery.html">Laporan selesai</a>
                         </li>
                     </ul>
                 </li>

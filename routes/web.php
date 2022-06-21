@@ -68,9 +68,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/pengajuan-cuti/mark-notif/{id}', [App\Http\Controllers\PengajuanCutiController::class, 'markNotif'])->name('pengajuan-cuti.mark-notif');
     Route::get('/pengajuan-cuti/mark-all', [App\Http\Controllers\PengajuanCutiController::class, 'markAll'])->name('pengajuan-cuti.mark-all');
     Route::get('/pengajuan-cuti/{id}/download', [App\Http\Controllers\PengajuanCutiController::class, 'downloadFile'])->name('pengajuan-cuti.download');
-    // ----------------------------- pengajuan cuti ------------------------------//
+    // ----------------------------- persetujuan cuti ------------------------------//
     Route::get('/persetujuan-cuti', [App\Http\Controllers\PersetujuanCutiController::class, 'index'])->name('persetujuan-cuti');
     Route::get('/persetujuan-cuti/{persetujuan}/show', [App\Http\Controllers\PersetujuanCutiController::class, 'show'])->name('persetujuan-cuti.show');
+    // ----------------------------- perjalanan dinas ------------------------------//
+    Route::get('/perjalanan-dinas', [App\Http\Controllers\PerjalananDinas::class, 'index'])->name('perjalanan-dinas');
 });
 
 Auth::routes(['register' => false]);
