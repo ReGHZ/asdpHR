@@ -348,6 +348,6 @@ class EmployeeController extends Controller
             return redirect()->route('employee')->with(['success' => 'Pegawai berhasil dihapus']);
         }
 
-        return redirect()->route('employee')->with(['success' => 'Id Salah!!']);
+        return redirect()->route('employee')->with(['error' => 'Id Salah!!']);
     }
 }

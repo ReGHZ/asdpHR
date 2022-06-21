@@ -29,9 +29,11 @@ class PersetujuanCutiController extends Controller
      */
     public function show(PersetujuanCuti $persetujuan)
     {
-        //get data pengajuan cuti and get user that have jabatan manajer
+        //get data pengajuan cuti and get user that have role manajer
         $persetujuan = PersetujuanCuti::with('pengajuanCuti')->findOrFail($persetujuan->id);
-        $manajer = User::where('jabatan_id', 9)->get();
+        $manajer = User::whereHas('jabatan', function ($query) {
+            $query->where('nama_jabatan', 'GENERAL MANAGER');
+        })->get();
         return view('cuti.persetujuan.suratIzinCuti', compact('persetujuan', 'manajer'));
     }
 

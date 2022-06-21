@@ -112,6 +112,6 @@ class DivisiController extends Controller
             return redirect()->route('divisi')->with(['success' => 'Divisi berhasil dihapus']);
         }
 
-        return redirect()->route('divisi')->with(['success' => 'Id Salah!!']);
+        return redirect()->route('divisi')->with(['error' => 'Id Salah!!']);
     }
 }

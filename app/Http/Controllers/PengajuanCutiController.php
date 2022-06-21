@@ -165,9 +165,11 @@ class PengajuanCutiController extends Controller
      */
     public function show(PengajuanCuti $pengajuan)
     {
-        //get data pengajuan cuti and get user where have jabatan manajer
+        //get data pengajuan cuti and get user where have role manajer
         $pengajuan = PengajuanCuti::with('user.pegawai')->findOrFail($pengajuan->id);
-        $manajerSDM = User::where('jabatan_id', 3)->get();
+        $manajerSDM = User::whereHas('jabatan', function ($query) {
+            $query->where('nama_jabatan', 'MANAGER SDM & UMUM');
+        })->get();
         return view('cuti.suratCuti', compact('pengajuan', 'manajerSDM'));
     }
 
@@ -274,7 +276,7 @@ class PengajuanCutiController extends Controller
             return redirect()->route('pengajuan-cuti')->with(['success' => 'Pengajuan berhasil dihapus']);
         }
 
-        return redirect()->route('pengajuan-cuti')->with(['success' => 'Id Salah!!']);
+        return redirect()->route('pengajuan-cuti')->with(['error' => 'Id Salah!!']);
     }
 
 

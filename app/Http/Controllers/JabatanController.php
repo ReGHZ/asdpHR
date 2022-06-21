@@ -111,6 +111,6 @@ class JabatanController extends Controller
             return redirect()->route('jabatan')->with(['success' => 'Jabatan berhasil dihapus']);
         }
 
-        return redirect()->route('jabatan')->with(['success' => 'Id Salah!!']);
+        return redirect()->route('jabatan')->with(['error' => 'Id Salah!!']);
     }
 }

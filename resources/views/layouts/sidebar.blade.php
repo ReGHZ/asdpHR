@@ -8,8 +8,8 @@
                 </div>
                 <div class="theme-toggle d-flex gap-2  align-items-center mt-2">
                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                        aria-hidden="true" role="img" class="iconify iconify--system-uicons" width="20" height="20"
-                        preserveAspectRatio="xMidYMid meet" viewBox="0 0 21 21">
+                        aria-hidden="true" role="img" class="iconify iconify--system-uicons" width="20"
+                        height="20" preserveAspectRatio="xMidYMid meet" viewBox="0 0 21 21">
                         <g fill="none" fill-rule="evenodd" stroke="currentColor" stroke-linecap="round"
                             stroke-linejoin="round">
                             <path
@@ -42,23 +42,6 @@
         </div>
         <div class="sidebar-menu">
             <ul class="menu">
-                <li class="sidebar-title">Profile</li>
-                <li class="sidebar-item {{ request()->is('profile*') ? 'active' : '' }} has-sub">
-                    <a href="#" class='sidebar-link'>
-                        <i class="bi bi-person-circle"></i>
-                        <span>{{ Auth::user()->name }}</span>
-                    </a>
-                    <ul class="submenu {{ request()->is('profile*') ? 'active' : '' }}">
-                        <li class="submenu-item {{ request()->is('profile') ? 'active' : '' }}">
-                            <a href="{{ route('profile') }}"><i class="icon-mid bi bi-person me-2"></i>My
-                                Profile</a>
-                        </li>
-                        <li class="submenu-item {{ request()->is('logout') ? 'active' : '' }}">
-                            <a href="{{ route('logout') }}"><i
-                                    class="icon-mid bi bi-box-arrow-left me-2"></i>Logout</a>
-                        </li>
-                    </ul>
-                </li>
                 <li class="sidebar-title">Menu</li>
 
                 <li class="sidebar-item {{ request()->is('home*') || request()->is('/') ? 'active' : '' }}">

@@ -37,6 +37,8 @@
                 <a href="" class="btn icon btn-primary pull-right" data-bs-toggle="modal"
                     data-bs-target="#createpegawai"><i data-feather="user-plus"></i>
                     Tambah</a>
+                <a href="{{ url('roles') }}" class="btn btn-secondary pull-right"><i class="fas fa-user-cog me-2"></i>
+                    Role user</a>
             </div>
 
             {{-- Tabel pegawai --}}

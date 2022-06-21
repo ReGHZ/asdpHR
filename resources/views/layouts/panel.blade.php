@@ -11,7 +11,7 @@
     <link rel="shortcut icon" href="{{ asset('backend/assets/images/logo/favicon.svg') }}" type="image/x-icon">
     <link rel="shortcut icon" href="{{ asset('backend/assets/images/logo/favicon.png') }}" type="image/png">
     <link rel="stylesheet" href="{{ asset('backend/assets/css/pages/simple-datatables.css') }}">
-    <link rel="stylesheet" href="{{ asset('backend/assets/css/shared/iconly.css') }}">
+    <link rel="stylesheet" href="{{ asset('backend/assets/css/pages/fontawesome.css') }}">
     @yield('css')
     <style>
         .upload {

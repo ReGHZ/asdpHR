@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\EmployeeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,6 +26,9 @@ Route::group(['middleware' => 'auth'], function () {
 
     // -----------------------------login----------------------------------------//
     Route::get('/logout', [App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');
+    // -----------------------------dashboard----------------------------------------//
+    Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    // Route::get('/dashboard', [App\Http\Controllers\Auth\HomeController::class, 'employeeDashboard'])->name('dashboard');
     // ----------------------------- user profile ------------------------------//
     Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'index'])->name('profile');
     Route::get('/profile/{id}/edit', [App\Http\Controllers\ProfileController::class, 'edit'])->name('profile.edit');
@@ -72,5 +74,3 @@ Route::group(['middleware' => 'auth'], function () {
 });
 
 Auth::routes(['register' => false]);
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
