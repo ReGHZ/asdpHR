@@ -17,6 +17,7 @@ return new class extends Migration
             //id
             $table->id();
             $table->unsignedBigInteger('user_id')->nullable();
+            $table->unsignedBigInteger('pengikut')->nullable();
             //table isi
             $table->string('nomor_surat')->nullable();
             $table->date('tanggal_surat')->nullable();
@@ -29,11 +30,12 @@ return new class extends Migration
             $table->string('tujuan')->nullable();
             $table->string('biaya_kas')->nullable();
             $table->string('biaya_ybs')->nullable();
-            $table->date('tanggal_disetujui')->nullable();
             $table->string('disetujui_di')->nullable();
+            $table->string('status')->nullable();
             $table->timestamps();
             //foreign key
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('pengikut')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

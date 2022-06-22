@@ -72,7 +72,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/persetujuan-cuti', [App\Http\Controllers\PersetujuanCutiController::class, 'index'])->name('persetujuan-cuti');
     Route::get('/persetujuan-cuti/{persetujuan}/show', [App\Http\Controllers\PersetujuanCutiController::class, 'show'])->name('persetujuan-cuti.show');
     // ----------------------------- perjalanan dinas ------------------------------//
-    Route::get('/perjalanan-dinas', [App\Http\Controllers\PerjalananDinas::class, 'index'])->name('perjalanan-dinas');
+    Route::get('/perjalanan-dinas', [App\Http\Controllers\PerjalananDinasController::class, 'index'])->name('perjalanan-dinas');
+    Route::get('/perjalanan-dinas/{id}/penugasan', [App\Http\Controllers\PerjalananDinasController::class, 'penugasan'])->name('perjalanan-dinas.penugasan');
+    Route::post('/perjalanan-dinas/store', [App\Http\Controllers\PerjalananDinasController::class, 'store'])->name('perjalanan-dinas.store');
 });
 
 Auth::routes(['register' => false]);

@@ -137,7 +137,8 @@ class EmployeeController extends Controller
         $jabatan = Jabatan::all();
         $allRoles = Role::all();
         $user = User::findorfail($id);
-        return view('employee.show', compact('user', 'divisi', 'jabatan', 'allRoles'));
+        $pegawai = User::with('pegawai')->get();
+        return view('employee.show', compact('pegawai', 'user', 'divisi', 'jabatan', 'allRoles'));
     }
 
     /**

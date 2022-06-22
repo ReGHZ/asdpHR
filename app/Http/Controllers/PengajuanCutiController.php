@@ -243,7 +243,7 @@ class PengajuanCutiController extends Controller
         //send notification to user
         Notification::send($user, new NotifTerimaCuti($pengajuan));
 
-        return redirect('/pengajuan-cuti')->with('success', 'Pengajuan cuti disetujui');
+        return redirect('/persetujuan-cuti')->with('success', 'Pengajuan cuti disetujui');
     }
 
     /**

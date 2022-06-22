@@ -12,6 +12,7 @@ class PerjalananDinas extends Model
 
     protected $fillable = [
         'user_id',
+        'pengikut',
         'nomor_surat',
         'tanggal_surat',
         'perihal',
@@ -23,11 +24,17 @@ class PerjalananDinas extends Model
         'biaya_kas',
         'biaya_ybs',
         'disetujui_di',
+        'status',
     ];
 
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function pengikut()
+    {
+        return $this->belongsTo(User::class, 'pengikut', 'id',);
     }
 
     public function pegawai()

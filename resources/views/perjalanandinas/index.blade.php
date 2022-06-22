@@ -33,25 +33,6 @@
                 </div>
             @endif
 
-
-            <div class="pb-3">
-                <a href="" class="btn btn-primary pull-right" data-bs-toggle="modal"
-                    data-bs-target="#createperdinas">
-                    <i class="fas fa-plane"></i>
-                    Tambah
-                </a>
-                <a href="" class="btn btn-secondary pull-right" data-bs-toggle="modal"
-                    data-bs-target="#createperdinas">
-                    <i class="fas fa-money-bill"></i>
-                    Perhitungan RAB
-                </a>
-                <a href="" class="btn btn-success pull-right" data-bs-toggle="modal"
-                    data-bs-target="#createperdinas">
-                    <i class="fas fa-money-bill-alt"></i>
-                    Realisasi RAB
-                </a>
-            </div>
-
             {{-- Tabel perjalanan dinas --}}
             <div class="card shadow-lg">
                 <div class="card-body">
@@ -64,32 +45,77 @@
                                 <th>Tanggal berangkat</th>
                                 <th>Tanggal kembali</th>
                                 <th>tujuan</th>
-                                <th>Perihal</th>
                                 <th>keterangan</th>
+                                <th>status</th>
                                 <th>action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {{-- @foreach ($dataCuti as $i => $row)
+                            @foreach ($penugasan as $i => $row)
                                 <tr>
                                     <td>{{ ++$i }}</td>
                                     <td>{{ $row->user->name }}</td>
                                     <td>{{ $row->user->nik }}</td>
-                                    <td>{{ $row->jenis_cuti }}</td>
-                                    <td>{{ $row->lama_hari }} Hari</td>
-                                    <td>{{ tanggal_indonesia($row->tanggal_mulai) }}</td>
-                                    <td>{{ tanggal_indonesia($row->tanggal_selesai) }}</td>
-                                    @if ($row->status == 'Menunggu konfirmasi')
-                                        <td><span class="badge bg-secondary"><i
-                                                    class="bi bi-hourglass-split me-2"></i>{{ $row->status }}</span></td>
+                                    @if ($row->tanggal_berangkat == null)
+                                        <td><span class="badge bg-secondary">
+                                                <i class="bi bi-hourglass-split me-2">
+                                                </i>Pending
+                                            </span>
+                                        </td>
+                                    @else
+                                        <td>{{ tanggal_indonesia($row->tanggal_keberangkatan) }}</td>
                                     @endif
-                                    @if ($row->status == 'Disetujui')
-                                        <td><span class="badge bg-success"><i
-                                                    class="bi bi-check2-circle me-2"></i>{{ $row->status }}</span></td>
+                                    @if ($row->tanggal_kembali == null)
+                                        <td>
+                                            <span class="badge bg-secondary">
+                                                <i class="bi bi-hourglass-split me-2">
+                                                </i>Pending
+                                            </span>
+                                        </td>
+                                    @else
+                                        <td>{{ tanggal_indonesia($row->tanggal_kembali) }}</td>
                                     @endif
-                                    @if ($row->status == 'Ditolak')
-                                        <td><span class="badge bg-danger"><i
-                                                    class="bi bi-x-circle me-2"></i>{{ $row->status }}</span></td>
+                                    @if ($row->tujuan == null)
+                                        <td>
+                                            <span class="badge bg-secondary">
+                                                <i class="bi bi-hourglass-split me-2">
+                                                </i>Pending
+                                            </span>
+                                        </td>
+                                    @else
+                                        <td>{{ $row->tujuan }} Hari</td>
+                                    @endif
+                                    @if ($row->keterangan == null)
+                                        <td>
+                                            <span class="badge bg-secondary">
+                                                <i class="bi bi-hourglass-split me-2">
+                                                </i>Pending
+                                            </span>
+                                        </td>
+                                    @else
+                                        <td>{{ $row->keterangan }}</td>
+                                    @endif
+                                    @if ($row->status == 'pending')
+                                        <td>
+                                            <span class="badge bg-secondary">
+                                                <i class="bi bi-hourglass-split me-2">
+                                                </i>{{ $row->status }}
+                                            </span>
+                                        </td>
+                                    @elseif ($row->status == 'berlangsung')
+                                        <td>
+                                            <span class="badge bg-primary">
+                                                <i class="bi bi-hourglass-split me-2">
+                                                </i>{{ $row->status }}
+                                            </span>
+                                        </td>
+                                    @elseif ($row->status == 'selesai')
+                                        <td>
+                                            <span class="badge bg-success">
+                                                <i class="bi bi-check2-circle me-2">
+                                                </i>{{ $row->status }}
+                                            </span>
+                                        </td>
                                     @endif
                                     <td>
                                         <div class="dropdown position-static">
@@ -100,21 +126,14 @@
 
                                             <ul class="dropdown-menu shadow" aria-labelledby="actionlink"
                                                 style="min-width:inherit;">
-                                                <li><a href="{{ route('pengajuan-cuti.show', $row->id) }}"
-                                                        class="dropdown-item" id="show-cuti"><i
-                                                            class="bi bi-eye text-success"></i>
-                                                        Lihat</a></li>
-                                                <li>
-                                                    <hr class="dropdown-divider">
-                                                </li>
-                                                <li><a class="dropdown-item disabled" href="#"><i
+                                                <li><a href="" class="dropdown-item" id="show-cuti"><i
                                                             class="bi bi-pencil text-secondary"></i>
-                                                        Edit</a>
+                                                        Buat Form penugasan</a>
                                                 </li>
                                                 <li>
                                                     <hr class="dropdown-divider">
                                                 </li>
-                                                <li><button value="{{ $row->id }}" class="dropdown-item btnCutiDel"><i
+                                                <li><button value="" class="dropdown-item btnCutiDel"><i
                                                             class="bi bi-exclamation-circle text-danger"></i>
                                                         Hapus
                                                     </button>
@@ -124,7 +143,7 @@
                                         </div>
                                     </td>
                                 </tr>
-                            @endforeach --}}
+                            @endforeach
                         </tbody>
                     </table>
                 </div>

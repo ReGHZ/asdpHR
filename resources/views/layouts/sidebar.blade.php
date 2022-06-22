@@ -52,13 +52,13 @@
                 </li>
 
                 <li
-                    class="sidebar-item  has-sub {{ request()->is('employee*') || request()->is('divisi*') || request()->is('jabatan*') ? 'active' : '' }}">
+                    class="sidebar-item  has-sub {{ request()->is('employee*') || request()->is('divisi*') || request()->is('jabatan*') || request()->is('roles*') ? 'active' : '' }} ">
                     <a href="#" class='sidebar-link'>
                         <i class="bi bi-people-fill"></i>
                         <span>Data Pegawai</span>
                     </a>
                     <ul
-                        class="submenu {{ request()->is('employee*') || request()->is('divisi*') || request()->is('jabatan*') ? 'active' : '' }}">
+                        class="submenu {{ request()->is('employee*') || request()->is('divisi*') || request()->is('jabatan*') || request()->is('roles*') ? 'active' : '' }}">
                         <li class="submenu-item {{ request()->is('employee*') ? 'active' : '' }}">
                             <a href="{{ route('employee') }}">Pegawai</a>
                         </li>
@@ -96,7 +96,7 @@
                     </a>
                     <ul class="submenu {{ request()->is('perjalanan-dinas*') ? 'active' : '' }}">
                         <li class="submenu-item {{ request()->is('perjalanan-dinas*') ? 'active' : '' }}">
-                            <a href="{{ route('perjalanan-dinas') }}">Pengajuan</a>
+                            <a href="{{ route('perjalanan-dinas') }}">Daftar Penugasan</a>
                         </li>
                         <li class="submenu-item ">
                             <a href="table-datatable-jquery.html">Laporan selesai</a>

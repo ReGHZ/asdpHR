@@ -128,16 +128,26 @@
                                     <td>{{ tanggal_indonesia($row->tanggal_mulai) }}</td>
                                     <td>{{ tanggal_indonesia($row->tanggal_selesai) }}</td>
                                     @if ($row->status == 'Menunggu konfirmasi')
-                                        <td><span class="badge bg-secondary"><i
-                                                    class="bi bi-hourglass-split me-2"></i>{{ $row->status }}</span></td>
-                                    @endif
-                                    @if ($row->status == 'Disetujui')
-                                        <td><span class="badge bg-success"><i
-                                                    class="bi bi-check2-circle me-2"></i>{{ $row->status }}</span></td>
-                                    @endif
-                                    @if ($row->status == 'Ditolak')
-                                        <td><span class="badge bg-danger"><i
-                                                    class="bi bi-x-circle me-2"></i>{{ $row->status }}</span></td>
+                                        <td>
+                                            <span class="badge bg-secondary">
+                                                <i class="bi bi-hourglass-split me-2">
+                                                </i>{{ $row->status }}
+                                            </span>
+                                        </td>
+                                    @elseif ($row->status == 'Disetujui')
+                                        <td>
+                                            <span class="badge bg-success">
+                                                <i class="bi bi-check2-circle me-2">
+                                                </i>{{ $row->status }}
+                                            </span>
+                                        </td>
+                                    @elseif ($row->status == 'Ditolak')
+                                        <td>
+                                            <span class="badge bg-danger">
+                                                <i class="bi bi-x-circle me-2">
+                                                </i>{{ $row->status }}
+                                            </span>
+                                        </td>
                                     @endif
                                     <td>
                                         <div class="dropdown position-static">

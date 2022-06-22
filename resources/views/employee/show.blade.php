@@ -37,6 +37,10 @@
                 <a href="{{ route('employee') }}" class="btn icon btn-primary pull-right"><i
                         data-feather="arrow-left"></i>
                     Kembali</a>
+                <button value="{{ $user->id }}" class="btn btn-success pull-right btnpenugasan">
+                    <i class="fas fa-plane"></i>
+                    Tambah penugasan
+                </button>
             </div>
             <!-- SOLO PAGE -->
             <div class="card o-hidden border-0 shadow-lg my-0">
@@ -359,6 +363,7 @@
 
         </section>
         @include('employee.edit')
+        @include('perjalanandinas.create')
     </div>
 @endsection
 
@@ -457,6 +462,42 @@
                         $('#gol_phdp').val(response.user.pegawai.gol_phdp);
                         $('#gol_skala_gaji').val(response.user.pegawai.gol_skala_gaji);
                         $('#gol_gaji').val(response.user.pegawai.gol_gaji);
+                    }
+                });
+            });
+        });
+    </script>
+
+    {{-- script show pengikut --}}
+    <script type='text/javascript'>
+        function pengikut() {
+            var text = document.getElementById("show");
+            if (!text.style.display) {
+                text.style.display = "none";
+            }
+            if (text.style.display === "none") {
+                text.style.display = "block";
+            } else {
+                text.style.display = "none";
+            }
+        }
+    </script>
+
+    {{-- script get id pegawai buat penugasan --}}
+    <script>
+        $(document).ready(function() {
+
+            $(document).on('click', '.btnpenugasan', function() {
+                var penugasan_id = $(this).val();
+                // alert(penugasan_id);
+                $('#createperdinas').modal('show');
+
+                $.ajax({
+                    type: "GET",
+                    url: "/perjalanan-dinas/" + penugasan_id + "/penugasan",
+                    success: function(response) {
+                        // console.log(response.pegawai.id);
+                        $('#penugasan_id').val(response.pegawai.id);
                     }
                 });
             });

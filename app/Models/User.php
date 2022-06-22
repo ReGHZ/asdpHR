@@ -78,4 +78,12 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Role::class);
     }
+    public function pengajuanCuti()
+    {
+        return $this->hasMany(PengajuanCuti::class);
+    }
+    public function perjalananDinas()
+    {
+        return $this->hasMany(PerjalananDinas::class);
+    }
 }
