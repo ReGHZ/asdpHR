@@ -18,6 +18,22 @@ use Illuminate\Support\Facades\File;
 
 class PengajuanCutiController extends Controller
 {
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+
+    function __construct()
+    {
+        $this->middleware('permission:daftar.cuti', ['only' => ['index']]);
+        $this->middleware('permission:create.cuti', ['only' => ['store']]);
+        $this->middleware('permission:view.cuti', ['only' => ['show']]);
+        $this->middleware('permission:edit.cuti', ['only' => ['edit', 'updateReject', 'updateApprove']]);
+        $this->middleware('permission:delete.cuti', ['only' => ['destroy']]);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -30,16 +46,6 @@ class PengajuanCutiController extends Controller
         $dataCuti = PengajuanCuti::with('user')->get();
 
         return view('cuti.index', compact('dataCuti'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -279,37 +285,12 @@ class PengajuanCutiController extends Controller
         return redirect()->route('pengajuan-cuti')->with(['error' => 'Id Salah!!']);
     }
 
-
     /**
      * Display the specified resource.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function markNotif($id)
-    {
-        //if get id auth user marj notif
-        if ($id) {
-
-            auth()->user()->unreadNotifications->where('id', $id)->markAsRead();
-        }
-
-        return redirect('/pengajuan-cuti');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function markAll()
-    {
-        //mark all auth user notif
-        auth()->user()->unreadNotifications->markAsRead();
-        return redirect()->back();
-    }
-
     public function downloadFile($id)
     {
         //find pengajuan cuti id

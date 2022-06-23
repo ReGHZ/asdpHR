@@ -12,6 +12,20 @@ class JabatanController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    function __construct()
+    {
+        $this->middleware('permission:daftar.jabatan', ['only' => ['index']]);
+        $this->middleware('permission:create.jabatan', ['only' => ['store']]);
+        $this->middleware('permission:edit.jabatan', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:delete.jabatan', ['only' => ['destroy']]);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function index()
     {
         //get all jabatan

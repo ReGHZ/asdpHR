@@ -3,17 +3,17 @@
 @section('css')
     <style>
         /* * {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                padding: 0;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                margin: 0;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                box-sizing: border-box;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            } */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        padding: 0;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        margin: 0;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        box-sizing: border-box;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    } */
 
         /* body {
-                                                                                                                                                                                                                                                                    font-size: 1.125rem;
-                                                                                                                                                                                                                                                                    line-height: 1.625em;
-                                                                                                                                                                                                                                                                    padding: 4rem;
-                                                                                                                                                                                                                                                                    background-color: #a0a0a0;
-                                                                                                                                                                                                                                                                } */
+                                                                                                                                                                                                                                                                            font-size: 1.125rem;
+                                                                                                                                                                                                                                                                            line-height: 1.625em;
+                                                                                                                                                                                                                                                                            padding: 4rem;
+                                                                                                                                                                                                                                                                            background-color: #a0a0a0;
+                                                                                                                                                                                                                                                                        } */
 
         .container {
             max-width: 980px;
@@ -222,24 +222,26 @@
                 <a id="btnPrint" class="btn icon btn-secondary me-1"><i data-feather="printer"></i>
                     Cetak
                 </a>
-                @if (isset($pengajuan->status) && $pengajuan->status == 'Menunggu konfirmasi')
-                    <a href="{{ route('pengajuan-cuti.reject', $pengajuan->id) }}" class="btn icon btn-danger me-1"><i
-                            data-feather="x-circle"></i>
-                        Tolak
-                    </a>
-                @endif
-                @if (isset($pengajuan->status) && $pengajuan->status == 'Menunggu konfirmasi')
-                    <a href="{{ route('pengajuan-cuti.approve', $pengajuan->id) }}" class="btn icon btn-success "><i
-                            data-feather="check"></i>
-                        Terima
-                    </a>
-                @endif
-                @if ($pengajuan->jenis_cuti == 'Cuti sakit' && isset($pengajuan->file_surat_dokter))
-                    <a href="{{ route('pengajuan-cuti.download', $pengajuan->id) }}" class="btn icon btn-secondary "><i
-                            data-feather="download"></i>
-                        Surat Dokter
-                    </a>
-                @endif
+                @role('admin|manajer')
+                    @if (isset($pengajuan->status) && $pengajuan->status == 'Menunggu konfirmasi')
+                        <a href="{{ route('pengajuan-cuti.reject', $pengajuan->id) }}" class="btn icon btn-danger me-1"><i
+                                data-feather="x-circle"></i>
+                            Tolak
+                        </a>
+                    @endif
+                    @if (isset($pengajuan->status) && $pengajuan->status == 'Menunggu konfirmasi')
+                        <a href="{{ route('pengajuan-cuti.approve', $pengajuan->id) }}" class="btn icon btn-success "><i
+                                data-feather="check"></i>
+                            Terima
+                        </a>
+                    @endif
+                    @if ($pengajuan->jenis_cuti == 'Cuti sakit' && isset($pengajuan->file_surat_dokter))
+                        <a href="{{ route('pengajuan-cuti.download', $pengajuan->id) }}" class="btn icon btn-secondary "><i
+                                data-feather="download"></i>
+                            Surat Dokter
+                        </a>
+                    @endif
+                @endrole
             </div>
 
         </div>

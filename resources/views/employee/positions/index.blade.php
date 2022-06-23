@@ -33,11 +33,13 @@
                 </div>
             @endif
 
-            <div class="pb-3">
-                <a href="" class="btn icon btn-primary pull-right" data-bs-toggle="modal"
-                    data-bs-target="#createjabatan"><i data-feather="plus"></i>
-                    Tambah</a>
-            </div>
+            @role('admin|manajer')
+                <div class="pb-3">
+                    <a href="" class="btn icon btn-primary pull-right" data-bs-toggle="modal"
+                        data-bs-target="#createjabatan"><i data-feather="plus"></i>
+                        Tambah</a>
+                </div>
+            @endrole
 
             {{-- Tabel jabatan --}}
             <div class="card shadow-lg">
@@ -48,7 +50,9 @@
                                 <th>NO</th>
                                 <th>Jabatan</th>
                                 <th>Deskripsi</th>
-                                <th>action</th>
+                                @role('admin|manajer')
+                                    <th>action</th>
+                                @endrole
                             </tr>
                         </thead>
                         <tbody>
@@ -58,31 +62,33 @@
                                     <td>{{ $row->nama_jabatan }}</td>
                                     <td>{{ $row->deskripsi }}</td>
 
-                                    <td>
-                                        <div class="dropdown position-static">
-                                            <a class="dropdown" href="#" role="button" id="actionlink"
-                                                data-bs-toggle="dropdown" aria-expanded="false">
-                                                <i class="bi bi-three-dots-vertical"></i>
-                                            </a>
+                                    @role('admin|manajer')
+                                        <td>
+                                            <div class="dropdown position-static">
+                                                <a class="dropdown" href="#" role="button" id="actionlink"
+                                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <i class="bi bi-three-dots-vertical"></i>
+                                                </a>
 
-                                            <ul class="dropdown-menu shadow" aria-labelledby="actionlink"
-                                                style="min-width:inherit;">
-                                                <li><button value="{{ $row->id }}" class="dropdown-item editbtn"><i
-                                                            class="bi bi-pencil text-secondary"></i>
-                                                        Edit</button>
-                                                </li>
-                                                <li>
-                                                    <hr class="dropdown-divider">
-                                                </li>
-                                                <li><button value="{{ $row->id }}" class="dropdown-item btnJabDel"><i
-                                                            class="bi bi-exclamation-circle text-danger"></i>
-                                                        Hapus
-                                                    </button>
+                                                <ul class="dropdown-menu shadow" aria-labelledby="actionlink"
+                                                    style="min-width:inherit;">
+                                                    <li><button value="{{ $row->id }}" class="dropdown-item editbtn"><i
+                                                                class="bi bi-pencil text-secondary"></i>
+                                                            Edit</button>
+                                                    </li>
+                                                    <li>
+                                                        <hr class="dropdown-divider">
+                                                    </li>
+                                                    <li><button value="{{ $row->id }}" class="dropdown-item btnJabDel"><i
+                                                                class="bi bi-exclamation-circle text-danger"></i>
+                                                            Hapus
+                                                        </button>
 
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </td>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    @endrole
                                 </tr>
                             @endforeach
 

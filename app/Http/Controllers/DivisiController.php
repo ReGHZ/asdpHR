@@ -12,6 +12,21 @@ class DivisiController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    function __construct()
+    {
+
+        $this->middleware('permission:daftar.divisi', ['only' => ['index']]);
+        $this->middleware('permission:create.divisi', ['only' => ['store']]);
+        $this->middleware('permission:edit.divisi', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:delete.divisi', ['only' => ['destroy']]);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function index()
     {
         //get all divisi

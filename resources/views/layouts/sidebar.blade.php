@@ -42,6 +42,21 @@
         </div>
         <div class="sidebar-menu">
             <ul class="menu">
+                <li class="sidebar-title">Profile</li>
+                <li class="sidebar-item  has-sub {{ request()->is('profile*') ? 'active' : '' }} ">
+                    <a href="#" class='sidebar-link'>
+                        <i class="bi bi-people-fill"></i>
+                        <span>{{ Auth::user()->name }}</span>
+                    </a>
+                    <ul class="submenu {{ request()->is('profile*') ? 'active' : '' }}">
+                        <li class="submenu-item {{ request()->is('profile*') ? 'active' : '' }}">
+                            <a href="{{ route('profile') }}">Profile</a>
+                        </li>
+                        <li class="submenu-item">
+                            <a href="{{ route('logout') }}">Logout</a>
+                        </li>
+                    </ul>
+                </li>
                 <li class="sidebar-title">Menu</li>
 
                 <li class="sidebar-item {{ request()->is('home*') || request()->is('/') ? 'active' : '' }}">

@@ -13,6 +13,23 @@ use jeremykenedy\LaravelRoles\Models\Role;
 
 class EmployeeController extends Controller
 {
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+
+    function __construct()
+    {
+
+        $this->middleware('permission:daftar.users', ['only' => ['index']]);
+        $this->middleware('permission:create.users', ['only' => ['store']]);
+        $this->middleware('permission:view.users', ['only' => ['show']]);
+        $this->middleware('permission:edit.users', ['only' => ['edit', 'updatePegawai', 'updatePersonal', 'updateKantor', 'updateFotoPegawai']]);
+        $this->middleware('permission:delete.users', ['only' => ['destroy']]);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -137,7 +154,7 @@ class EmployeeController extends Controller
         $jabatan = Jabatan::all();
         $allRoles = Role::all();
         $user = User::findorfail($id);
-        $pegawai = User::with('pegawai')->get();
+        $pegawai = User::all();
         return view('employee.show', compact('pegawai', 'user', 'divisi', 'jabatan', 'allRoles'));
     }
 

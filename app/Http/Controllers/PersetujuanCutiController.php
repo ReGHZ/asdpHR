@@ -14,6 +14,21 @@ class PersetujuanCutiController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    function __construct()
+    {
+        $this->middleware('permission:daftar.persetujuancuti', ['only' => ['index']]);
+        $this->middleware('permission:create.persetujuancuti', ['only' => ['store']]);
+        $this->middleware('permission:view.persetujuancuti', ['only' => ['show']]);
+        $this->middleware('permission:edit.persetujuancuti', ['only' => ['edit', 'updateReject', 'updateApprove']]);
+        $this->middleware('permission:delete.persetujuancuti', ['only' => ['destroy']]);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function index()
     {
         // get data persetujuan cuti

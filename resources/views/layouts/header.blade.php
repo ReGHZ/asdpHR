@@ -11,25 +11,25 @@
                     <li class="breadcrumb-item dropdown me-2">
                         <a class="dropdown-toggle text-gray-600" href="#" data-bs-toggle="dropdown"
                             aria-expanded="false">
-                            @if (Auth::user()->hasRole('admin') || Auth::user()->hasRole('manajer'))
+                            @role('admin|manajer')
                                 <i class='bi bi-bell bi-sub fs-4'></i><span
                                     class="position-absolute top-0 start-99 translate-middle badge rounded-pill bg-danger">
-                                    {{ Auth::user()->unreadnotifications->where('type', 'App\Notifications\NotifCuti')->count() }}
+                                    {{ Auth::user()->unreadnotifications->whereIn('type', ['App\Notifications\NotifCuti', 'App\Notifications\NotifPenugasanDinas'])->count() }}
                                     <span class="visually-hidden">unread messages</span>
                                 </span>
-                            @endif
-                            @if (Auth::user()->hasRole('user'))
+                            @endrole
+                            @role('user')
                                 <i class='bi bi-bell bi-sub fs-4'></i><span
                                     class="position-absolute top-0 start-99 translate-middle badge rounded-pill bg-danger">
-                                    {{ Auth::user()->unreadnotifications->whereIn('type', ['App\Notifications\NotifTolakCuti', 'App\Notifications\NotifTerimaCuti'])->count() }}
+                                    {{ Auth::user()->unreadnotifications->whereIn('type', ['App\Notifications\NotifTolakCuti', 'App\Notifications\NotifTerimaCuti', 'App\Notifications\NotifPenugasanDinas'])->count() }}
                                     <span class="visually-hidden">unread messages</span>
                                 </span>
-                            @endif
+                            @endrole
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
-                            @if (Auth::user()->hasRole('admin') || Auth::user()->hasRole('manajer'))
+                            @role('admin|manajer')
                                 <li>
-                                    <a href="{{ route('pengajuan-cuti.mark-all') }}"
+                                    <a href="{{ route('notifications.mark-all') }}"
                                         class="dropdown-header btn icon btn-sm btn-success me-2 ms-2"><i
                                             class="bi bi-check"></i>
                                         Tandai
@@ -37,16 +37,19 @@
                                 </li>
 
                                 @foreach (Auth::user()->unreadnotifications->where('type', 'App\Notifications\NotifCuti') as $notification)
-                                    <li><a href="{{ route('pengajuan-cuti.mark-notif', $notification->id) }}"
+                                    <li><a href="{{ route('notifications.mark-notif', $notification->id) }}"
                                             class="dropdown-item">{{ $notification->data['user_name'] }}
                                             mengajukan {{ $notification->data['jenis_cuti'] }} selama
                                             {{ $notification->data['lama_hari'] }} hari</a> </li>
                                 @endforeach
-                            @endif
+                                @foreach (Auth::user()->unreadnotifications->where('type', 'App\Notifications\NotifPenugasanDinas') as $notification)
+                                    <li><a class="dropdown-item">Anda Ditugaskan perjalanan dinas</a> </li>
+                                @endforeach
+                            @endrole
 
-                            @if (Auth::user()->hasRole('user'))
+                            @role('user')
                                 <li>
-                                    <a href="{{ route('pengajuan-cuti.mark-all') }}"
+                                    <a href="{{ route('notifications.mark-all') }}"
                                         class="dropdown-header btn icon btn-sm btn-success me-2 ms-2"><i
                                             class="bi bi-check"></i>
                                         Tandai
@@ -54,49 +57,17 @@
                                 </li>
 
                                 @foreach (Auth::user()->unreadnotifications->where('type', 'App\Notifications\NotifTolakCuti') as $notification)
-                                    <li><a href="" class="dropdown-item">Pengajuan Cuti Anda Ditolak</a> </li>
+                                    <li><a class="dropdown-item">Pengajuan Cuti Anda Ditolak</a> </li>
                                 @endforeach
                                 @foreach (Auth::user()->unreadnotifications->where('type', 'App\Notifications\NotifTerimaCuti') as $notification)
-                                    <li><a href="" class="dropdown-item">Pengajuan Cuti Anda Diterima</a> </li>
+                                    <li><a class="dropdown-item">Pengajuan Cuti Anda Diterima</a> </li>
                                 @endforeach
-                            @endif
+                                @foreach (Auth::user()->unreadnotifications->where('type', 'App\Notifications\NotifPenugasanDinas') as $notification)
+                                    <li><a class="dropdown-item">Anda Ditugaskan perjalanan dinas</a> </li>
+                                @endforeach
+                            @endrole
                         </ul>
                     </li>
-                    <div class="dropdown">
-                        <a href="#" data-bs-toggle="dropdown" aria-expanded="false">
-                            <div class="user-menu d-flex">
-                                <div class="user-name text-end me-3">
-                                    <h6 class="mb-0 text-gray-600">{{ Auth::user()->name }}</h6>
-                                    <p class="mb-0 text-sm text-gray-600">
-                                        {{ Auth::user()->jabatan->nama_jabatan }}</p>
-                                </div>
-                                <div class="user-img d-flex align-items-center">
-                                    @if (isset(Auth::user()->pegawai->foto))
-                                        <div class="avatar avatar-md">
-                                            <img src="{{ asset('fotoPegawai/' . Auth::user()->pegawai->foto) }}">
-                                        </div>
-                                    @else
-                                        <div class="avatar avatar-md">
-                                            <img src="{{ asset('backend/assets/images/faces/2.jpg') }}">
-                                        </div>
-                                    @endif
-                                </div>
-                            </div>
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton"
-                            style="min-width: 11rem;">
-                            <li>
-                                <h6 class="dropdown-header">Hello, {{ Auth::user()->name }}</h6>
-                            </li>
-                            <li><a class="dropdown-item" href="{{ route('profile') }}"><i
-                                        class="icon-mid bi bi-person me-2"></i> Lihat
-                                    Profile</a></li>
-                            <hr class="dropdown-divider">
-                            </li>
-                            <li><a class="dropdown-item" href="{{ route('logout') }}"><i
-                                        class="icon-mid bi bi-box-arrow-left me-2"></i> Logout</a></li>
-                        </ul>
-                    </div>
                 </ol>
             </nav>
         </div>

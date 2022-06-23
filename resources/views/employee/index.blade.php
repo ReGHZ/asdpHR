@@ -33,13 +33,15 @@
                 </div>
             @endif
 
-            <div class="pb-3">
-                <a href="" class="btn icon btn-primary pull-right" data-bs-toggle="modal"
-                    data-bs-target="#createpegawai"><i data-feather="user-plus"></i>
-                    Tambah</a>
-                <a href="{{ url('roles') }}" class="btn btn-secondary pull-right"><i class="fas fa-user-cog me-2"></i>
-                    Role user</a>
-            </div>
+            @role('admin|manajer')
+                <div class="pb-3">
+                    <a href="" class="btn icon btn-primary pull-right" data-bs-toggle="modal"
+                        data-bs-target="#createpegawai"><i data-feather="user-plus"></i>
+                        Tambah</a>
+                    <a href="{{ url('roles') }}" class="btn btn-secondary pull-right"><i class="fas fa-user-cog me-2"></i>
+                        Role user</a>
+                </div>
+            @endrole
 
             {{-- Tabel pegawai --}}
             <div class="card shadow-lg">
@@ -52,7 +54,9 @@
                                 <th>Nik</th>
                                 <th>Masa Kerja</th>
                                 <th>Masa Jabatan</th>
-                                <th>action</th>
+                                @role('admin|manajer')
+                                    <th>action</th>
+                                @endrole
                             </tr>
                         </thead>
                         <tbody>
@@ -63,31 +67,32 @@
                                     <td>{{ $row->nik }}</td>
                                     <td>{{ $row->masa_kerja }}</td>
                                     <td>{{ $row->masa_jabatan }}</td>
+                                    @role('admin|manajer')
+                                        <td>
+                                            <div class="dropdown position-static">
+                                                <a class="dropdown" href="#" role="button" id="actionlink"
+                                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <i class="bi bi-three-dots-vertical"></i>
+                                                </a>
 
-                                    <td>
-                                        <div class="dropdown position-static">
-                                            <a class="dropdown" href="#" role="button" id="actionlink"
-                                                data-bs-toggle="dropdown" aria-expanded="false">
-                                                <i class="bi bi-three-dots-vertical"></i>
-                                            </a>
+                                                <ul class="dropdown-menu shadow" aria-labelledby="actionlink"
+                                                    style="min-width:inherit;">
+                                                    <li><a href="{{ route('employee.show', $row->id) }}"
+                                                            class="dropdown-item"><i class="bi bi-eye text-success"></i>
+                                                            Lihat</a></li>
+                                                    <li>
+                                                        <hr class="dropdown-divider">
+                                                    </li>
+                                                    <li><button value="{{ $row->id }}" class="dropdown-item btnEmpDel"><i
+                                                                class="bi bi-exclamation-circle text-danger"></i>
+                                                            Hapus
+                                                        </button>
 
-                                            <ul class="dropdown-menu shadow" aria-labelledby="actionlink"
-                                                style="min-width:inherit;">
-                                                <li><a href="{{ route('employee.show', $row->id) }}"
-                                                        class="dropdown-item"><i class="bi bi-eye text-success"></i>
-                                                        Lihat</a></li>
-                                                <li>
-                                                    <hr class="dropdown-divider">
-                                                </li>
-                                                <li><button value="{{ $row->id }}" class="dropdown-item btnEmpDel"><i
-                                                            class="bi bi-exclamation-circle text-danger"></i>
-                                                        Hapus
-                                                    </button>
-
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </td>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    @endrole
                                 </tr>
                             @endforeach
                         </tbody>

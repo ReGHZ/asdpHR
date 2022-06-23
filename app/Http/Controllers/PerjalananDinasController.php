@@ -67,7 +67,11 @@ class PerjalananDinasController extends Controller
             $penugasan->save();
         }
         //get user that send notification
-        $pegawai = User::where('id', $pegawai_id)->get();
+        $pegawai = User::whereHas('pegawai', function ($query) use ($pegawai_id) {
+            $query->where('user_id', $pegawai_id);
+        })->orwhereHas('roles', function ($query) {
+            $query->where('name', 'admin');
+        })->get();
 
         //send notification to user
         Notification::send($pegawai, new NotifPenugasanDinas($penugasan));

@@ -33,11 +33,13 @@
                 </div>
             @endif
 
-            <div class="pb-3">
-                <a href="" class="btn icon btn-primary pull-right" data-bs-toggle="modal"
-                    data-bs-target="#exampleModalScrollable"><i data-feather="plus"></i>
-                    Tambah</a>
-            </div>
+            @role('admin|manajer')
+                <div class="pb-3">
+                    <a href="" class="btn icon btn-primary pull-right" data-bs-toggle="modal"
+                        data-bs-target="#exampleModalScrollable"><i data-feather="plus"></i>
+                        Tambah</a>
+                </div>
+            @endrole
             {{-- Tabel divisi --}}
             <div class="card shadow-lg">
                 <div class="card-body">
@@ -47,7 +49,9 @@
                                 <th>NO</th>
                                 <th>Divisi</th>
                                 <th>Deskripsi</th>
-                                <th>action</th>
+                                @role('admin|manajer')
+                                    <th>action</th>
+                                @endrole
                             </tr>
                         </thead>
                         <tbody>
@@ -56,32 +60,33 @@
                                     <td>{{ ++$i }}</td>
                                     <td>{{ $row->nama_divisi }}</td>
                                     <td>{{ $row->deskripsi }}</td>
+                                    @role('admin|manajer')
+                                        <td>
+                                            <div class="dropdown position-static">
+                                                <a class="dropdown" href="#" role="button" id="actionlink"
+                                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <i class="bi bi-three-dots-vertical"></i>
+                                                </a>
 
-                                    <td>
-                                        <div class="dropdown position-static">
-                                            <a class="dropdown" href="#" role="button" id="actionlink"
-                                                data-bs-toggle="dropdown" aria-expanded="false">
-                                                <i class="bi bi-three-dots-vertical"></i>
-                                            </a>
+                                                <ul class="dropdown-menu shadow" aria-labelledby="actionlink"
+                                                    style="min-width:inherit;">
+                                                    <li><button value="{{ $row->id }}" class="dropdown-item editbtn"><i
+                                                                class="bi bi-pencil text-secondary"></i>
+                                                            Edit</button>
+                                                    </li>
+                                                    <li>
+                                                        <hr class="dropdown-divider">
+                                                    </li>
+                                                    <li><button value="{{ $row->id }}" class="dropdown-item btnDivDel"><i
+                                                                class="bi bi-exclamation-circle text-danger"></i>
+                                                            Hapus
+                                                        </button>
 
-                                            <ul class="dropdown-menu shadow" aria-labelledby="actionlink"
-                                                style="min-width:inherit;">
-                                                <li><button value="{{ $row->id }}" class="dropdown-item editbtn"><i
-                                                            class="bi bi-pencil text-secondary"></i>
-                                                        Edit</button>
-                                                </li>
-                                                <li>
-                                                    <hr class="dropdown-divider">
-                                                </li>
-                                                <li><button value="{{ $row->id }}" class="dropdown-item btnDivDel"><i
-                                                            class="bi bi-exclamation-circle text-danger"></i>
-                                                        Hapus
-                                                    </button>
-
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </td>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    @endrole
                                 </tr>
                             @endforeach
 

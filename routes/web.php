@@ -65,8 +65,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/pengajuan-cuti/{pengajuan}/reject', [App\Http\Controllers\PengajuanCutiController::class, 'updateReject'])->name('pengajuan-cuti.reject');
     Route::get('/pengajuan-cuti/{pengajuan}/approve', [App\Http\Controllers\PengajuanCutiController::class, 'updateApprove'])->name('pengajuan-cuti.approve');
     Route::delete('/pengajuan-cuti/destroy', [App\Http\Controllers\PengajuanCutiController::class, 'destroy'])->name('pengajuan-cuti.destroy');
-    Route::get('/pengajuan-cuti/mark-notif/{id}', [App\Http\Controllers\PengajuanCutiController::class, 'markNotif'])->name('pengajuan-cuti.mark-notif');
-    Route::get('/pengajuan-cuti/mark-all', [App\Http\Controllers\PengajuanCutiController::class, 'markAll'])->name('pengajuan-cuti.mark-all');
     Route::get('/pengajuan-cuti/{id}/download', [App\Http\Controllers\PengajuanCutiController::class, 'downloadFile'])->name('pengajuan-cuti.download');
     // ----------------------------- persetujuan cuti ------------------------------//
     Route::get('/persetujuan-cuti', [App\Http\Controllers\PersetujuanCutiController::class, 'index'])->name('persetujuan-cuti');
@@ -75,6 +73,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/perjalanan-dinas', [App\Http\Controllers\PerjalananDinasController::class, 'index'])->name('perjalanan-dinas');
     Route::get('/perjalanan-dinas/{id}/penugasan', [App\Http\Controllers\PerjalananDinasController::class, 'penugasan'])->name('perjalanan-dinas.penugasan');
     Route::post('/perjalanan-dinas/store', [App\Http\Controllers\PerjalananDinasController::class, 'store'])->name('perjalanan-dinas.store');
+    // ----------------------------- Notifications ------------------------------//
+    Route::get('/notifications/mark-notif/{id}', [App\Http\Controllers\NotificationsController::class, 'markNotif'])->name('notifications.mark-notif');
+    Route::get('/notifications/mark-all', [App\Http\Controllers\NotificationsController::class, 'markAll'])->name('notifications.mark-all');
 });
 
 Auth::routes(['register' => false]);
