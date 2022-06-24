@@ -66,7 +66,7 @@ class PengajuanCutiController extends Controller
         ], [
             'jenis_cuti.required'                => 'Jenis cuti harus diisi',
             'keterangan.required'                => 'Keterangan harus diisi',
-            'tanggal_mulai.required'             => 'Tanggal Mulai harus diisi',
+            'tanggal_mulai.required'             => 'Tanggal mulai harus diisi',
             'tanggal_selesai.required'           => 'Tanggal selesai harus sebelum tanggal mulai',
         ]);
 

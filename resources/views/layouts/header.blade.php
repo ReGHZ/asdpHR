@@ -43,7 +43,8 @@
                                             {{ $notification->data['lama_hari'] }} hari</a> </li>
                                 @endforeach
                                 @foreach (Auth::user()->unreadnotifications->where('type', 'App\Notifications\NotifPenugasanDinas') as $notification)
-                                    <li><a class="dropdown-item">Anda Ditugaskan perjalanan dinas</a> </li>
+                                    <li><a class="dropdown-item">Ada penugasan masuk<br>Perlu membuat RAB perjalanan
+                                            dinas</a> </li>
                                 @endforeach
                             @endrole
 

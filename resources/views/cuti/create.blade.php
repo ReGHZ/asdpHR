@@ -45,7 +45,7 @@
                                         <div class="col-sm-12 mb-3 mb-sm-0">
                                             <label class="form-control-label">Tanggal mulai</label>
                                             <input name="tanggal_mulai" type="date"
-                                                class="form-control @error('') is-invalid @enderror"
+                                                class="form-control @error('tanggal_mulai') is-invalid @enderror"
                                                 value="{{ old('tanggal_mulai') }}" placeholder="Tanggal Mulai Cuti" />
                                             @error('tanggal_mulai')
                                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -63,7 +63,7 @@
                                         <div class="">
                                             <label class="form-control-label">keterangan</label>
                                             <textarea name="keterangan" type="text" class="form-control @error('keterangan') is-invalid @enderror"
-                                                value="{{ old('keterangan') }}" placeholder="Isi keterangan Divisi" /></textarea>
+                                                placeholder="Isi keterangan cuti" />{{ old('keterangan') }}</textarea>
                                             @error('keterangan')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror

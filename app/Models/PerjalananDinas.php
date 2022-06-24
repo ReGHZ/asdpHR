@@ -16,6 +16,7 @@ class PerjalananDinas extends Model
         'nomor_surat',
         'tanggal_surat',
         'perihal',
+        'pembebanan_biaya',
         'tanggal_keberangkatan',
         'tanggal_kembali',
         'keterangan',

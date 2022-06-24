@@ -2,7 +2,7 @@
 
 <div class="modal fade" id="createpegawai" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle"
     aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable modal-full" role="document">
+    <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalScrollableTitle">Tambah Pegawai</h5>
@@ -17,11 +17,12 @@
                         <div class="col-lg-12">
                             <div class="p-3">
                                 <div class="text-center">
-                                    <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
+                                    <h1 class="h4 text-gray-900 mb-4">Buat Akun Pegawai!</h1>
                                 </div>
                                 <div class="form-group">
                                     <label class="form-control-label">Masukkan foto pegawai</label>
-                                    <input name="foto" id="foto" type="file" placeholder="Foto" class="form-control">
+                                    <input name="foto" id="foto" type="file" placeholder="Foto"
+                                        class="form-control">
                                 </div>
                                 <div class="form-group">
                                     <label class="form-control-label">Nama Lengkap</label>

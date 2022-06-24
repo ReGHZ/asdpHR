@@ -1,20 +1,7 @@
 @extends('layouts.panel')
-{{-- css surat cuti --}}
+{{-- css surat izin cuti --}}
 @section('css')
     <style>
-        /* * {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    padding: 0;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    margin: 0;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    box-sizing: border-box;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                } */
-
-        /* body {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        font-size: 1.125rem;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        line-height: 1.625em;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        padding: 4rem;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        background-color: #a0a0a0;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    } */
-
         .container {
             max-width: 980px;
             margin: 0 auto;
@@ -194,7 +181,7 @@
     </style>
 @endsection
 
-{{-- content surat cuti --}}
+{{-- content surat izin cuti --}}
 @section('content')
     <div class="page-heading">
         <div class="page-title">
@@ -245,7 +232,7 @@
                         </div>
                         <div class="header__item">
                             <span class="header__key">Berlaku Efektif</span>
-                            <span class="header__value">: 4 Sep 2022</span>
+                            <span class="header__value">: {{ \Carbon\Carbon::now()->year }}</span>
                         </div>
                         <div class="header__item">
                             <span class="header__key">Halaman</span>
@@ -259,7 +246,7 @@
                             <tr>
                                 <td>Nomor</td>
                                 <td>:</td>
-                                <td>PA.207/8/3/ASDP-KTP/2021</td>
+                                <td>PA.207/8/3/ASDP-KTP/{{ \Carbon\Carbon::now()->year }}</td>
                             </tr>
                             <tr>
                                 <td>Lampiran</td>

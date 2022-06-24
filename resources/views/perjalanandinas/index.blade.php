@@ -32,7 +32,15 @@
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             @endif
-
+            @role('manajer')
+                <div class="pb-3">
+                    <button value="" class="btn btn-primary pull-right" data-bs-toggle="modal"
+                        data-bs-target="#createperdinas">
+                        <i class="fas fa-plane"></i>
+                        Tambah penugasan
+                    </button>
+                </div>
+            @endrole
             {{-- Tabel perjalanan dinas --}}
             <div class="card shadow-lg">
                 <div class="card-body">
@@ -45,7 +53,6 @@
                                 <th>Tanggal berangkat</th>
                                 <th>Tanggal kembali</th>
                                 <th>tujuan</th>
-                                <th>keterangan</th>
                                 <th>status</th>
                                 <th>action</th>
                             </tr>
@@ -56,46 +63,10 @@
                                     <td>{{ ++$i }}</td>
                                     <td>{{ $row->user->name }}</td>
                                     <td>{{ $row->user->nik }}</td>
-                                    @if ($row->tanggal_berangkat == null)
-                                        <td><span class="badge bg-secondary">
-                                                <i class="bi bi-hourglass-split me-2">
-                                                </i>Pending
-                                            </span>
-                                        </td>
-                                    @else
-                                        <td>{{ tanggal_indonesia($row->tanggal_keberangkatan) }}</td>
-                                    @endif
-                                    @if ($row->tanggal_kembali == null)
-                                        <td>
-                                            <span class="badge bg-secondary">
-                                                <i class="bi bi-hourglass-split me-2">
-                                                </i>Pending
-                                            </span>
-                                        </td>
-                                    @else
-                                        <td>{{ tanggal_indonesia($row->tanggal_kembali) }}</td>
-                                    @endif
-                                    @if ($row->tujuan == null)
-                                        <td>
-                                            <span class="badge bg-secondary">
-                                                <i class="bi bi-hourglass-split me-2">
-                                                </i>Pending
-                                            </span>
-                                        </td>
-                                    @else
-                                        <td>{{ $row->tujuan }} Hari</td>
-                                    @endif
-                                    @if ($row->keterangan == null)
-                                        <td>
-                                            <span class="badge bg-secondary">
-                                                <i class="bi bi-hourglass-split me-2">
-                                                </i>Pending
-                                            </span>
-                                        </td>
-                                    @else
-                                        <td>{{ $row->keterangan }}</td>
-                                    @endif
-                                    @if ($row->status == 'pending')
+                                    <td>{{ tanggal_indonesia($row->tanggal_keberangkatan) }}</td>
+                                    <td>{{ tanggal_indonesia($row->tanggal_kembali) }}</td>
+                                    <td>{{ $row->tujuan }}</td>
+                                    @if ($row->status == 'menunggu RAB')
                                         <td>
                                             <span class="badge bg-secondary">
                                                 <i class="bi bi-hourglass-split me-2">
@@ -126,19 +97,39 @@
 
                                             <ul class="dropdown-menu shadow" aria-labelledby="actionlink"
                                                 style="min-width:inherit;">
-                                                <li><a href="" class="dropdown-item" id="show-cuti"><i
-                                                            class="bi bi-pencil text-secondary"></i>
-                                                        Buat Form penugasan</a>
-                                                </li>
-                                                <li>
-                                                    <hr class="dropdown-divider">
-                                                </li>
-                                                <li><button value="" class="dropdown-item btnCutiDel"><i
-                                                            class="bi bi-exclamation-circle text-danger"></i>
-                                                        Hapus
-                                                    </button>
+                                                @role('admin|manajer')
+                                                    <li><a href="{{ route('perjalanan-dinas.show', $row->id) }}"
+                                                            class="dropdown-item"><i class="bi bi-eye text-success"></i>
+                                                            Lihat Surat penugasan</a></li>
+                                                    <li>
+                                                    @endrole
+                                                    @role('admin')
+                                                    <li>
+                                                        <hr class="dropdown-divider">
+                                                    </li>
+                                                    @if ($row->status == 'menunggu RAB')
+                                                        <li><a href="" class="dropdown-item" id=""><i
+                                                                    class="bi bi-pencil text-secondary"></i>
+                                                                Buat RAB</a>
+                                                        </li>
+                                                    @elseif($row->status == 'berlangsung')
+                                                        <li><a href="" class="dropdown-item"><i
+                                                                    class="bi bi-pencil text-secondary"></i>
+                                                                lihat RAB</a>
+                                                        </li>
+                                                    @endif
+                                                @endrole
+                                                @role('admin|manajer')
+                                                    <li>
+                                                        <hr class="dropdown-divider">
+                                                    </li>
+                                                    <li><button value="" class="dropdown-item btnCutiDel"><i
+                                                                class="bi bi-exclamation-circle text-danger"></i>
+                                                            Hapus
+                                                        </button>
 
-                                                </li>
+                                                    </li>
+                                                @endrole
                                             </ul>
                                         </div>
                                     </td>
@@ -149,5 +140,22 @@
                 </div>
             </div>
         </section>
+        @include('perjalanandinas.create')
     </div>
+@endsection
+@section('script')
+    {{-- script show pengikut --}}
+    <script type='text/javascript'>
+        function pengikut() {
+            var text = document.getElementById("show");
+            if (!text.style.display) {
+                text.style.display = "none";
+            }
+            if (text.style.display === "none") {
+                text.style.display = "block";
+            } else {
+                text.style.display = "none";
+            }
+        }
+    </script>
 @endsection

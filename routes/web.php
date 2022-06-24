@@ -71,8 +71,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/persetujuan-cuti/{persetujuan}/show', [App\Http\Controllers\PersetujuanCutiController::class, 'show'])->name('persetujuan-cuti.show');
     // ----------------------------- perjalanan dinas ------------------------------//
     Route::get('/perjalanan-dinas', [App\Http\Controllers\PerjalananDinasController::class, 'index'])->name('perjalanan-dinas');
-    Route::get('/perjalanan-dinas/{id}/penugasan', [App\Http\Controllers\PerjalananDinasController::class, 'penugasan'])->name('perjalanan-dinas.penugasan');
     Route::post('/perjalanan-dinas/store', [App\Http\Controllers\PerjalananDinasController::class, 'store'])->name('perjalanan-dinas.store');
+    Route::get('/perjalanan-dinas/{penugasan}/show', [App\Http\Controllers\PerjalananDinasController::class, 'show'])->name('perjalanan-dinas.show');
     // ----------------------------- Notifications ------------------------------//
     Route::get('/notifications/mark-notif/{id}', [App\Http\Controllers\NotificationsController::class, 'markNotif'])->name('notifications.mark-notif');
     Route::get('/notifications/mark-all', [App\Http\Controllers\NotificationsController::class, 'markAll'])->name('notifications.mark-all');

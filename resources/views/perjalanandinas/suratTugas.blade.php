@@ -1,5 +1,5 @@
 @extends('layouts.panel')
-{{-- css surat cuti --}}
+{{-- css surat penugasan --}}
 @section('css')
     <style>
         .container {
@@ -15,6 +15,7 @@
             opacity: 0.5;
             display: grid;
             grid-template-columns: repeat(3, 1fr);
+            margin-bottom: 40px;
         }
 
         .header__left {
@@ -60,12 +61,12 @@
         }
 
         .sender {
-
+            border: 1px #242424 solid;
             padding-top: 24;
         }
 
         .sender__detail {
-
+            border: 1px red solid;
             display: grid;
             grid-template-rows: repeat(8, 1fr);
             grid-template-columns: 64px 1fr;
@@ -89,33 +90,39 @@
         }
 
         .content {
-
             padding-top: 32px;
         }
 
         .content__item {
-
             display: grid;
             grid-template-columns: 32px 1fr;
             padding: 8px 0;
         }
 
         .content__detail {
-            padding-left: 64px;
+            /*padding-left: 64px;*/
+            margin-bottom: 20px;
         }
 
         .detail__profile {
-            padding: 16px 0 16px 64px;
+            /*padding: 16px 0 16px 64px;*/
         }
 
         .detail__profile-item {
+            display: grid;
+            grid-template-columns: 160px 32px 1fr;
+        }
 
+        .detail__departure {
+            margin-top: 20px;
+        }
+
+        .detail__departure-item {
             display: grid;
             grid-template-columns: 160px 32px 1fr;
         }
 
         .signature {
-
             display: flex;
             padding-top: 64px;
             align-items: stretch;
@@ -125,6 +132,7 @@
 
         .signature {
             padding-top: 64px;
+            margin-top: 40px;
         }
 
         .signature__title,
@@ -133,7 +141,6 @@
         }
 
         .signature__item {
-
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -141,12 +148,10 @@
         }
 
         .consideration {
-
             padding-top: 64px;
         }
 
         .consideration__field {
-
             height: 20px;
             margin-left: 32px;
             border-bottom: 2px #242424 dotted;
@@ -154,6 +159,10 @@
 
         .note {
             padding-top: 64px;
+        }
+
+        .sign-note {
+            font-size: 15px;
         }
 
         @media screen {
@@ -180,21 +189,20 @@
         }
     </style>
 @endsection
-
-{{-- content surat cuti --}}
+{{-- content surat penugasan --}}
 @section('content')
     <div class="page-heading">
         <div class="page-title">
             <div class="row">
                 <div class="col-12 col-md-6 order-md-1 order-last">
-                    <h3>Form Permohonan Cuti</h3>
+                    <h3>Form Surat Tugas</h3>
                     <p class="text-subtitle text-muted"></p>
                 </div>
                 <div class="col-12 col-md-6 order-md-2 order-first">
                     <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="{{ route('home') }}">Dashboard</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Form permohonan cuti</li>
+                            <li class="breadcrumb-item active" aria-current="page">Form surat tugas</li>
                         </ol>
                     </nav>
                 </div>
@@ -202,48 +210,29 @@
         </div>
         <div class="row mb-2">
             <div class="col">
-                <a href="{{ route('pengajuan-cuti') }}" class="btn icon btn-primary"><i data-feather="arrow-left"></i>
+                <a href="{{ route('perjalanan-dinas') }}" class="btn icon btn-primary"><i data-feather="arrow-left"></i>
                     Kembali
                 </a>
 
                 <a id="btnPrint" class="btn icon btn-secondary me-1"><i data-feather="printer"></i>
                     Cetak
                 </a>
-                @role('admin|manajer')
-                    @if (isset($pengajuan->status) && $pengajuan->status == 'Menunggu konfirmasi')
-                        <a href="{{ route('pengajuan-cuti.reject', $pengajuan->id) }}" class="btn icon btn-danger me-1"><i
-                                data-feather="x-circle"></i>
-                            Tolak
-                        </a>
-                    @endif
-                    @if (isset($pengajuan->status) && $pengajuan->status == 'Menunggu konfirmasi')
-                        <a href="{{ route('pengajuan-cuti.approve', $pengajuan->id) }}" class="btn icon btn-success "><i
-                                data-feather="check"></i>
-                            Terima
-                        </a>
-                    @endif
-                    @if ($pengajuan->jenis_cuti == 'Cuti sakit' && isset($pengajuan->file_surat_dokter))
-                        <a href="{{ route('pengajuan-cuti.download', $pengajuan->id) }}" class="btn icon btn-secondary "><i
-                                data-feather="download"></i>
-                            Surat Dokter
-                        </a>
-                    @endif
-                @endrole
+
             </div>
 
         </div>
         <div class="container mb-4 mt-4">
-            <div id="printCuti">
+            <div id="printDinas">
                 <header class="header">
                     <div class="header__left">
                         <img class="header__logo" src="{{ asset('backend/assets/images/logo/ASDP.png') }}"
                             alt="logo" />
-                        <h1 class="header__title">FORMULIR PERMOHONAN CUTI</h1>
+                        <h1 class="header__title">FORMULIR SURAT PENUGASAN PERJALANAN DINAS</h1>
                     </div>
                     <div class="header__detail">
                         <div class="header__item">
                             <span class="header__key">No. Dokumen</span>
-                            <span class="header__value">: SDM-106.00.03</span>
+                            <span class="header__value">: PPU-204.00.01</span>
                         </div>
                         <div class="header__item">
                             <span class="header__key">Revisi</span>
@@ -259,118 +248,84 @@
                         </div>
                     </div>
                 </header>
-                <section class="sender">
-                    <div class="sender__detail">
-                        <div class="sender__detail-prefix">Yth.</div>
-                        <div class="sender__data mt-2">Ketapang,
-                            <span>{{ tanggal_indonesia($pengajuan->tanggal_surat) }}</span>
-                        </div>
-                        <div class="sender__data">Kepada:</div>
-                        <div class="sender__data">General Manager</div>
-                        <div class="sender__data">PT.ASDP Indonesia(Persero)</div>
-                        <div class="sender__data">Cabang Ketapang</div>
-                        <div class="sender__data">di</div>
-                        <div class="sender__data"><u>TEMPAT</u></div>
-                    </div>
-                </section>
+                <center>
+                    <h3><u>SURAT PENUGASAN PERJALANAN DINAS</u></h3>
+                </center>
+                <center>No : SPEN.47 / UM.102 / ASDP-KTP / {{ \Carbon\Carbon::now()->year }}</center>
                 <main class="content">
-                    <div class="content__item">
-                        <span>1.</span>
-                        <span>Yang bertanda tangan dibawah ini :</span>
-                    </div>
+                    Diberikan Surat Penugasan Perjalanan Dinas kepada :
                     <div class="content__detail">
                         <div class="detail__profile">
                             <div class="detail__profile-item">
-                                <span>-Nama</span><span>:</span><span class="name">{{ $pengajuan->user->name }}</span>
+                                <span>Nama</span><span>:</span><span>{{ $penugasan->user->name }}</span>
                             </div>
                             <div class="detail__profile-item">
-                                <span>-N I K</span><span>:</span><span class="nik">{{ $pengajuan->user->nik }}</span>
+                                <span>Pangkat</span><span>:</span><span>VI-A1</span>
                             </div>
                             <div class="detail__profile-item">
-                                <span>-Jabatan</span><span>:</span><span
-                                    class="jabatan">{{ $pengajuan->user->jabatan->nama_jabatan }}</span>
-                            </div>
-                            <div class="detail__profile-item">
-                                <span>-Unit Kerja</span><span>:</span><span
-                                    class="segmen">{{ $pengajuan->user->pegawai->segmen }}</span>
-                            </div>
-                            <div class="detail__profile-item">
-                                <span>-No. HP</span><span>:</span><span
-                                    class="no_hp">{{ $pengajuan->user->no_hp }}</span>
+                                <span>Jabatan</span><span>:</span><span>{{ $penugasan->user->jabatan->nama_jabatan }}</span>
                             </div>
                         </div>
-                        <ul>
-                            <li>
-                                <p>
-                                    Mengajukan permohonan {{ $pengajuan->jenis_cuti }} Selama
-                                    {{ $pengajuan->lama_hari }} ({{ terbilang($pengajuan->lama_hari) }}) hari kerja,
-                                    terhitung mulai tanggal
-                                    {{ tanggal_indonesia($pengajuan->tanggal_mulai) }} s/d
-                                    {{ tanggal_indonesia($pengajuan->tanggal_selesai) }}
+                    </div>
+                    Untuk :
+                    <br>
+                    {{ $penugasan->perihal }}
+                    <br>
+                    <br>
+                    Biaya perjalanan dinas dibebankan pada :
+                    <br>
+                    Divisi {{ $penugasan->pembebanan_biaya }}
+                    <div class="detail__departure">
+                        <div class="detail__departure-item">
+                            <span>Berangkat
+                                tgl</span><span>:</span><span>{{ tanggal_indonesia($penugasan->tanggal_keberangkatan) }}</span>
+                        </div>
+                        <div class="detail__departure-item">
+                            <span>Berlaku
+                                s/d</span><span>:</span><span>{{ tanggal_indonesia($penugasan->tanggal_kembali) }}</span>
+                        </div>
+                        <div class="detail__departure-item">
+                            <span>Berkendaraan</span><span>:</span><span>{{ $penugasan->jenis_kendaraan }}</span>
+                        </div>
+                        @if (isset($penugasan->keterangan))
+                            <div class="detail__departure-item">
+                                <span>Keterangan lain</span><span>:</span><span>{{ $penugasan->keterangan }}</span>
+                            </div>
+                        @else
+                            <div class="detail__departure-item">
+                                <span>Keterangan lain</span><span>:</span><span>-</span>
+                            </div>
+                        @endif
+                        @if (isset($penugasan->pengikut))
+                            <div class="detail__departure-item">
+                                <span>Pengikut</span><span>:</span><span>{{ $penugasan->pengikut->name }}</span>
+                            </div>
+                        @else
+                            <div class="detail__departure-item">
+                                <span>Pengikut</span><span>:</span><span>-</span>
+                            </div>
+                        @endif
 
-                                </p>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="content__item">
-                        <span>2.</span>
-                        <span>
-                            Selama menjalankan {{ $pengajuan->jenis_cuti }} alamat kami adalah :
-                            {{ $pengajuan->user->alamat }}
-                        </span>
-                    </div>
-                    <div class="content__item">
-                        <span>3.</span>
-                        <span>
-                            Demikian permohonan kami ini kami sampaikan, atas persetujuannya
-                            diucapkan terima kasih
-                        </span>
                     </div>
                 </main>
                 <section class="signature">
                     <div class="signature__item">
-                        <span class="signature__title">
-                            <strong>Mengetahui,</strong>
-                            <br />
-                            <strong>Manager SDM & Umum</strong>
-                        </span>
-                        <span class="signature__name">
-                            @foreach ($manajerSDM as $item)
-                                <u><strong>{{ $item->name }}</strong></u>
-                            @endforeach
-                        </span>
                     </div>
                     <div class="signature__item">
                         <span class="signature__title">
-                            <strong>Pemohon</strong>
+                            <span class="sign-note">Dikeluarkan di : </span><span class="sign-note">Ketapang</span>
+                            <br>
+                            <span class="sign-note">Tanggal : </span><span
+                                class="sign-note">{{ tanggal_indonesia($penugasan->tanggal_surat) }}</span>
+                            <br>
+                            <strong>General Manager</strong>
                         </span>
-                        <span class="signature__name">
-                            <u><strong>{{ $pengajuan->user->name }}</strong></u>
-                        </span>
+                        @foreach ($manajer as $item)
+                            <span class="signature__name">
+                                <u><strong>{{ $item->name }}</strong></u>
+                            </span>
+                        @endforeach
                     </div>
-                </section>
-                <section class="consideration">
-                    <span class="consideration__title">
-                        <strong><u>Pertimbangan Atasan:</u> <sup>2</sup>)</strong>
-                    </span>
-                    <div class="consideration__field"></div>
-                    <div class="consideration__field"></div>
-                    <div class="consideration__field"></div>
-                </section>
-                <section class="note">
-                    <p>
-                        <strong><u>Catatan :</u></strong>
-                    </p>
-                    <p>
-                        <sup>1</sup>)
-                        <span style="padding-left: 8px">= Coret yang tidak perlu;</span>
-                    </p>
-                    <p>
-                        <sup>2</sup>)
-                        <span style="padding-left: 8px">
-                            = Harus diisi oleh Nahkoda / atasan langsung yang bersangkutan
-                        </span>
-                    </p>
                 </section>
             </div>
         </div>
@@ -381,7 +336,7 @@
 @section('script')
     <script>
         document.getElementById("btnPrint").onclick = function() {
-            printElement(document.getElementById("printCuti"));
+            printElement(document.getElementById("printDinas"));
             window.print();
         }
 
