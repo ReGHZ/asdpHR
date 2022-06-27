@@ -544,7 +544,10 @@
                     </div>
                     <div class="signature__item">
                         <span class="signature__title">
-                            <span class="sign-note">Dikeluarkan di : </span><span class="sign-note">Ketapang</span>
+                            <span class="sign-note">Dikeluarkan di : </span>
+                            @foreach ($manajer as $item)
+                                <span class="sign-note">{{ $item->pegawai->segmen }}</span>
+                            @endforeach
                             <br>
                             <span class="sign-note">Tanggal : </span><span
                                 class="sign-note">{{ tanggal_indonesia($penugasan->tanggal_surat) }}</span>

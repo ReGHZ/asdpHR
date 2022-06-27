@@ -31,6 +31,8 @@ class Pegawai extends Model
         'ukuran_sepatu',
         'ukuran_baju',
         'kuota_cuti',
+        'pangkat',
+        'golongan',
     ];
 
     use HasFactory;

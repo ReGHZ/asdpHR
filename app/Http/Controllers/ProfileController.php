@@ -152,6 +152,8 @@ class ProfileController extends Controller
             'gol_phdp'                  => $request->gol_phdp,
             'gol_skala_gaji'            => $request->gol_skala_gaji,
             'gol_gaji'                  => $request->gol_gaji,
+            'golongan'                  => $request->golongan,
+            'pangkat'                   => $request->pangkat,
         ]);
 
         return redirect()->back()->with('success', 'Data Kantor Berhasil Diubah');

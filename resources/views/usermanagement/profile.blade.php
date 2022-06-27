@@ -228,6 +228,11 @@
                                                     <td>:</td>
                                                     <td>{{ Auth::user()->pegawai->no_bpjs_ketenagakerjaan }}</td>
                                                 </tr>
+                                                <tr>
+                                                    <td>Pangkat</td>
+                                                    <td>:</td>
+                                                    <td>{{ Auth::user()->pegawai->pangkat }}</td>
+                                                </tr>
                                             </tbody>
                                         </table>
                                     </div>
@@ -299,6 +304,11 @@
                                                     <td>Golongan Gaji</td>
                                                     <td>:</td>
                                                     <td>{{ Auth::user()->pegawai->gol_gaji }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Golongan</td>
+                                                    <td>:</td>
+                                                    <td>{{ Auth::user()->pegawai->golongan }}</td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -411,6 +421,8 @@
                         $('#gol_phdp').val(response.user.pegawai.gol_phdp);
                         $('#gol_skala_gaji').val(response.user.pegawai.gol_skala_gaji);
                         $('#gol_gaji').val(response.user.pegawai.gol_gaji);
+                        $('#golongan').val(response.user.pegawai.golongan);
+                        $('#pangkat').val(response.user.pegawai.pangkat);
                     }
                 });
             });

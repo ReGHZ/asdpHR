@@ -113,7 +113,8 @@
                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
                                         <label class="form-control-label">NIk</label>
-                                        <input id="nik" name="nik" type="text" placeholder="Nomor Induk Kepegawaian"
+                                        <input id="nik" name="nik" type="text"
+                                            placeholder="Nomor Induk Kepegawaian"
                                             class="form-control @error('nik') is-invalid @enderror"
                                             value="{{ old('nik') }}" />
                                         @error('nik')
@@ -202,8 +203,8 @@
 </div>
 
 <!--edit personal form Modal -->
-<div class="modal fade" id="editpersonal" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle"
-    aria-hidden="true">
+<div class="modal fade" id="editpersonal" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable modal-full" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -276,8 +277,8 @@
                                     </div>
                                     <div class="col-sm-6">
                                         <label class="form-control-label">Nomor BPJS Ketenagakerjaan</label>
-                                        <input id="no_bpjs_ketenagakerjaan" name='no_bpjs_ketenagakerjaan' type="text"
-                                            placeholder="Nomor BPJS Ketenagakerjaan"
+                                        <input id="no_bpjs_ketenagakerjaan" name='no_bpjs_ketenagakerjaan'
+                                            type="text" placeholder="Nomor BPJS Ketenagakerjaan"
                                             class="form-control @error('no_bpjs_ketenagakerjaan') is-invalid @enderror"
                                             value="{{ old('no_bpjs_ketenagakerjaan') }}">
                                         @error('no_bpjs_ketenagakerjaan')
@@ -288,7 +289,8 @@
                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
                                         <label class="form-control-label">Nomor Rekening</label>
-                                        <input id="no_rek" name="no_rek" type="text" placeholder="Nomor Rekening"
+                                        <input id="no_rek" name="no_rek" type="text"
+                                            placeholder="Nomor Rekening"
                                             class="form-control @error('no_rek') is-invalid @enderror"
                                             value="{{ old('no_rek') }}" />
                                         @error('no_rek')
@@ -432,7 +434,8 @@
                                         <label class="form-control-label">Golongan Skala PHDP</label>
                                         <input id="gol_skala_phdp" name="gol_skala_phdp" type="text"
                                             class="form-control @error('gol_skala_phdp') is-invalid @enderror"
-                                            value="{{ old('gol_skala_phdp') }}" placeholder="Golongan Skala PHDP" />
+                                            value="{{ old('gol_skala_phdp') }}"
+                                            placeholder="Golongan Skala PHDP" />
                                         @error('gol_skala_phdp')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
@@ -452,7 +455,8 @@
                                         <label class="form-control-label">Golongan Skala Gaji</label>
                                         <input id="gol_skala_gaji" name="gol_skala_gaji" type="text"
                                             class="form-control @error('gol_skala_gaji') is-invalid @enderror"
-                                            value="{{ old('gol_skala_gaji') }}" placeholder="Golongan Skala Gaji" />
+                                            value="{{ old('gol_skala_gaji') }}"
+                                            placeholder="Golongan Skala Gaji" />
                                         @error('gol_skala_gaji')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
@@ -463,6 +467,26 @@
                                             class="form-control @error('gol_gaji') is-invalid @enderror"
                                             value="{{ old('gol_gaji') }}" placeholder="Golongan Gaji" />
                                         @error('gol_gaji')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                        <label class="form-control-label">Pangkat</label>
+                                        <input id="pangkat" name="pangkat" type="text"
+                                            class="form-control @error('pangkat') is-invalid @enderror"
+                                            value="{{ old('pangkat') }}" placeholder="Pangkat" />
+                                        @error('pangkat')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label class="form-control-label">Golongan</label>
+                                        <input id="golongan" name="golongan" type="text"
+                                            class="form-control @error('golongan') is-invalid @enderror"
+                                            value="{{ old('golongan') }}" placeholder="Golongan" />
+                                        @error('golongan')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>

@@ -261,7 +261,7 @@
                                 <span>Nama</span><span>:</span><span>{{ $penugasan->user->name }}</span>
                             </div>
                             <div class="detail__profile-item">
-                                <span>Pangkat</span><span>:</span><span>VI-A1</span>
+                                <span>Pangkat</span><span>:</span><span>{{ $penugasan->user->pegawai->pangkat }}</span>
                             </div>
                             <div class="detail__profile-item">
                                 <span>Jabatan</span><span>:</span><span>{{ $penugasan->user->jabatan->nama_jabatan }}</span>
@@ -314,7 +314,10 @@
                     </div>
                     <div class="signature__item">
                         <span class="signature__title">
-                            <span class="sign-note">Dikeluarkan di : </span><span class="sign-note">Ketapang</span>
+                            <span class="sign-note">Dikeluarkan di : </span>
+                            @foreach ($manajer as $item)
+                                <span class="sign-note">{{ $item->pegawai->segmen }}</span>
+                            @endforeach
                             <br>
                             <span class="sign-note">Tanggal : </span><span
                                 class="sign-note">{{ tanggal_indonesia($penugasan->tanggal_surat) }}</span>

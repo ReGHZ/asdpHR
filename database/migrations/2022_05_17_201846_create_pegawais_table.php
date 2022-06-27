@@ -40,6 +40,8 @@ return new class extends Migration
             $table->string('segmen')->nullable();
             $table->string('foto')->nullable();
             $table->integer('kuota_cuti')->nullable();
+            $table->string('pangkat')->nullable();
+            $table->string('golongan')->nullable();
             $table->timestamps();
             # Indexes
             $table->index('user_id');
