@@ -19,6 +19,7 @@ class PerjalananDinas extends Model
         'pembebanan_biaya',
         'tanggal_keberangkatan',
         'tanggal_kembali',
+        'lama_hari',
         'keterangan',
         'jenis_kendaraan',
         'tujuan',
@@ -41,5 +42,25 @@ class PerjalananDinas extends Model
     public function pegawai()
     {
         return $this->belongsToThrough(Pegawai::class, User::class);
+    }
+
+    public function tiketPerjalanan()
+    {
+        return $this->hasOne(TiketPerjalanan::class);
+    }
+
+    public function biayaHarian()
+    {
+        return $this->hasOne(BiayaHarian::class);
+    }
+
+    public function biayaPenginapan()
+    {
+        return $this->hasOne(BiayaPenginapan::class);
+    }
+
+    public function biayaLain()
+    {
+        return $this->hasOne(biayaLain::class);
     }
 }

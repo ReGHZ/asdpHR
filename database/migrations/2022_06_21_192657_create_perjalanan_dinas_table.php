@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string('pembebanan_biaya')->nullable();
             $table->date('tanggal_keberangkatan')->nullable();
             $table->date('tanggal_kembali')->nullable();
+            $table->string('lama_hari')->nullable();
             $table->string('keterangan')->nullable();
             $table->string('jenis_kendaraan')->nullable();
             $table->string('tujuan')->nullable();

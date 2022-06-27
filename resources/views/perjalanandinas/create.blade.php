@@ -143,7 +143,211 @@
                 </button>
                 <button type="submit" class="btn btn-primary ml-1" data-bs-dismiss="modal">
                     <i class="bx bx-check d-block d-sm-none"></i>
-                    <span class="d-none d-sm-block">Iya</span>
+                    <span class="d-none d-sm-block">Simpan</span>
+                </button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--RAB Modal -->
+<div class="modal fade text-left" id="createRAB" tabindex="-1" role="dialog" aria-labelledby="myModalLabel160"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-success">
+                <h5 class="modal-title white" id="myModalLabel160">RAB Perjalanan Dinas
+                </h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <i data-feather="x"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="p-3">
+                            <div class="text-center">
+                                <h1 class="h4 text-gray-900 mb-4">Tiket Perjalanan!</h1>
+                            </div>
+                            <form action="{{ route('perjalanan-dinas.storeRab') }}" method="POST">
+                                @csrf
+                                <input type="hidden" id="dispo_id" name="dispo_id">
+                                <div class="form-group row">
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                        <label class="form-control-label">Nama maskapai</label>
+                                        <input name='maskapai' type="text" placeholder="nama maskapai"
+                                            class="form-control @error('maskapai') is-invalid @enderror"
+                                            value="{{ old('maskapai') }}">
+                                        @error('maskapai')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label class="form-control-label">Harga Tiket</label>
+                                        <input name='harga_tiket' id="hargatiket" type="text"
+                                            placeholder="Harga Tiket"
+                                            class="form-control @error('harga_tiket') is-invalid @enderror"
+                                            value="{{ old('harga_tiket') }}">
+                                        @error('harga_tiket')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                        <label class="form-control-label">Dari</label>
+                                        <input name='tempat_berangkat' type="text" placeholder="Tempat berangkat"
+                                            class="form-control @error('tempat_berangkat') is-invalid @enderror"
+                                            value="{{ old('tempat_berangkat') }}">
+                                        @error('tempat_berangkat')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label class="form-control-label">Ke</label>
+                                        <input name='tempat_tujuan' type="text" placeholder="Tujuan"
+                                            class="form-control @error('tempat_tujuan') is-invalid @enderror"
+                                            value="{{ old('tempat_tujuan') }}">
+                                        @error('tempat_tujuan')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-control-label">Charge</label>
+                                    <input class="form-control @error('charge') is-invalid @enderror" name='charge'
+                                        id="charge" type="text" placeholder="Charge"
+                                        value="{{ old('charge') }}">
+                                    @error('charge')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-control-label">Total</label>
+                                    <input class="form-control" readonly id="hasil" name="total_tiket"
+                                        placeholder="NaN">
+                                </div>
+                                <div class="text-center">
+                                    <h1 class="h4 text-gray-900 mb-4">Biaya Harian</h1>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                        <label class="form-control-label">Lama Hari</label>
+                                        <input id="lama_hari" readonly type="text" class="form-control">
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label class="form-control-label">Biaya harian</label>
+                                        <input name='biaya_harian' id="biaya_harian" type="text"
+                                            placeholder="Biaya Harian"
+                                            class="form-control @error('biaya_harian') is-invalid @enderror"
+                                            value="{{ old('biaya_harian') }}">
+                                        @error('biaya_harian')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-control-label">Total</label>
+                                    <input class="form-control" readonly id="hasilharian" name="total_harian"
+                                        placeholder="NaN">
+                                </div>
+                                <div class="text-center">
+                                    <h1 class="h4 text-gray-900 mb-4">Biaya penginapan!</h1>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                        <label class="form-control-label">jumlah</label>
+                                        <input name="jumlah_penginap" id="jumlah" type="text"
+                                            class="form-control @error('jumlah_penginap') is-invalid @enderror"
+                                            placeholder="jumlah" value="{{ old('jumlah_penginap') }}">
+                                        @error('jumlah_penginap')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label class="form-control-label">Biaya Penginapan</label>
+                                        <input name='biaya_penginapan' id="biaya_penginapan" type="text"
+                                            placeholder="Biaya Penginapan"
+                                            class="form-control @error('biaya_penginapan') is-invalid @enderror"
+                                            value="{{ old('biaya_penginapan') }}">
+                                        @error('biaya_penginapan')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-control-label">Total</label>
+                                    <input class="form-control" readonly id="hasilpenginapan" name="total_penginapan"
+                                        placeholder="NaN">
+                                </div>
+                                <div>
+                                    <a onclick="biayaLain()">Apakah ada Biaya Lainnya?<span
+                                            class="text-primary">click</span></a>
+                                </div>
+                                <div class="form-group" style="display: none" id="showBiayaLain">
+                                    <div class="text-center">
+                                        <h1 class="h4 text-gray-900 mb-4">Biaya lainnya!</h1>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="text-right">
+                                            <input class="btn btn-primary " type="button" id="tambah"
+                                                value="Tambah">
+                                        </div>
+                                        <div class="table-responsive">
+                                            <table class="table" id="tabellain">
+                                                <thead>
+                                                    <tr>
+                                                        <th>jumlah</th>
+                                                        <th>jenis</th>
+                                                        <th>Biaya</th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td><input name="jumlah_lain[]" id="jumlahLain"
+                                                                type="text" value="" class="form-control"
+                                                                placeholder="jumlah"></td>
+                                                        <td><input name="jenis[]" type="text" value=""
+                                                                class="form-control"
+                                                                placeholder="jenis biaya lainnya"></td>
+                                                        <td><input name="biaya_lain[]" id="biaya_lain" type="text"
+                                                                value="" class="form-control"
+                                                                placeholder="harga biaya lain">
+                                                        </td>
+                                                        <td>
+
+                                                            <input class="hapus btn btn-danger mr-2" type="button"
+                                                                name="hapus" id="hapus" value="Hapus">
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-control-label">Total</label>
+                                        <input class="form-control" readonly id="hasillain" placeholder="NaN">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-control-label">Total Semua</label>
+                                    <input class="form-control" readonly id="totalsemua" placeholder="NaN">
+                                </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+                    <i class="bx bx-x d-block d-sm-none"></i>
+                    <span class="d-none d-sm-block">Tidak</span>
+                </button>
+                <button type="submit" class="btn btn-success ml-1" data-bs-dismiss="modal">
+                    <i class="bx bx-check d-block d-sm-none"></i>
+                    <span class="d-none d-sm-block">Simpan</span>
                 </button>
             </div>
             </form>

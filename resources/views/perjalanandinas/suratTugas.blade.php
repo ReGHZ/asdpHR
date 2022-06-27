@@ -251,7 +251,8 @@
                 <center>
                     <h3><u>SURAT PENUGASAN PERJALANAN DINAS</u></h3>
                 </center>
-                <center>No : SPEN.47 / UM.102 / ASDP-KTP / {{ \Carbon\Carbon::now()->year }}</center>
+                <center>No : SPEN.{{ $penugasan->nomor_surat }} / UM.102 / ASDP-KTP / {{ \Carbon\Carbon::now()->year }}
+                </center>
                 <main class="content">
                     Diberikan Surat Penugasan Perjalanan Dinas kepada :
                     <div class="content__detail">

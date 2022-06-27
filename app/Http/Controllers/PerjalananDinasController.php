@@ -7,6 +7,7 @@ use App\Models\PerjalananDinas;
 use App\Models\User;
 use App\Notifications\NotifPenugasanDinas;
 use Carbon\Carbon;
+use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Notification;
 
@@ -59,6 +60,14 @@ class PerjalananDinasController extends Controller
         //generate tanggal surat now
         $tanggal_surat = Carbon::now();
 
+        //get lama hari
+        $tanggal_keberangkatan = $request->tanggal_keberangkatan;
+        $tanggal_kembali = $request->tanggal_kembali;
+        $datetime1 = new DateTime($tanggal_keberangkatan);
+        $datetime2 = new DateTime($tanggal_kembali);
+        $interval = $datetime1->diff($datetime2);
+        $lama_hari = $interval->format('%a');
+
         //if pengikut == null create new penugasan
         if ($request->pengikut == null) {
             $penugasan = PerjalananDinas::create([
@@ -69,10 +78,11 @@ class PerjalananDinasController extends Controller
                 'pembebanan_biaya' => $request->pembebanan_biaya,
                 'tanggal_keberangkatan' => $request->tanggal_keberangkatan,
                 'tanggal_kembali' => $request->tanggal_kembali,
+                'lama_hari' => $lama_hari,
                 'keterangan' => $request->keterangan,
                 'jenis_kendaraan' => $request->jenis_kendaraan,
                 'tujuan' => $request->tujuan,
-                'status' => 'menunggu RAB',
+                'status' => 'Menunggu RAB',
             ]);
             $penugasan->save();
         } else {
@@ -89,7 +99,7 @@ class PerjalananDinasController extends Controller
                 'keterangan' => $request->keterangan,
                 'jenis_kendaraan' => $request->jenis_kendaraan,
                 'tujuan' => $request->tujuan,
-                'status' => 'menunggu RAB',
+                'status' => 'Menunggu RAB',
             ]);
             $penugasan->save();
         }
@@ -129,9 +139,109 @@ class PerjalananDinasController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    public function getPenugasan($id)
+    {
+        $penugasan = PerjalananDinas::with('user', 'pengikut')->find($id);
+        return response()->json(
+            ['penugasan' => $penugasan]
+        );
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function storeRab(Request $request)
+    {
+        dd($request->all());
+        // $penugasan_id = $request->dispo_id;
+        // $penugasan = PerjalananDinas::find($penugasan_id);
+
+        // $penugasan->status = 'Menunggu realisasi RAB';
+
+        // $penugasan->save();
+
+        // $penugasan->tiketPerjalanan()->create([
+        //     'perjalanan_dinas_id' => $penugasan_id,
+        //     'maskapai' => $request->maskapai,
+        //     'harga_tiket' => $request->harga_tiket,
+        //     'charge' => $request->charge,
+        //     'total' => $request->total_tiket,
+        // ]);
+
+        // $penugasan->biayaHarian()->create([
+        //     'perjalanan_dinas_id' => $penugasan_id,
+        //     'biaya' => $request->biaya_harian,
+        //     'total' => $request->total_harian,
+        // ]);
+
+        // $penugasan->biayaPenginapan()->create([
+        //     'perjalanan_dinas_id' => $penugasan_id,
+        //     'jumlah' => $request->jumlah_penginap,
+        //     'biaya' => $request->biaya_penginapan,
+        //     'total' => $request->total_penginapan,
+        // ]);
+
+        // if ($request->jenis != null) {
+        //     foreach ($request->jumlah_lain as $key => $value) {
+        //         $penugasan->biayaLain()->create([
+        //             'perjalanan_dinas_id' => $penugasan_id,
+        //             'jumlah' => $request->jumlah_lain[$key],
+        //             'jenis' => $request->jenis[$key],
+        //             'biaya' => $request->biaya_lain[$key],
+        //             // 'total' => $request->total_lain[$key],
+        //         ]);
+        //     }
+        // }
+
+        // return redirect('/perjalanan-dinas')->with('success', 'RAB berhasil ditambahkan');
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function rabForm(PerjalananDinas $penugasan)
+    {
+        $penugasan = PerjalananDinas::with('user', 'pengikut')->find($penugasan->id);
+        $manajer = User::whereHas('jabatan', function ($query) {
+            $query->where('nama_jabatan', 'GENERAL MANAGER');
+        })->get();
+        return view('perjalanandinas.rabForm', compact('penugasan', 'manajer'));
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function edit($id)
     {
-        //
+        //         <?php
+        // // example code
+
+        // $name = [
+        //     'asd','sas', 'tta'
+        // ];
+
+        // $age = [
+        //     12, 11, 21
+        // ];
+
+        // $transform = [];
+        // foreach ($name as $key => $val) {
+        //     array_push($transform, [
+        //         'name' => $name[$key],
+        //         'age' => $age[$key]
+        //     ]); 
+        // }
+
+        // echo json_encode($transform);
     }
 
     /**
