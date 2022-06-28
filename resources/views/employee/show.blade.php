@@ -372,7 +372,7 @@
     </div>
 @endsection
 
-@section('script')
+@push('scripts')
     {{-- edit profile --}}
     <script>
         $(document).ready(function() {
@@ -474,4 +474,4 @@
             });
         });
     </script>
-@endsection
+@endpush

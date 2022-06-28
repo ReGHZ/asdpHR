@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BiayaHarian;
+use App\Models\BiayaLain;
+use App\Models\BiayaPenginapan;
 use App\Models\Divisi;
 use App\Models\PerjalananDinas;
+use App\Models\TiketPerjalanan;
 use App\Models\User;
 use App\Notifications\NotifPenugasanDinas;
 use Carbon\Carbon;
@@ -155,48 +159,78 @@ class PerjalananDinasController extends Controller
      */
     public function storeRab(Request $request)
     {
-        dd($request->all());
-        // $penugasan_id = $request->dispo_id;
-        // $penugasan = PerjalananDinas::find($penugasan_id);
+        // dd($request->all());
+        $penugasan_id = $request->dispo_id;
+        $penugasan = PerjalananDinas::find($penugasan_id);
 
-        // $penugasan->status = 'Menunggu realisasi RAB';
+        $penugasan->status = 'Menunggu realisasi RAB';
 
-        // $penugasan->save();
+        $penugasan->save();
 
-        // $penugasan->tiketPerjalanan()->create([
-        //     'perjalanan_dinas_id' => $penugasan_id,
-        //     'maskapai' => $request->maskapai,
-        //     'harga_tiket' => $request->harga_tiket,
-        //     'charge' => $request->charge,
-        //     'total' => $request->total_tiket,
-        // ]);
 
-        // $penugasan->biayaHarian()->create([
-        //     'perjalanan_dinas_id' => $penugasan_id,
-        //     'biaya' => $request->biaya_harian,
-        //     'total' => $request->total_harian,
-        // ]);
+        if ($request->maskapai != null) {
+            if ($request->charge == null) {
+                $penugasan->tiketPerjalanan()->create([
+                    'perjalanan_dinas_id' => $penugasan_id,
+                    'maskapai' => $request->maskapai,
+                    'harga_tiket' => $request->harga_tiket,
+                    'tempat_berangkat' => $request->tempat_berangkat,
+                    'tempat_tujuan' => $request->tempat_tujuan,
+                    // 'jumlah' => $request->jumlah_harga,
+                ]);
+            } elseif ($request->charge != null) {
+                $penugasan->tiketPerjalanan()->create([
+                    'perjalanan_dinas_id' => $penugasan_id,
+                    'maskapai' => $request->maskapai,
+                    'harga_tiket' => $request->harga_tiket,
+                    'tempat_berangkat' => $request->tempat_berangkat,
+                    'tempat_tujuan' => $request->tempat_tujuan,
+                    'charge' => $request->charge,
+                    // 'jumlah' => $request->jumlah_harga,
+                ]);
+            }
+        } else {
+            $penugasan->tiketPerjalanan()->create([
+                'perjalanan_dinas_id' => $penugasan_id,
+            ]);
+        }
 
-        // $penugasan->biayaPenginapan()->create([
-        //     'perjalanan_dinas_id' => $penugasan_id,
-        //     'jumlah' => $request->jumlah_penginap,
-        //     'biaya' => $request->biaya_penginapan,
-        //     'total' => $request->total_penginapan,
-        // ]);
+        $penugasan->biayaHarian()->create([
+            'perjalanan_dinas_id' => $penugasan_id,
+            'biaya' => $request->biaya_harian,
+            'jumlah' => $request->jumlah_biaya_harian,
+        ]);
 
-        // if ($request->jenis != null) {
-        //     foreach ($request->jumlah_lain as $key => $value) {
-        //         $penugasan->biayaLain()->create([
-        //             'perjalanan_dinas_id' => $penugasan_id,
-        //             'jumlah' => $request->jumlah_lain[$key],
-        //             'jenis' => $request->jenis[$key],
-        //             'biaya' => $request->biaya_lain[$key],
-        //             // 'total' => $request->total_lain[$key],
-        //         ]);
-        //     }
-        // }
+        if ($request->jumlah_penginapan != null) {
+            $penugasan->biayaPenginapan()->create([
+                'perjalanan_dinas_id' => $penugasan_id,
+                'qty' => $request->qty_penginapan,
+                'biaya' => $request->biaya_penginapan,
+                'jumlah' => $request->jumlah_biaya_penginapan,
+            ]);
+        } else {
+            $penugasan->biayaPenginapan()->create([
+                'perjalanan_dinas_id' => $penugasan_id,
+            ]);
+        }
 
-        // return redirect('/perjalanan-dinas')->with('success', 'RAB berhasil ditambahkan');
+        if ($request->jenis != null) {
+            foreach ($request->qty_lain as $key => $value) {
+                $penugasan->biayaLain()->create([
+                    'perjalanan_dinas_id' => $penugasan_id,
+                    'qty' => $request->qty_lain[$key],
+                    'jenis' => $request->jenis[$key],
+                    'biaya' => $request->biaya_lain[$key],
+                    // 'jumlah' => $request->jumlah_biaya_lain[$key],
+                ]);
+            }
+        } else {
+            $penugasan->biayaLain()->create([
+                'perjalanan_dinas_id' => $penugasan_id,
+            ]);
+        }
+
+        return redirect('/perjalanan-dinas')->with('success', 'RAB berhasil ditambahkan');
     }
 
     /**
@@ -211,7 +245,19 @@ class PerjalananDinasController extends Controller
         $manajer = User::whereHas('jabatan', function ($query) {
             $query->where('nama_jabatan', 'GENERAL MANAGER');
         })->get();
-        return view('perjalanandinas.rabForm', compact('penugasan', 'manajer'));
+        $biayaLain = BiayaLain::where('perjalanan_dinas_id', $penugasan->id)->get();
+        return view('perjalanandinas.rabForm', compact('penugasan', 'manajer', 'biayaLain'));
+    }
+
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function realisasiRab($id)
+    {
     }
 
     /**

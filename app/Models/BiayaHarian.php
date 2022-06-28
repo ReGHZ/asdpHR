@@ -11,7 +11,7 @@ class BiayaHarian extends Model
     protected $fillable = [
         'perjalanan_dinas_id',
         'biaya',
-        'total',
+        'jumlah',
     ];
 
     public function perjalananDinas()

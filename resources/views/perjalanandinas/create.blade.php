@@ -167,12 +167,12 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="p-3">
-                            <div class="text-center">
-                                <h1 class="h4 text-gray-900 mb-4">Tiket Perjalanan!</h1>
-                            </div>
                             <form action="{{ route('perjalanan-dinas.storeRab') }}" method="POST">
                                 @csrf
                                 <input type="hidden" id="dispo_id" name="dispo_id">
+                                <div class="text-center">
+                                    <h1 class="h4 text-gray-900 mb-4">Tiket Perjalanan!</h1>
+                                </div>
                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
                                         <label class="form-control-label">Nama maskapai</label>
@@ -225,8 +225,8 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="form-control-label">Total</label>
-                                    <input class="form-control" readonly id="hasil" name="total_tiket"
+                                    <label class="form-control-label">Jumlah</label>
+                                    <input class="form-control" readonly id="jumlah_harga" name="jumlah_harga"
                                         placeholder="NaN">
                                 </div>
                                 <div class="text-center">
@@ -250,7 +250,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="form-control-label">Total</label>
-                                    <input class="form-control" readonly id="hasilharian" name="total_harian"
+                                    <input class="form-control" readonly id="hasilharian" name="jumlah_biaya_harian"
                                         placeholder="NaN">
                                 </div>
                                 <div class="text-center">
@@ -258,11 +258,11 @@
                                 </div>
                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <label class="form-control-label">jumlah</label>
-                                        <input name="jumlah_penginap" id="jumlah" type="text"
-                                            class="form-control @error('jumlah_penginap') is-invalid @enderror"
-                                            placeholder="jumlah" value="{{ old('jumlah_penginap') }}">
-                                        @error('jumlah_penginap')
+                                        <label class="form-control-label">quantity</label>
+                                        <input name="qty_penginapan" id="qtypenginap" type="text"
+                                            class="form-control @error('qty_penginapan') is-invalid @enderror"
+                                            placeholder="jumlah" value="{{ old('qty_penginapan') }}">
+                                        @error('qty_penginapan')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
@@ -278,9 +278,9 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="form-control-label">Total</label>
-                                    <input class="form-control" readonly id="hasilpenginapan" name="total_penginapan"
-                                        placeholder="NaN">
+                                    <label class="form-control-label">Jumlah</label>
+                                    <input class="form-control" readonly id="hasilpenginapan"
+                                        name="jumlah_biaya_penginapan" placeholder="NaN">
                                 </div>
                                 <div>
                                     <a onclick="biayaLain()">Apakah ada Biaya Lainnya?<span
@@ -299,7 +299,7 @@
                                             <table class="table" id="tabellain">
                                                 <thead>
                                                     <tr>
-                                                        <th>jumlah</th>
+                                                        <th>Quantity</th>
                                                         <th>jenis</th>
                                                         <th>Biaya</th>
                                                         <th>Action</th>
@@ -307,8 +307,8 @@
                                                 </thead>
                                                 <tbody>
                                                     <tr>
-                                                        <td><input name="jumlah_lain[]" id="jumlahLain"
-                                                                type="text" value="" class="form-control"
+                                                        <td><input name="qty_lain[]" id="qtyLain" type="text"
+                                                                value="" class="form-control"
                                                                 placeholder="jumlah"></td>
                                                         <td><input name="jenis[]" type="text" value=""
                                                                 class="form-control"
@@ -328,12 +328,13 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="form-control-label">Total</label>
-                                        <input class="form-control" readonly id="hasillain" placeholder="NaN">
+                                        <label class="form-control-label">Jumlah</label>
+                                        <input class="form-control" name="jumlah_biaya_lain[]" readonly
+                                            id="hasillain" placeholder="NaN">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="form-control-label">Total Semua</label>
+                                    <label class="form-control-label">Total</label>
                                     <input class="form-control" readonly id="totalsemua" placeholder="NaN">
                                 </div>
                         </div>

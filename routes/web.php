@@ -76,7 +76,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/perjalanan-dinas/{id}/getPenugasan', [App\Http\Controllers\PerjalananDinasController::class, 'getPenugasan'])->name('perjalanan-dinas.getPenugasan');
     Route::post('/perjalanan-dinas/storeRab', [App\Http\Controllers\PerjalananDinasController::class, 'storeRab'])->name('perjalanan-dinas.storeRab');
     Route::get('/perjalanan-dinas/{penugasan}/rab', [App\Http\Controllers\PerjalananDinasController::class, 'rabForm'])->name('perjalanan-dinas.rab');
-    // ----------------------------- Notifications ------------------------------//
+    Route::post('/perjalanan-dinas/storeReal', [App\Http\Controllers\PerjalananDinasController::class, 'realisasiRab'])->name('perjalanan-dinas.storeReal');
+    // ----------------------------- Nortifications ------------------------------//
     Route::get('/notifications/mark-notif/{id}', [App\Http\Controllers\NotificationsController::class, 'markNotif'])->name('notifications.mark-notif');
     Route::get('/notifications/mark-all', [App\Http\Controllers\NotificationsController::class, 'markAll'])->name('notifications.mark-all');
 });

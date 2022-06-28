@@ -102,7 +102,7 @@
     </div>
 @endsection
 
-@section('script')
+@push('scripts')
     <script>
         $(document).on('click', '.btnDivDel', function() {
             var divisi_id = $(this).val();
@@ -131,4 +131,4 @@
             });
         });
     </script>
-@endsection
+@endpush

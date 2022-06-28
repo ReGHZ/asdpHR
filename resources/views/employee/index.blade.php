@@ -104,7 +104,7 @@
         @include('employee.delete')
     </div>
 @endsection
-@section('script')
+@push('scripts')
     <script>
         $(document).on('click', '.btnEmpDel', function() {
             var user_id = $(this).val();
@@ -113,4 +113,4 @@
             $('#user_id').val(user_id);
         });
     </script>
-@endsection
+@endpush

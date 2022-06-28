@@ -164,7 +164,7 @@
             text-align: center;
         }
 
-        #tabel_pertama tr td {
+        #tabel_a tr td {
             border: 1px black solid;
             border-collapse: collapse;
             text-align: center;
@@ -179,14 +179,34 @@
         }
 
         #lainlain tr td {
+            /*border: 1px gray solid;*/
+            /*border-collapse: collapse;*/
+            text-align: center;
+        }
+
+        #hariankanan tr td {
             /*border: 1px red solid;*/
             /*border-collapse: collapse;*/
-            text-align: left;
+        }
+
+        #penginapankanan tr td {
+            /*border: 1px blue solid;*/
+            /*border-collapse: collapse;*/
+        }
+
+        #tabeljumlah tr td {
+            /*border: 1px brown solid;*/
+            /*border-collapse: collapse;*/
         }
 
         #lainlain {
             margin-top: 30px;
+            margin-bottom: 30px;
+        }
 
+        .alignkanan {
+            text-align: right;
+            padding-right: 15px;
         }
 
         @media screen {
@@ -240,10 +260,20 @@
                 <a id="btnPrint" class="btn icon btn-secondary me-1"><i data-feather="printer"></i>
                     Cetak
                 </a>
+                @if (isset($penugasan->status) == 'Menunggu realisasi RAB')
+                    <a onclick="realisasi()" class="btn icon btn-success"><i data-feather="check"></i>
+                        Realisasi
+                    </a>
+                @elseif(isset($penugasan->status) == 'Berlangsung')
+                    <button class="btn icon btn-success "><i class="bi bi-eye text-secondary"></i>
+                        Lihat Realisasi Form
+                    </button>
+                @endif
 
             </div>
 
         </div>
+
         <div class="container mb-4 mt-4">
             <div id="printRAB">
                 <header class="header">
@@ -295,7 +325,9 @@
                                 <td>3.</td>
                                 <td>Tempat Asal</td>
                                 <td>:</td>
-                                <td>Ketapang</td>
+                                @foreach ($manajer as $item)
+                                    <td>{{ $item->segmen }}</td>
+                                @endforeach
                             </tr>
                             <tr>
                                 <td>4.</td>
@@ -321,7 +353,7 @@
                             <tr>
                                 <td>Golongan</td>
                                 <td>:</td>
-                                <td>D</td>
+                                <td>{{ $penugasan->user->pegawai->golongan }}</td>
                             </tr>
                             <tr>
                                 <td>Tujuan</td>
@@ -342,85 +374,134 @@
                         <span>A.</span>
                         <span>PERJALANAN DARI TEMPAT ASAL, TUJUAN, TIKET DAN AIRPORT CHARGE DLL:</span>
                     </div>
-                    <table id="tabel_pertama" style="width:100%">
-                        <tr>
-                            <td rowspan="2">Tanggal</td>
-                            <td rowspan="2" style="width:15%">Perusahaan Penerbangan</td>
-                            <td rowspan="2" style="width:10%">Dari</td>
-                            <td rowspan="2" style="width:10%">Ke</td>
-                            <td colspan="2">Harga</td>
-                            <!--PLACEHOLDER-->
-                            <td rowspan="2">Jumlah (Rp)</td>
-                        </tr>
-                        <tr>
-                            <!--PLACEHOLDER-->
-                            <!--PLACEHOLDER-->
-                            <!--PLACEHOLDER-->
-                            <!--PLACEHOLDER-->
-                            <td style="width:10%">Tiket</td>
-                            <td style="width:10%">Charge</td>
-                            <!--PLACEHOLDER-->
-                        </tr>
-                        <tr>
-                            <td>{{ $penugasan->tanggal_keberangkatan }}</td>
-                            <td>{{ $penugasan->tiketPerjalanan->maskapai }}</td>
-                            <td></td>
-                            <td>{{ $penugasan->tujuan }}</td>
-                            <td>{{ $penugasan->tiketPerjalanan->harga_tiket }}</td>
-                            <td>{{ $penugasan->tiketPerjalanan->charge }}</td>
-                            <td>{{ $penugasan->tiketPerjalanan->total }}</td>
-                        </tr>
-                        <tr>
-                            <td>{{ $penugasan->tanggal_kembali }}</td>
-                            <td></td>
-                            <td>{{ $penugasan->tujuan }}</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td colspan="5"></td>
-                            <!--PLACEHOLDER-->
-                            <!--PLACEHOLDER-->
-                            <!--PLACEHOLDER-->
-                            <!--PLACEHOLDER-->
-                            <td>Jumlah</td>
-                            <td>{{ $penugasan->tiketPerjalanan->total }}</td>
-                        </tr>
-                    </table>
+                    @if (isset($penugasan->tiketPerjalanan))
+                        <table id="tabel_a" style="width:100%">
+                            <tr>
+                                <td rowspan="2">Tanggal</td>
+                                <td rowspan="2" style="width:15%">Perusahaan Penerbangan</td>
+                                <td rowspan="2" style="width:10%">Dari</td>
+                                <td rowspan="2" style="width:10%">Ke</td>
+                                <td colspan="2">Harga</td>
+                                <!--PLACEHOLDER-->
+                                <td rowspan="2">Jumlah (Rp)</td>
+                            </tr>
+                            <tr>
+                                <!--PLACEHOLDER-->
+                                <!--PLACEHOLDER-->
+                                <!--PLACEHOLDER-->
+                                <!--PLACEHOLDER-->
+                                <td style="width:10%">Tiket</td>
+                                <td style="width:10%">Charge</td>
+                                <!--PLACEHOLDER-->
+                            </tr>
+                            <tr>
+                                <td>{{ $penugasan->tanggal_keberangkatan }}</td>
+                                <td>{{ $penugasan->tiketPerjalanan->maskapai }}</td>
+                                <td>{{ $penugasan->tiketPerjalanan->tempat_berangkat }}</td>
+                                <td>{{ $penugasan->tiketPerjalanan->tempat_tujuan }}</td>
+                                <td>{{ number_format($penugasan->tiketPerjalanan->harga_tiket, 0, ',', '.') }}</td>
+                                <td>{{ number_format($penugasan->tiketPerjalanan->charge, 0, ',', '.') }}</td>
+                                <td>{{ number_format($penugasan->tiketPerjalanan->jumlah, 0, ',', '.') }}</td>
+                            </tr>
+                            <tr>
+                                <td>{{ $penugasan->tanggal_kembali }}</td>
+                                <td>{{ $penugasan->tiketPerjalanan->maskapai }}</td>
+                                <td>{{ $penugasan->tiketPerjalanan->tempat_tujuan }}</td>
+                                <td>{{ $penugasan->tiketPerjalanan->tempat_berangkat }}</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td colspan="5"></td>
+                                <!--PLACEHOLDER-->
+                                <!--PLACEHOLDER-->
+                                <!--PLACEHOLDER-->
+                                <!--PLACEHOLDER-->
+                                <td>Jumlah</td>
+                                <td>{{ number_format($penugasan->tiketPerjalanan->jumlah, 0, ',', '.') }}</td>
+                            </tr>
+                        </table>
+                    @else
+                        <table id="tabel_a" style="width:100%">
+                            <tr>
+                                <td rowspan="2">Tanggal</td>
+                                <td rowspan="2" style="width:15%">Perusahaan Penerbangan</td>
+                                <td rowspan="2" style="width:10%">Dari</td>
+                                <td rowspan="2" style="width:10%">Ke</td>
+                                <td colspan="2">Harga</td>
+                                <!--PLACEHOLDER-->
+                                <td rowspan="2">Jumlah (Rp)</td>
+                            </tr>
+                            <tr>
+                                <!--PLACEHOLDER-->
+                                <!--PLACEHOLDER-->
+                                <!--PLACEHOLDER-->
+                                <!--PLACEHOLDER-->
+                                <td style="width:10%">Tiket</td>
+                                <td style="width:10%">Charge</td>
+                                <!--PLACEHOLDER-->
+                            </tr>
+                            <tr>
+                                <td>{{ $penugasan->tanggal_keberangkatan }}</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>{{ $penugasan->tanggal_kembali }}</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td colspan="5"></td>
+                                <!--PLACEHOLDER-->
+                                <!--PLACEHOLDER-->
+                                <!--PLACEHOLDER-->
+                                <!--PLACEHOLDER-->
+                                <td>Jumlah</td>
+                                <td></td>
+                            </tr>
+                        </table>
+                    @endif
                     <div class="content__item">
                         <span>B.</span>
                         <span>BIAYA HARIAN</span>
                     </div>
 
                     <section class="sender">
-                        <div class="sender__detail" id="senderkiri">
+                        <div class="sender__detail">
                             <table id="hariankiri" style="width:100%">
                                 <tr style="border-bottom: 1pt solid black">
                                     <td>1.</td>
-                                    <td>{{ $penugasan->lama_hari }} x {{ $penugasan->biayaHarian->biaya }}</td>
-
+                                    <td>{{ $penugasan->lama_hari }} x
+                                        {{ number_format($penugasan->biayaHarian->biaya, 0, ',', '.') }}</td>
                                 </tr>
                                 <tr style="border-bottom: 1pt solid black">
                                     <td>2.</td>
-                                    <td></td>
-
+                                    <td>-</td>
                                 </tr>
                             </table>
                         </div>
-                        <div class="sender__detail" id="hariankanan">
-                            <table style="width:100%">
+                        <div class="sender__detail">
+                            <table id="hariankanan" style="width:100%">
                                 <tr>
-                                    <td>-</td>
-                                    <td>-</td>
+                                    <td class="alignkanan" style="width:50%">-</td>
+                                    <td style="width:50%">-</td>
                                 </tr>
                                 <tr>
-                                    <td>Jumlah</td>
-                                    <td>{{ $penugasan->biayaHarian->total }}</td>
+                                    <td class="alignkanan" style="width:50%">Jumlah</td>
+                                    <td>{{ number_format($penugasan->biayaHarian->jumlah, 0, ',', '.') }}</td>
                                 </tr>
                                 <tr>
-                                    <td>Jumlah</td>
+                                    <td class="alignkanan" style="width:50%">Jumlah</td>
                                     <td>-</td>
                                 </tr>
                             </table>
@@ -432,24 +513,25 @@
                         <span>BIAYA PENGINAPAN</span>
                     </div>
                     <section class="sender">
-                        <div class="sender__detail" id="senderkiri">
-                            <table id="hariankiri" style="width:100%">
+                        <div class="sender__detail">
+                            <table id="penginapankiri" style="width:100%">
                                 <tr style="border-bottom: 1pt solid black">
                                     <td>1.</td>
-                                    <td>{{ $penugasan->biayaPenginapan->jumlah }} x
-                                        {{ $penugasan->biayaPenginapan->biaya }} </td>
+                                    <td>{{ $penugasan->biayaPenginapan->qty }} x
+                                        {{ number_format($penugasan->biayaPenginapan->biaya, 0, ',', '.') }}</td>
                                 </tr>
                             </table>
                         </div>
-                        <div class="sender__detail" id="hariankanan">
-                            <table style="width:100%">
+                        <div class="sender__detail">
+                            <table id="penginapankanan" style="width:100%">
                                 <tr>
-                                    <td>-</td>
-                                    <td>-</td>
+                                    <td class="alignkanan" style="width:50%">-</td>
+                                    <td style="width:50%">-</td>
                                 </tr>
                                 <tr>
-                                    <td>Jumlah</td>
-                                    <td>{{ $penugasan->biayaPenginapan->total }} </td>
+                                    <td class="alignkanan" style="width:50%">Jumlah</td>
+                                    <td style="width:50%">
+                                        {{ number_format($penugasan->biayaPenginapan->jumlah, 0, ',', '.') }}</td>
                                 </tr>
                             </table>
                         </div>
@@ -461,73 +543,80 @@
                         </span>
                     </div>
                     <section class="sender">
-                        <div class="sender__detail" id="senderkiri">
-                            <table id="hariankiri" style="width:100%">
+                        @if (isset($penugasan->biayaLain))
+                            <table id="lainlain" style="width:100%">
+                                @foreach ($biayaLain as $i => $item)
+                                    <tr style="border-bottom: 1pt solid black">
+                                        <td>{{ ++$i }}</td>
+                                        <td style="width:60%">{{ $item->jenis }}</td>
+                                        <td style="width:10%">Jumlah</td>
+                                        <td style="width:25%">{{ number_format($item->biaya, 0, ',', '.') }}</td>
+                                    </tr>
+                                @endforeach
+                                <tr style="border-bottom: 1pt solid black">
+                                    <td>-</td>
+                                    <td style="width:60%">-</td>
+                                    <td style="width:10%">Jumlah</td>
+                                    <td style="width:25%">
+                                        {{ number_format($penugasan->biayaLain->jumlah, 0, ',', '.') }}
+                                    </td>
+                                </tr>
+                            </table>
+                        @else
+                            <table id="lainlain" style="width:100%">
                                 <tr style="border-bottom: 1pt solid black">
                                     <td>1.</td>
-                                    <td></td>
+                                    <td style="width:60%"></td>
+                                    <td style="width:10%">Jumlah</td>
+                                    <td style="width:25%"></td>
                                 </tr>
                                 <tr style="border-bottom: 1pt solid black">
                                     <td>2.</td>
-                                    <td></td>
+                                    <td style="width:60%"></td>
+                                    <td style="width:10%">Jumlah</td>
+                                    <td style="width:25%"></td>
                                 </tr>
                                 <tr style="border-bottom: 1pt solid black">
                                     <td>3.</td>
-                                    <td> </td>
+                                    <td style="width:60%"></td>
+                                    <td style="width:10%">Jumlah</td>
+                                    <td style="width:25%"></td>
                                 </tr>
                                 <tr style="border-bottom: 1pt solid black">
-                                    <td>.</td>
                                     <td>-</td>
+                                    <td style="width:60%">-</td>
+                                    <td style="width:10%">Jumlah</td>
+                                    <td style="width:25%"></td>
                                 </tr>
                             </table>
-                        </div>
-                        <div class="sender__detail" id="hariankanan">
-                            <table style="width:100%">
-                                <tr>
-                                    <td>-</td>
-                                    <td>-</td>
-                                </tr>
-                                <tr>
-                                    <td>-</td>
-                                    <td>-</td>
-                                </tr>
-                                <tr>
-                                    <td>-</td>
-                                    <td>-</td>
-                                </tr>
-                                <tr style="border-bottom: 1pt solid black">
-                                    <td>Jumlah</td>
-                                    <td>10.000.000</td>
-                                </tr>
-                            </table>
-                        </div>
+                        @endif
                     </section>
-                    <table id="lainlain" style="width:100%">
+                    <table id="tabeljumlah" style="width:100%">
                         <tr>
                             <td>E.</td>
                             <td style="width:30%">JUMLAH A s/d D</td>
-                            <td style="width:30%">:..............................................</td>
-                            <td>Jumlah</td>
-                            <td>3.900.000</td>
+                            <td>:................................................</td>
+                            <td style="width:10%">Jumlah</td>
+                            <td style="width:25%">3.900.000</td>
                         </tr>
                         <tr style="border-bottom: 1pt solid black">
                             <td></td>
-                            <td style="width:30%">Uang Muka Tanggal</td>
-                            <td style="width:30%">:..............................................</td>
+                            <td>Uang Muka Tanggal</td>
+                            <td>:................................................</td>
                             <td>Jumlah</td>
                             <td>3.900.000</td>
                         </tr>
                         <tr>
                             <td></td>
-                            <td style="width:30%">Untuk Distor kembali ke KAS</td>
-                            <td style="width:30%">...............................................</td>
+                            <td>Untuk Distor kembali ke KAS</td>
+                            <td>.................................................</td>
                             <td>Jumlah</td>
                             <td>3.900.000</td>
                         </tr>
                         <tr>
                             <td></td>
-                            <td style="width:30%">Untuk dibayarkan kepada Ybs</td>
-                            <td style="width:30%">...............................................</td>
+                            <td>Untuk dibayarkan kepada Ybs</td>
+                            <td>.................................................</td>
                             <td>Jumlah</td>
                             <td>3.900.000</td>
                         </tr>
@@ -546,7 +635,7 @@
                         <span class="signature__title">
                             <span class="sign-note">Dikeluarkan di : </span>
                             @foreach ($manajer as $item)
-                                <span class="sign-note">{{ $item->pegawai->segmen }}</span>
+                                <span class="sign-note">{{ $item->segmen }}</span>
                             @endforeach
                             <br>
                             <span class="sign-note">Tanggal : </span><span
@@ -554,11 +643,11 @@
                             <br>
                             <strong>General Manager</strong>
                         </span>
-                        @foreach ($manajer as $item)
-                            <span class="signature__name">
-                                <u><strong>{{ $item->name }}</strong></u>
-                            </span>
-                        @endforeach
+                        <span class="signature__name">
+                            @foreach ($manajer as $item)
+                                <u><strong>{{ $manajer->name }}</strong></u>
+                            @endforeach
+                        </span>
                     </div>
                 </section>
             </div>

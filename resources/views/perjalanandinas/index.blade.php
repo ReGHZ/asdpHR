@@ -122,8 +122,7 @@
                                                         </li>
                                                     @elseif($row->status == 'Menunggu realisasi RAB')
                                                         <li><a href="{{ route('perjalanan-dinas.rab', $row->id) }}"
-                                                                class="dropdown-item"><i
-                                                                    class="bi bi-pencil text-secondary"></i>
+                                                                class="dropdown-item"><i class="bi bi-eye text-secondary"></i>
                                                                 lihat RAB</a>
                                                         </li>
                                                     @endif
@@ -152,7 +151,7 @@
         @include('perjalanandinas.create')
     </div>
 @endsection
-@section('script')
+@push('scripts')
     {{-- script show pengikut --}}
     <script type='text/javascript'>
         function pengikut() {
@@ -211,8 +210,8 @@
         function set_biayatiket() {
             var hargatiket = parseInt($("#hargatiket").val());
             var charge = parseInt($("#charge").val());
-            var hasil = charge - hargatiket;
-            $("#hasil").val(hasil);
+            var jumlah_harga = charge + hargatiket;
+            $("#jumlah_harga").val(jumlah_harga);
         }
         $(document).ready(function() {
             $("#charge").keyup(function() {
@@ -243,13 +242,13 @@
 
         function set_biayaHotel() {
 
-            var jumlah = parseInt($("#jumlah").val());
+            var qtypenginap = parseInt($("#qtypenginap").val());
             var biaya_penginapan = parseInt($("#biaya_penginapan").val());
-            var hasilpenginapan = jumlah * biaya_penginapan;
+            var hasilpenginapan = qtypenginap * biaya_penginapan;
             $("#hasilpenginapan").val(hasilpenginapan);
         }
         $(document).ready(function() {
-            $("#jumlah").keyup(function() {
+            $("#qtypenginap").keyup(function() {
                 set_biayaHotel();
             });
             $("#biaya_penginapan").keyup(function() {
@@ -259,13 +258,13 @@
 
         function set_biayaLain() {
 
-            var jumlahLain = parseInt($("#jumlahLain").val());
+            var qtyLain = parseInt($("#qtyLain").val());
             var biaya_lain = parseInt($("#biaya_lain").val());
-            var hasillain = jumlahLain * biaya_lain;
+            var hasillain = qtyLain * biaya_lain;
             $("#hasillain").val(hasillain);
         }
         $(document).ready(function() {
-            $("#jumlahLain").keyup(function() {
+            $("#qtyLain").keyup(function() {
                 set_biayaLain();
             });
             $("#biaya_lain").keyup(function() {
@@ -280,8 +279,8 @@
             var x = 1;
             $("#tambah").click(function() {
                 $("#tabellain").append(`<tr>
-                                                        <td><input name="jumlah_lain[]" id="jumlahLain"
-                                                                type="text" value="" class="form-control"
+                                                        <td><input name="qty_lain[]" id="qtyLain" type="text"
+                                                                value="" class="form-control"
                                                                 placeholder="jumlah"></td>
                                                         <td><input name="jenis[]" type="text" value=""
                                                                 class="form-control"
@@ -302,4 +301,4 @@
             });
         });
     </script>
-@endsection
+@endpush

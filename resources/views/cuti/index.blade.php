@@ -198,7 +198,7 @@
         @include('cuti.editDeleteCuti')
     </div>
 @endsection
-@section('script')
+@push('scripts')
     <script>
         $(document).on('click', '.btnCutiDel', function() {
             var cuti_id = $(this).val();
@@ -217,4 +217,4 @@
             }
         }
     </script>
-@endsection
+@endpush

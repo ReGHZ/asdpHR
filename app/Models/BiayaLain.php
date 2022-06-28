@@ -10,10 +10,10 @@ class BiayaLain extends Model
     use HasFactory;
     protected $fillable = [
         'perjalanan_dinas_id',
-        'jumlah',
+        'qty',
         'jenis',
         'biaya',
-        'total',
+        'jumlah',
     ];
 
     public function perjalananDinas()

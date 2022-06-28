@@ -104,7 +104,7 @@
     </div>
 @endsection
 
-@section('script')
+@push('scripts')
     <script>
         $(document).on('click', '.btnJabDel', function() {
             var jabatan_id = $(this).val();
@@ -133,4 +133,4 @@
             });
         });
     </script>
-@endsection
+@endpush

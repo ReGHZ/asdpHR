@@ -378,7 +378,7 @@
 @endsection
 
 {{-- script js --}}
-@section('script')
+@push('scripts')
     <script>
         document.getElementById("btnPrint").onclick = function() {
             printElement(document.getElementById("printCuti"));
@@ -409,4 +409,4 @@
             $printSection.appendChild(domClone);
         }
     </script>
-@endsection
+@endpush

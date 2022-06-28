@@ -16,7 +16,7 @@ class TiketPerjalanan extends Model
         'tempat_berangkat',
         'tempat_tujuan',
         'charge',
-        'total',
+        'jumlah',
     ];
 
     public function perjalananDinas()

@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('tempat_berangkat')->nullable();
             $table->string('tempat_tujuan')->nullable();
             $table->string('charge')->nullable();
-            $table->string('total')->nullable();
+            $table->string('jumlah')->nullable();
             $table->timestamps();
             //foreign key
             $table->foreign('perjalanan_dinas_id')->references('id')->on('perjalanan_dinas')->onDelete('cascade');

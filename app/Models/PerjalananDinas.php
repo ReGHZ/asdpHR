@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class PerjalananDinas extends Model
 {
     use HasFactory;
+
     use \Znck\Eloquent\Traits\BelongsToThrough;
 
     protected $fillable = [
@@ -61,6 +62,6 @@ class PerjalananDinas extends Model
 
     public function biayaLain()
     {
-        return $this->hasOne(biayaLain::class);
+        return $this->hasOne(BiayaLain::class);
     }
 }

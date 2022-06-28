@@ -75,7 +75,7 @@
         <script src="{{ asset('backend/assets/js/extensions/simple-datatables.js') }}"></script>
     @endif
 
-    @yield('script')
+    @stack('scripts')
 
 </body>
 
