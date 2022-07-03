@@ -16,11 +16,17 @@ class PersetujuanCuti extends Model
         'nomor_surat',
         'tanggal_surat',
         'keterangan',
+        'tembusan',
+        'alasan',
     ];
 
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+    public function tembusan()
+    {
+        return $this->hasMany(Tembusan::class);
     }
     public function pengajuanCuti()
     {

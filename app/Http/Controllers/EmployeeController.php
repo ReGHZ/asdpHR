@@ -138,7 +138,7 @@ class EmployeeController extends Controller
         //attach role user
         $user->roles()->attach($request->role);
 
-        return redirect('/employee')->with('sukses', 'Pegawai berhasil ditambahkan');
+        return redirect('/employee')->with('success', 'Pegawai berhasil ditambahkan');
     }
 
     /**

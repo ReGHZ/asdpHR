@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('nomor_surat')->nullable();
             $table->date('tanggal_surat')->nullable();
             $table->string('keterangan')->nullable();
+            $table->string('alasan')->nullable();
             $table->timestamps();
             # Indexes
             $table->index('pengajuan_cuti_id');

@@ -330,7 +330,7 @@
     </section>
 @endsection
 
-@section('script')
+@push('scripts')
     <script>
         $(document).ready(function() {
 
@@ -428,4 +428,4 @@
             });
         });
     </script>
-@endsection
+@endpush

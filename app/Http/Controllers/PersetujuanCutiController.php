@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Jabatan;
 use App\Models\PersetujuanCuti;
+use App\Models\Tembusan;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -33,6 +34,7 @@ class PersetujuanCutiController extends Controller
     {
         // get data persetujuan cuti
         $persetujuan = PersetujuanCuti::with('pengajuanCuti')->get();
+        // dd($persetujuan);
         return view('cuti.persetujuan.index', compact('persetujuan'));
     }
 
@@ -44,12 +46,14 @@ class PersetujuanCutiController extends Controller
      */
     public function show(PersetujuanCuti $persetujuan)
     {
-        //get data pengajuan cuti and get user that have role manajer
+        //get data pengajuan cuti, get user that have role manajer, and tembusan
         $persetujuan = PersetujuanCuti::with('pengajuanCuti')->findOrFail($persetujuan->id);
         $manajer = User::whereHas('jabatan', function ($query) {
             $query->where('nama_jabatan', 'GENERAL MANAGER');
         })->get();
-        return view('cuti.persetujuan.suratIzinCuti', compact('persetujuan', 'manajer'));
+        $tembusan = Tembusan::where('persetujuan_cuti_id', $persetujuan->id)->get();
+        return view('cuti.persetujuan.suratIzinCuti', compact('persetujuan', 'manajer', 'tembusan'));
+        // dd($tembusan);
     }
 
     /**

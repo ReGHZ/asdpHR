@@ -33,6 +33,7 @@ return new class extends Migration
                 ]
             )->nullable();
             $table->string('keterangan')->nullable();
+            $table->string('alasan')->nullable();
             $table->string('status')->nullable();
             $table->string('file_surat_dokter')->nullable();
             $table->timestamps();

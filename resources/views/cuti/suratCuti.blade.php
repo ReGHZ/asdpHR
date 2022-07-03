@@ -179,6 +179,10 @@
             }
         }
     </style>
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/css/bootstrap-select.min.css"
+        integrity="sha512-mR/b5Y7FRsKqrYZou7uysnOdCIJib/7r5QeJMFvLNHNhtye3xJp1TdJVPLtetkukFn227nKpXD9OjUc09lx97Q=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 @endsection
 
 {{-- content surat cuti --}}
@@ -211,16 +215,16 @@
                 </a>
                 @role('admin|manajer')
                     @if (isset($pengajuan->status) && $pengajuan->status == 'Menunggu konfirmasi')
-                        <a href="{{ route('pengajuan-cuti.reject', $pengajuan->id) }}" class="btn icon btn-danger me-1"><i
+                        <button value="{{ $pengajuan->id }}" class="btn icon btn-danger me-1 rejectbtn"><i
                                 data-feather="x-circle"></i>
                             Tolak
-                        </a>
+                        </button>
                     @endif
                     @if (isset($pengajuan->status) && $pengajuan->status == 'Menunggu konfirmasi')
-                        <a href="{{ route('pengajuan-cuti.approve', $pengajuan->id) }}" class="btn icon btn-success "><i
+                        <button value="{{ $pengajuan->id }}" class="btn icon btn-success approvebtn"><i
                                 data-feather="check"></i>
                             Terima
-                        </a>
+                        </button>
                     @endif
                     @if ($pengajuan->jenis_cuti == 'Cuti sakit' && isset($pengajuan->file_surat_dokter))
                         <a href="{{ route('pengajuan-cuti.download', $pengajuan->id) }}" class="btn icon btn-secondary "><i
@@ -230,8 +234,8 @@
                     @endif
                 @endrole
             </div>
-
         </div>
+
         <div class="container mb-4 mt-4">
             <div id="printCuti">
                 <header class="header">
@@ -375,10 +379,15 @@
             </div>
         </div>
     </div>
+    @include('cuti.persetujuan.approve')
+    @include('cuti.persetujuan.reject')
 @endsection
 
 {{-- script js --}}
 @push('scripts')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/js/bootstrap-select.min.js"
+        integrity="sha512-FHZVRMUW9FsXobt+ONiix6Z0tIkxvQfxtCSirkKc5Sb4TKHmqq1dZa8DphF0XqKb3ldLu/wgMa8mT6uXiLlRlw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
         document.getElementById("btnPrint").onclick = function() {
             printElement(document.getElementById("printCuti"));
@@ -408,5 +417,44 @@
 
             $printSection.appendChild(domClone);
         }
+
+        $('select').selectpicker();
+    </script>
+    <script>
+        $(document).ready(function() {
+
+            $(document).on('click', '.approvebtn', function() {
+                var pengajuan_id = $(this).val();
+                // alert(emp_id);
+                $('#approveCuti').modal('show');
+
+                $.ajax({
+                    type: "GET",
+                    url: "/pengajuan-cuti/" + pengajuan_id + "/getPengajuan",
+                    dataType: 'json',
+                    success: function(response) {
+                        $('#pengajuan_id').val(response.pengajuan.id);
+                    }
+                });
+            });
+        });
+
+        $(document).ready(function() {
+
+            $(document).on('click', '.rejectbtn', function() {
+                var pengajuan_id = $(this).val();
+                // alert(emp_id);
+                $('#rejectCuti').modal('show');
+
+                $.ajax({
+                    type: "GET",
+                    url: "/pengajuan-cuti/" + pengajuan_id + "/getPengajuan",
+                    dataType: 'json',
+                    success: function(response) {
+                        $('#pengajuan_iid').val(response.pengajuan.id);
+                    }
+                });
+            });
+        });
     </script>
 @endpush

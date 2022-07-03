@@ -47,6 +47,7 @@
                                 <th>Tanggal Mulai</th>
                                 <th>Tanggal Selesai</th>
                                 <th>Keterangan</th>
+                                <th>Disetujui Karena</th>
                                 <th>action</th>
                             </tr>
                         </thead>
@@ -61,6 +62,7 @@
                                     <td>{{ tanggal_indonesia($row->pengajuanCuti->tanggal_mulai) }}</td>
                                     <td>{{ tanggal_indonesia($row->pengajuanCuti->tanggal_selesai) }}</td>
                                     <td>{{ $row->keterangan }}</td>
+                                    <td>{{ $row->alasan }}</td>
 
                                     <td>
                                         <div class="dropdown position-static">

@@ -52,7 +52,7 @@
                                             @enderror
                                         </div>
                                         <div class="col-sm-12 mb-3 mb-sm-0">
-                                            <label class="form-control-label">lama selesai</label>
+                                            <label class="form-control-label">Tanggal Selesai</label>
                                             <input name="tanggal_selesai" type="date"
                                                 class="form-control @error('tanggal_selesai') is-invalid @enderror"
                                                 value="{{ old('tanggal_selesai') }}" placeholder="Berapa Hari Cuti" />

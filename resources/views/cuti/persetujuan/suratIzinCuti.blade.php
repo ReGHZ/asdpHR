@@ -398,30 +398,21 @@
                     <span class="consideration__title">
                         <strong><u>Tembusan Yth:</u></strong>
                     </span>
-                    <div class="content__item">
-                        <span>1.</span>
-                        <span>
+                    @if (isset($tembusan))
+                        <div class="content__item">
+                            @foreach ($tembusan as $i => $item)
+                                <span>{{ ++$i }}.</span>
+                                <span>{{ $item->user->name }}</span>
+                            @endforeach
+                        </div>
+                    @else
+                        <div class="content__item">
+                            <span>1.</span>
+                            <span>
 
-                        </span>
-                    </div>
-                    <div class="content__item">
-                        <span>2.</span>
-                        <span>
-
-                        </span>
-                    </div>
-                    <div class="content__item">
-                        <span>3.</span>
-                        <span>
-
-                        </span>
-                    </div>
-                    <div class="content__item">
-                        <span>4.</span>
-                        <span>
-
-                        </span>
-                    </div>
+                            </span>
+                        </div>
+                    @endif
                 </section>
             </div>
         </div>
