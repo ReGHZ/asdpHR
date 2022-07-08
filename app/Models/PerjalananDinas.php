@@ -12,8 +12,7 @@ class PerjalananDinas extends Model
     use \Znck\Eloquent\Traits\BelongsToThrough;
 
     protected $fillable = [
-        'user_id',
-        'pengikut',
+        // 'user_id',
         'nomor_surat',
         'tanggal_surat',
         'perihal',
@@ -30,14 +29,10 @@ class PerjalananDinas extends Model
         'status',
     ];
 
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
 
     public function pengikut()
     {
-        return $this->belongsTo(User::class, 'pengikut', 'id',);
+        return $this->hasMany(Pengikut::class);
     }
 
     public function pegawai()
@@ -45,23 +40,24 @@ class PerjalananDinas extends Model
         return $this->belongsToThrough(Pegawai::class, User::class);
     }
 
+
     public function tiketPerjalanan()
     {
-        return $this->hasOne(TiketPerjalanan::class);
+        return $this->hasMany(TiketPerjalanan::class);
     }
 
     public function biayaHarian()
     {
-        return $this->hasOne(BiayaHarian::class);
+        return $this->hasMany(BiayaHarian::class);
     }
 
     public function biayaPenginapan()
     {
-        return $this->hasOne(BiayaPenginapan::class);
+        return $this->hasMany(BiayaPenginapan::class);
     }
 
     public function biayaLain()
     {
-        return $this->hasOne(BiayaLain::class);
+        return $this->hasMany(BiayaLain::class);
     }
 }

@@ -13,19 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('tiket_perjalanans', function (Blueprint $table) {
+        Schema::create('pengikuts', function (Blueprint $table) {
             //id
             $table->id();
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->unsignedBigInteger('perjalanan_dinas_id')->nullable();
-            //table isi
-            $table->string('maskapai')->nullable();
-            $table->string('harga_tiket')->nullable();
-            $table->string('tempat_berangkat')->nullable();
-            $table->string('tempat_tujuan')->nullable();
-            $table->string('charge')->nullable();
-            $table->string('jumlah')->nullable();
             $table->timestamps();
             //foreign key
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('perjalanan_dinas_id')->references('id')->on('perjalanan_dinas')->onDelete('cascade');
         });
     }
@@ -37,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tiket_perjalanans');
+        Schema::dropIfExists('pengikuts');
     }
 };

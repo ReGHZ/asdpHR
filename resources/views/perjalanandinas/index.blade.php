@@ -1,4 +1,10 @@
 @extends('layouts.panel')
+@section('css')
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/css/bootstrap-select.min.css"
+        integrity="sha512-mR/b5Y7FRsKqrYZou7uysnOdCIJib/7r5QeJMFvLNHNhtye3xJp1TdJVPLtetkukFn227nKpXD9OjUc09lx97Q=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+@endsection
 @section('content')
     <div class="page-heading">
         <div class="page-title">
@@ -61,8 +67,8 @@
                             @foreach ($penugasan as $i => $row)
                                 <tr>
                                     <td>{{ ++$i }}</td>
-                                    <td>{{ $row->user->name }}</td>
-                                    <td>{{ $row->user->nik }}</td>
+                                    <td>{{ $row->pengikut[0]->user->name }}</td>
+                                    <td>{{ $row->pengikut[0]->user->nik }}</td>
                                     <td>{{ tanggal_indonesia($row->tanggal_keberangkatan) }}</td>
                                     <td>{{ tanggal_indonesia($row->tanggal_kembali) }}</td>
                                     <td>{{ $row->tujuan }}</td>
@@ -73,14 +79,14 @@
                                                 </i>{{ $row->status }}
                                             </span>
                                         </td>
-                                    @elseif ($row->status == 'Menunggu realisasi RAB')
+                                    @elseif ($row->status == 'Berlangsung')
                                         <td>
                                             <span class="badge bg-warning">
                                                 <i class="bi bi-hourglass-split me-2">
                                                 </i>{{ $row->status }}
                                             </span>
                                         </td>
-                                    @elseif ($row->status == 'Berlangsung')
+                                    @elseif ($row->status == 'Menunggu Realisasi')
                                         <td>
                                             <span class="badge bg-primary">
                                                 <i class="bi bi-hourglass-split me-2">
@@ -115,12 +121,12 @@
                                                         <hr class="dropdown-divider">
                                                     </li>
                                                     @if ($row->status == 'Menunggu RAB')
-                                                        <li><button value="{{ $row->id }}"
-                                                                class="dropdown-item createrab"><i
+                                                        <li><a href="{{ route('perjalanan-dinas.createRab', $row->id) }}"
+                                                                class="dropdown-item"><i
                                                                     class="bi bi-pencil text-secondary"></i>
-                                                                Buat RAB</button>
+                                                                Buat RAB</a>
                                                         </li>
-                                                    @elseif($row->status == 'Menunggu realisasi RAB')
+                                                    @elseif($row->status == 'Berlangsung')
                                                         <li><a href="{{ route('perjalanan-dinas.rab', $row->id) }}"
                                                                 class="dropdown-item"><i class="bi bi-eye text-secondary"></i>
                                                                 lihat RAB</a>
@@ -152,6 +158,9 @@
     </div>
 @endsection
 @push('scripts')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/js/bootstrap-select.min.js"
+        integrity="sha512-FHZVRMUW9FsXobt+ONiix6Z0tIkxvQfxtCSirkKc5Sb4TKHmqq1dZa8DphF0XqKb3ldLu/wgMa8mT6uXiLlRlw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     {{-- script show pengikut --}}
     <script type='text/javascript'>
         function pengikut() {
@@ -165,140 +174,7 @@
                 text.style.display = "none";
             }
         }
-    </script>
 
-    {{-- script show biaya lain --}}
-    <script type='text/javascript'>
-        function biayaLain() {
-            var text = document.getElementById("showBiayaLain");
-            if (!text.style.display) {
-                text.style.display = "none";
-            }
-            if (text.style.display === "none") {
-                text.style.display = "block";
-            } else {
-                text.style.display = "none";
-            }
-        }
-    </script>
-
-    {{-- get data perjalanan dinas --}}
-    <script>
-        $(document).ready(function() {
-
-            $(document).on('click', '.createrab', function() {
-                var dispo_id = $(this).val();
-                // alert(dispo_id);
-                $('#createRAB').modal('show');
-
-                $.ajax({
-                    type: "GET",
-                    url: "/perjalanan-dinas/" + dispo_id + "/getPenugasan",
-                    dataType: 'json',
-                    success: function(response) {
-                        // console.log(response.penugasan.jabatan);
-                        $('#dispo_id').val(response.penugasan.id);
-                        $('#lama_hari').val(response.penugasan.lama_hari);
-                    }
-                });
-            });
-        });
-    </script>
-
-    {{-- perhitungan rab --}}
-    <script>
-        function set_biayatiket() {
-            var hargatiket = parseInt($("#hargatiket").val());
-            var charge = parseInt($("#charge").val());
-            var jumlah_harga = charge + hargatiket;
-            $("#jumlah_harga").val(jumlah_harga);
-        }
-        $(document).ready(function() {
-            $("#charge").keyup(function() {
-                set_biayatiket();
-
-            });
-            $("#hargatiket").keyup(function() {
-                set_biayatiket();
-
-            });
-        });
-
-        function set_biayaHarian() {
-
-            var biaya_harian = parseInt($("#biaya_harian").val());
-            var lama_hari = parseInt($("#lama_hari").val());
-            var hasilharian = lama_hari * biaya_harian;
-            $("#hasilharian").val(hasilharian);
-        }
-        $(document).ready(function() {
-            $("#lama_hari").keyup(function() {
-                set_biayaHarian();
-            });
-            $("#biaya_harian").keyup(function() {
-                set_biayaHarian();
-            });
-        });
-
-        function set_biayaHotel() {
-
-            var qtypenginap = parseInt($("#qtypenginap").val());
-            var biaya_penginapan = parseInt($("#biaya_penginapan").val());
-            var hasilpenginapan = qtypenginap * biaya_penginapan;
-            $("#hasilpenginapan").val(hasilpenginapan);
-        }
-        $(document).ready(function() {
-            $("#qtypenginap").keyup(function() {
-                set_biayaHotel();
-            });
-            $("#biaya_penginapan").keyup(function() {
-                set_biayaHotel();
-            });
-        });
-
-        function set_biayaLain() {
-
-            var qtyLain = parseInt($("#qtyLain").val());
-            var biaya_lain = parseInt($("#biaya_lain").val());
-            var hasillain = qtyLain * biaya_lain;
-            $("#hasillain").val(hasillain);
-        }
-        $(document).ready(function() {
-            $("#qtyLain").keyup(function() {
-                set_biayaLain();
-            });
-            $("#biaya_lain").keyup(function() {
-                set_biayaLain();
-            });
-        });
-    </script>
-
-    {{-- menambah row input lain --}}
-    <script>
-        $(document).ready(function() {
-            var x = 1;
-            $("#tambah").click(function() {
-                $("#tabellain").append(`<tr>
-                                                        <td><input name="qty_lain[]" id="qtyLain" type="text"
-                                                                value="" class="form-control"
-                                                                placeholder="jumlah"></td>
-                                                        <td><input name="jenis[]" type="text" value=""
-                                                                class="form-control"
-                                                                placeholder="jenis biaya lainnya"></td>
-                                                        <td><input name="biaya_lain[]" id="biaya_lain" type="text"
-                                                                value="" class="form-control"
-                                                                placeholder="harga biaya lain">
-                                                        </td>
-                                                        <td>
-
-                                                            <input class="hapus btn btn-danger mr-2" type="button"
-                                                                name="hapus" id="hapus" value="Hapus">
-                                                        </td>
-                                                    </tr>`);
-                $("#tabellain").on('click', '#hapus', function() {
-                    $(this).closest('tr').remove();
-                })
-            });
-        });
+        $('select').selectpicker();
     </script>
 @endpush

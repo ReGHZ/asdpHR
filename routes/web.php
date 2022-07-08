@@ -62,8 +62,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/pengajuan-cuti', [App\Http\Controllers\PengajuanCutiController::class, 'index'])->name('pengajuan-cuti');
     Route::get('/pengajuan-cuti/{pengajuan}/show', [App\Http\Controllers\PengajuanCutiController::class, 'show'])->name('pengajuan-cuti.show');
     Route::post('/pengajuan-cuti/store', [App\Http\Controllers\PengajuanCutiController::class, 'store'])->name('pengajuan-cuti.store');
-    Route::get('/pengajuan-cuti/{pengajuan}/reject', [App\Http\Controllers\PengajuanCutiController::class, 'updateReject'])->name('pengajuan-cuti.reject');
-    Route::get('/pengajuan-cuti/{pengajuan}/approve', [App\Http\Controllers\PengajuanCutiController::class, 'updateApprove'])->name('pengajuan-cuti.approve');
+    Route::get('/pengajuan-cuti/{id}/getPengajuan', [App\Http\Controllers\PengajuanCutiController::class, 'getPengajuan'])->name('pengajuan-cuti.getPengajuan');
+    Route::put('/pengajuan-cuti/reject', [App\Http\Controllers\PengajuanCutiController::class, 'updateReject'])->name('pengajuan-cuti.reject');
+    Route::post('/pengajuan-cuti/approve', [App\Http\Controllers\PengajuanCutiController::class, 'updateApprove'])->name('pengajuan-cuti.approve');
     Route::delete('/pengajuan-cuti/destroy', [App\Http\Controllers\PengajuanCutiController::class, 'destroy'])->name('pengajuan-cuti.destroy');
     Route::get('/pengajuan-cuti/{id}/download', [App\Http\Controllers\PengajuanCutiController::class, 'downloadFile'])->name('pengajuan-cuti.download');
     // ----------------------------- persetujuan cuti ------------------------------//
@@ -74,9 +75,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/perjalanan-dinas/store', [App\Http\Controllers\PerjalananDinasController::class, 'store'])->name('perjalanan-dinas.store');
     Route::get('/perjalanan-dinas/{penugasan}/show', [App\Http\Controllers\PerjalananDinasController::class, 'show'])->name('perjalanan-dinas.show');
     Route::get('/perjalanan-dinas/{id}/getPenugasan', [App\Http\Controllers\PerjalananDinasController::class, 'getPenugasan'])->name('perjalanan-dinas.getPenugasan');
+    Route::get('/perjalanan-dinas/{penugasan}/createRab', [App\Http\Controllers\PerjalananDinasController::class, 'createRab'])->name('perjalanan-dinas.createRab');
     Route::post('/perjalanan-dinas/storeRab', [App\Http\Controllers\PerjalananDinasController::class, 'storeRab'])->name('perjalanan-dinas.storeRab');
     Route::get('/perjalanan-dinas/{penugasan}/rab', [App\Http\Controllers\PerjalananDinasController::class, 'rabForm'])->name('perjalanan-dinas.rab');
-    Route::post('/perjalanan-dinas/storeReal', [App\Http\Controllers\PerjalananDinasController::class, 'realisasiRab'])->name('perjalanan-dinas.storeReal');
     // ----------------------------- Nortifications ------------------------------//
     Route::get('/notifications/mark-notif/{id}', [App\Http\Controllers\NotificationsController::class, 'markNotif'])->name('notifications.mark-notif');
     Route::get('/notifications/mark-all', [App\Http\Controllers\NotificationsController::class, 'markAll'])->name('notifications.mark-all');

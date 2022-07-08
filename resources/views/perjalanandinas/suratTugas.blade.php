@@ -258,13 +258,13 @@
                     <div class="content__detail">
                         <div class="detail__profile">
                             <div class="detail__profile-item">
-                                <span>Nama</span><span>:</span><span>{{ $penugasan->user->name }}</span>
+                                <span>Nama</span><span>:</span><span>{{ $penugasan->pengikut[0]->user->name }}</span>
                             </div>
                             <div class="detail__profile-item">
-                                <span>Pangkat</span><span>:</span><span>{{ $penugasan->user->pegawai->pangkat }}</span>
+                                <span>Pangkat</span><span>:</span><span>{{ $penugasan->pengikut[0]->user->pangkat }}</span>
                             </div>
                             <div class="detail__profile-item">
-                                <span>Jabatan</span><span>:</span><span>{{ $penugasan->user->jabatan->nama_jabatan }}</span>
+                                <span>Jabatan</span><span>:</span><span>{{ $penugasan->pengikut[0]->user->jabatan->nama_jabatan }}</span>
                             </div>
                         </div>
                     </div>
@@ -285,9 +285,15 @@
                             <span>Berlaku
                                 s/d</span><span>:</span><span>{{ tanggal_indonesia($penugasan->tanggal_kembali) }}</span>
                         </div>
-                        <div class="detail__departure-item">
-                            <span>Berkendaraan</span><span>:</span><span>{{ $penugasan->jenis_kendaraan }}</span>
-                        </div>
+                        @if (isset($penugasan->jenis_kendaraan))
+                            <div class="detail__departure-item">
+                                <span>Berkendaraan</span><span>:</span><span>{{ $penugasan->jenis_kendaraan }}</span>
+                            </div>
+                        @else
+                            <div class="detail__departure-item">
+                                <span>Berkendaraan</span><span>:</span><span>-</span>
+                            </div>
+                        @endif
                         @if (isset($penugasan->keterangan))
                             <div class="detail__departure-item">
                                 <span>Keterangan lain</span><span>:</span><span>{{ $penugasan->keterangan }}</span>
@@ -297,9 +303,15 @@
                                 <span>Keterangan lain</span><span>:</span><span>-</span>
                             </div>
                         @endif
-                        @if (isset($penugasan->pengikut))
+                        @if (isset($pengikut))
                             <div class="detail__departure-item">
-                                <span>Pengikut</span><span>:</span><span>{{ $penugasan->pengikut->name }}</span>
+                                <span>Pengikut</span>
+                                <span>:</span>
+                                @foreach ($pengikut as $i => $pengikut)
+                                    @if ($i > 0)
+                                        <span>{{ $pengikut->user->name }}</span>
+                                    @endif
+                                @endforeach
                             </div>
                         @else
                             <div class="detail__departure-item">
@@ -337,7 +349,7 @@
 @endsection
 
 {{-- script js --}}
-@section('script')
+@push('scripts')
     <script>
         document.getElementById("btnPrint").onclick = function() {
             printElement(document.getElementById("printDinas"));
@@ -368,4 +380,4 @@
             $printSection.appendChild(domClone);
         }
     </script>
-@endsection
+@endpush

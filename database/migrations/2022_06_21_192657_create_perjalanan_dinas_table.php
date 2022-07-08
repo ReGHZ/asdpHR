@@ -16,8 +16,7 @@ return new class extends Migration
         Schema::create('perjalanan_dinas', function (Blueprint $table) {
             //id
             $table->id();
-            $table->unsignedBigInteger('user_id')->nullable();
-            $table->unsignedBigInteger('pengikut')->nullable();
+            // $table->unsignedBigInteger('user_id')->nullable();
             //table isi
             $table->string('nomor_surat')->nullable();
             $table->date('tanggal_surat')->nullable();
@@ -35,8 +34,7 @@ return new class extends Migration
             $table->string('status')->nullable();
             $table->timestamps();
             //foreign key
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('pengikut')->references('id')->on('users')->onDelete('cascade');
+            // $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

@@ -2,12 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\BiayaHarian;
-use App\Models\BiayaLain;
-use App\Models\BiayaPenginapan;
 use App\Models\Divisi;
+use App\Models\Pengikut;
 use App\Models\PerjalananDinas;
-use App\Models\TiketPerjalanan;
 use App\Models\User;
 use App\Notifications\NotifPenugasanDinas;
 use Carbon\Carbon;
@@ -25,7 +22,7 @@ class PerjalananDinasController extends Controller
     public function index()
     {
         //get data penugasan with pegawai and pengikut
-        $penugasan = PerjalananDinas::with('user', 'pengikut')->get();
+        $penugasan = PerjalananDinas::with('pengikut')->get();
         $pegawai = User::all();
         $divisi = Divisi::all();
         return view('perjalanandinas.index', compact('penugasan', 'pegawai', 'divisi'));
@@ -46,7 +43,6 @@ class PerjalananDinasController extends Controller
             'pembebanan_biaya'              => 'required',
             'tanggal_keberangkatan'         => 'required|date',
             'tanggal_kembali'               => 'required|date|after:tanggal_keberangkatan',
-            'jenis_kendaraan'               => 'required',
             'tujuan'                        => 'required',
         ], [
             'user_id.required'              => 'pegawai cuti harus diisi',
@@ -54,7 +50,6 @@ class PerjalananDinasController extends Controller
             'pembebanan_biaya.required'     => 'Pembebanan Biaya harus diisi',
             'tanggal_keberangkatan.required' => 'Tanggal Keberangkatan harus diisi',
             'tanggal_kembali.required'      => 'Tanggal kembali harus sebelum tanggal mulai',
-            'jenis_kendaraan.required'      => 'Jenis kendaraan harus diisi',
             'tujuan.required'               => 'Tujuan harus diisi',
         ]);
 
@@ -73,41 +68,33 @@ class PerjalananDinasController extends Controller
         $lama_hari = $interval->format('%a');
 
         //if pengikut == null create new penugasan
-        if ($request->pengikut == null) {
-            $penugasan = PerjalananDinas::create([
-                'user_id' => $request->user_id,
-                'nomor_surat' => $nomorSurat,
-                'tanggal_surat' => $tanggal_surat,
-                'perihal' => $request->perihal,
-                'pembebanan_biaya' => $request->pembebanan_biaya,
-                'tanggal_keberangkatan' => $request->tanggal_keberangkatan,
-                'tanggal_kembali' => $request->tanggal_kembali,
-                'lama_hari' => $lama_hari,
-                'keterangan' => $request->keterangan,
-                'jenis_kendaraan' => $request->jenis_kendaraan,
-                'tujuan' => $request->tujuan,
-                'status' => 'Menunggu RAB',
-            ]);
-            $penugasan->save();
-        } else {
-            //if pengikut != null create new penugasan
-            $penugasan = PerjalananDinas::create([
-                'user_id' => $request->user_id,
-                'pengikut' => $request->pengikut,
-                'nomor_surat' => $nomorSurat,
-                'tanggal_surat' => $tanggal_surat,
-                'perihal' => $request->perihal,
-                'pembebanan_biaya' => $request->pembebanan_biaya,
-                'tanggal_keberangkatan' => $request->tanggal_keberangkatan,
-                'tanggal_kembali' => $request->tanggal_kembali,
-                'keterangan' => $request->keterangan,
-                'jenis_kendaraan' => $request->jenis_kendaraan,
-                'tujuan' => $request->tujuan,
-                'status' => 'Menunggu RAB',
-            ]);
-            $penugasan->save();
-        }
+        $penugasan = PerjalananDinas::create([
+            // 'user_id' => $request->user_id,
+            'nomor_surat' => $nomorSurat,
+            'tanggal_surat' => $tanggal_surat,
+            'perihal' => $request->perihal,
+            'pembebanan_biaya' => $request->pembebanan_biaya,
+            'tanggal_keberangkatan' => $request->tanggal_keberangkatan,
+            'tanggal_kembali' => $request->tanggal_kembali,
+            'lama_hari' => $lama_hari,
+            'keterangan' => $request->keterangan,
+            'jenis_kendaraan' => $request->jenis_kendaraan,
+            'tujuan' => $request->tujuan,
+            'status' => 'Menunggu RAB',
+        ]);
 
+        $penugasan->pengikut()->create([
+            'user_id' => $request->user_id,
+        ]);
+
+        if (!empty($request->pengikut)) {
+            foreach ($request->pengikut as $pengikut) {
+                $penugasan->pengikut()->create([
+                    'user_id' => $pengikut,
+                    'perjalanan_dinas_id' => $penugasan->id,
+                ]);
+            }
+        }
 
         // get user that send notification
         $pegawai = User::whereHas('pegawai', function ($query)  use ($request) {
@@ -130,11 +117,12 @@ class PerjalananDinasController extends Controller
      */
     public function show(PerjalananDinas $penugasan)
     {
-        $penugasan = PerjalananDinas::with('user', 'pengikut')->find($penugasan->id);
+        $penugasan = PerjalananDinas::with('pengikut')->find($penugasan->id);
         $manajer = User::whereHas('jabatan', function ($query) {
             $query->where('nama_jabatan', 'GENERAL MANAGER');
         })->get();
-        return view('perjalanandinas.suratTugas', compact('penugasan', 'manajer'));
+        $pengikut = Pengikut::where('perjalanan_dinas_id', $penugasan->id)->get();
+        return view('perjalanandinas.suratTugas', compact('penugasan', 'manajer', 'pengikut'));
     }
 
     /**
@@ -145,10 +133,23 @@ class PerjalananDinasController extends Controller
      */
     public function getPenugasan($id)
     {
-        $penugasan = PerjalananDinas::with('user', 'pengikut')->find($id);
+        $penugasan = PerjalananDinas::with('pengikut')->find($id);
         return response()->json(
             ['penugasan' => $penugasan]
         );
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function createRab(PerjalananDinas $penugasan)
+    {
+        //get data penugasan with pegawai and pengikut
+        $penugasan = PerjalananDinas::with('pengikut')->find($penugasan->id);
+        $pegawai = User::all();
+        return view('perjalanandinas.createRab', compact('penugasan', 'pegawai'));
     }
 
     /**
@@ -160,77 +161,13 @@ class PerjalananDinasController extends Controller
     public function storeRab(Request $request)
     {
         // dd($request->all());
-        $penugasan_id = $request->dispo_id;
-        $penugasan = PerjalananDinas::find($penugasan_id);
+        $penugasan = PerjalananDinas::with('pengikut')->where('id', $request->penugasan_id)->first();
 
-        $penugasan->status = 'Menunggu realisasi RAB';
 
+        $penugasan->status = "Berlangsung";
         $penugasan->save();
 
-
-        if ($request->maskapai != null) {
-            if ($request->charge == null) {
-                $penugasan->tiketPerjalanan()->create([
-                    'perjalanan_dinas_id' => $penugasan_id,
-                    'maskapai' => $request->maskapai,
-                    'harga_tiket' => $request->harga_tiket,
-                    'tempat_berangkat' => $request->tempat_berangkat,
-                    'tempat_tujuan' => $request->tempat_tujuan,
-                    // 'jumlah' => $request->jumlah_harga,
-                ]);
-            } elseif ($request->charge != null) {
-                $penugasan->tiketPerjalanan()->create([
-                    'perjalanan_dinas_id' => $penugasan_id,
-                    'maskapai' => $request->maskapai,
-                    'harga_tiket' => $request->harga_tiket,
-                    'tempat_berangkat' => $request->tempat_berangkat,
-                    'tempat_tujuan' => $request->tempat_tujuan,
-                    'charge' => $request->charge,
-                    // 'jumlah' => $request->jumlah_harga,
-                ]);
-            }
-        } else {
-            $penugasan->tiketPerjalanan()->create([
-                'perjalanan_dinas_id' => $penugasan_id,
-            ]);
-        }
-
-        $penugasan->biayaHarian()->create([
-            'perjalanan_dinas_id' => $penugasan_id,
-            'biaya' => $request->biaya_harian,
-            'jumlah' => $request->jumlah_biaya_harian,
-        ]);
-
-        if ($request->jumlah_penginapan != null) {
-            $penugasan->biayaPenginapan()->create([
-                'perjalanan_dinas_id' => $penugasan_id,
-                'qty' => $request->qty_penginapan,
-                'biaya' => $request->biaya_penginapan,
-                'jumlah' => $request->jumlah_biaya_penginapan,
-            ]);
-        } else {
-            $penugasan->biayaPenginapan()->create([
-                'perjalanan_dinas_id' => $penugasan_id,
-            ]);
-        }
-
-        if ($request->jenis != null) {
-            foreach ($request->qty_lain as $key => $value) {
-                $penugasan->biayaLain()->create([
-                    'perjalanan_dinas_id' => $penugasan_id,
-                    'qty' => $request->qty_lain[$key],
-                    'jenis' => $request->jenis[$key],
-                    'biaya' => $request->biaya_lain[$key],
-                    // 'jumlah' => $request->jumlah_biaya_lain[$key],
-                ]);
-            }
-        } else {
-            $penugasan->biayaLain()->create([
-                'perjalanan_dinas_id' => $penugasan_id,
-            ]);
-        }
-
-        return redirect('/perjalanan-dinas')->with('success', 'RAB berhasil ditambahkan');
+        return redirect('perjalanan-dinas')->with('success', 'Data RAB ditambahkan');
     }
 
     /**
@@ -241,23 +178,16 @@ class PerjalananDinasController extends Controller
      */
     public function rabForm(PerjalananDinas $penugasan)
     {
-        $penugasan = PerjalananDinas::with('user', 'pengikut')->find($penugasan->id);
+        //get data penugasan
+        $penugasan = PerjalananDinas::find($penugasan->id);
+        //get data manajer
         $manajer = User::whereHas('jabatan', function ($query) {
             $query->where('nama_jabatan', 'GENERAL MANAGER');
         })->get();
-        $biayaLain = BiayaLain::where('perjalanan_dinas_id', $penugasan->id)->get();
-        return view('perjalanandinas.rabForm', compact('penugasan', 'manajer', 'biayaLain'));
-    }
-
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function realisasiRab($id)
-    {
+        //get data pengikut
+        $pengikut = Pengikut::where('perjalanan_dinas_id', $penugasan->id)->get();
+        return view('perjalanandinas.rabForm', compact('penugasan', 'manajer', 'rab', 'pengikut'));
+        // dd($array);
     }
 
     /**
@@ -268,26 +198,7 @@ class PerjalananDinasController extends Controller
      */
     public function edit($id)
     {
-        //         <?php
-        // // example code
-
-        // $name = [
-        //     'asd','sas', 'tta'
-        // ];
-
-        // $age = [
-        //     12, 11, 21
-        // ];
-
-        // $transform = [];
-        // foreach ($name as $key => $val) {
-        //     array_push($transform, [
-        //         'name' => $name[$key],
-        //         'age' => $age[$key]
-        //     ]); 
-        // }
-
-        // echo json_encode($transform);
+        //
     }
 
     /**
