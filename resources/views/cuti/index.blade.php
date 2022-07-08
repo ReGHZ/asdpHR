@@ -165,14 +165,7 @@
                                                         class="dropdown-item" id="show-cuti"><i
                                                             class="bi bi-eye text-success"></i>
                                                         Lihat</a></li>
-                                                <li>
-                                                    <hr class="dropdown-divider">
-                                                </li>
 
-                                                <li><a class="dropdown-item disabled" href="#"><i
-                                                            class="bi bi-pencil text-secondary"></i>
-                                                        Edit</a>
-                                                </li>
                                                 @role('admin|manajer')
                                                     <li>
                                                         <hr class="dropdown-divider">
