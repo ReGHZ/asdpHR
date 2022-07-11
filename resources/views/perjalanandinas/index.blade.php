@@ -127,7 +127,7 @@
                                                                 Buat RAB</a>
                                                         </li>
                                                     @elseif($row->status == 'Berlangsung')
-                                                        <li><a href="{{ route('perjalanan-dinas.rab', $row->id) }}"
+                                                        <li><a href="{{ route('perjalanan-dinas.createRab', $row->id) }}"
                                                                 class="dropdown-item"><i class="bi bi-eye text-secondary"></i>
                                                                 lihat RAB</a>
                                                         </li>

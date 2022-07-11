@@ -35,25 +35,9 @@ class PerjalananDinas extends Model
         return $this->hasMany(Pengikut::class);
     }
 
-    public function pegawai()
+    public function rab()
     {
-        return $this->belongsToThrough(Pegawai::class, User::class);
-    }
-
-
-    public function tiketPerjalanan()
-    {
-        return $this->hasMany(TiketPerjalanan::class);
-    }
-
-    public function biayaHarian()
-    {
-        return $this->hasMany(BiayaHarian::class);
-    }
-
-    public function biayaPenginapan()
-    {
-        return $this->hasMany(BiayaPenginapan::class);
+        return $this->hasOne(Rab::class);
     }
 
     public function biayaLain()

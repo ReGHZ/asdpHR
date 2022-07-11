@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Divisi;
 use App\Models\Pengikut;
 use App\Models\PerjalananDinas;
+use App\Models\Rab;
 use App\Models\User;
 use App\Notifications\NotifPenugasanDinas;
 use Carbon\Carbon;
@@ -117,10 +118,15 @@ class PerjalananDinasController extends Controller
      */
     public function show(PerjalananDinas $penugasan)
     {
+        //get data penugasan with pengikut
         $penugasan = PerjalananDinas::with('pengikut')->find($penugasan->id);
+
+        //get data user manajer
         $manajer = User::whereHas('jabatan', function ($query) {
             $query->where('nama_jabatan', 'GENERAL MANAGER');
         })->get();
+
+        //get data pengikut
         $pengikut = Pengikut::where('perjalanan_dinas_id', $penugasan->id)->get();
         return view('perjalanandinas.suratTugas', compact('penugasan', 'manajer', 'pengikut'));
     }
@@ -146,10 +152,11 @@ class PerjalananDinasController extends Controller
      */
     public function createRab(PerjalananDinas $penugasan)
     {
-        //get data penugasan with pegawai and pengikut
-        $penugasan = PerjalananDinas::with('pengikut')->find($penugasan->id);
-        $pegawai = User::all();
-        return view('perjalanandinas.createRab', compact('penugasan', 'pegawai'));
+        //get data penugasan
+        $penugasan = PerjalananDinas::find($penugasan->id);
+        //get data rab
+        $rab = Rab::where('perjalanan_dinas_id', $penugasan->id)->get();
+        return view('perjalanandinas.createRab', compact('penugasan', 'rab'));
     }
 
     /**
@@ -160,14 +167,58 @@ class PerjalananDinasController extends Controller
      */
     public function storeRab(Request $request)
     {
-        // dd($request->all());
-        $penugasan = PerjalananDinas::with('pengikut')->where('id', $request->penugasan_id)->first();
+        //validate request
+        $request->validate([
+            'biaya_harian'        => 'required',
+            'jumlah_biaya_harian' => 'required',
+            'total'               => 'required',
+        ], [
 
+            'biaya_harian.required'        => 'biaya Harian harus diisi',
+            'jumlah_biaya_harian.required' => 'jumlah biaya harian harus ada',
+            'total.required'               => 'Total harus ada',
+        ]);
 
+        //get penugasan by id
+        $penugasan = PerjalananDinas::where('id', $request->penugasan_id)->first();
+
+        //create rab
+        $rab = Rab::create([
+            'perjalanan_dinas_id' => $penugasan->id,
+            'pengikut_id' => $request->pengikut_id,
+            //tiket perjalanan dinas
+            'maskapai' => $request->maskapai,
+            'harga_tiket' => $request->harga_tiket,
+            'tempat_berangkat' => $request->tempat_berangkat,
+            'tempat_tujuan' => $request->tempat_tujuan,
+            'charge' => $request->charge,
+            'jumlah_harga_tiket' => $request->jumlah_harga_tiket,
+            //biaya harian
+            'biaya_harian' => $request->biaya_harian,
+            'jumlah_biaya_harian' => $request->jumlah_biaya_harian,
+            //biaya penginaran
+            'lama_hari_penginap' => $request->lama_hari_penginap,
+            'biaya_penginapan' => $request->biaya_penginapan,
+            'jumlah_biaya_penginapan' => $request->jumlah_biaya_penginapan,
+            //total
+            'total' => $request->total,
+            //biaya lain
+            'jumlah_biaya_lain' => $request->jumlah_biaya_lain,
+        ]);
+
+        foreach ($request->biaya_lain as $key => $value) {
+            $rab->biayaLain()->create([
+                'rab_id' => $rab->id,
+                'qty' => $request->qty[$key],
+                'jenis' => $request->jenis[$key],
+                'biaya_lain' => $value,
+            ]);
+        }
+        //update status penugasan ke berlangsung
         $penugasan->status = "Berlangsung";
         $penugasan->save();
 
-        return redirect('perjalanan-dinas')->with('success', 'Data RAB ditambahkan');
+        return redirect()->back()->with('success', 'Data RAB ditambahkan');
     }
 
     /**
