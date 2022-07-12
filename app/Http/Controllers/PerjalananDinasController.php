@@ -71,7 +71,7 @@ class PerjalananDinasController extends Controller
         //if pengikut == null create new penugasan
         $penugasan = PerjalananDinas::create([
             // 'user_id' => $request->user_id,
-            'nomor_surat' => $nomorSurat,
+            'nomor_surat' => $nomorSurat + 1,
             'tanggal_surat' => $tanggal_surat,
             'perihal' => $request->perihal,
             'pembebanan_biaya' => $request->pembebanan_biaya,
@@ -227,18 +227,15 @@ class PerjalananDinasController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function rabForm(PerjalananDinas $penugasan)
+    public function rabForm(Rab $rab)
     {
-        //get data penugasan
-        $penugasan = PerjalananDinas::find($penugasan->id);
+        //get data rab
+        $rab = Rab::find($rab->id);
         //get data manajer
         $manajer = User::whereHas('jabatan', function ($query) {
             $query->where('nama_jabatan', 'GENERAL MANAGER');
         })->get();
-        //get data pengikut
-        $pengikut = Pengikut::where('perjalanan_dinas_id', $penugasan->id)->get();
-        return view('perjalanandinas.rabForm', compact('penugasan', 'manajer', 'rab', 'pengikut'));
-        // dd($array);
+        return view('perjalanandinas.rabForm', compact('rab', 'manajer'));
     }
 
     /**

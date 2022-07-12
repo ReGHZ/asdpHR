@@ -40,9 +40,11 @@
                             data-feather="arrow-left"></i>
                         Kembali
                     </a>
+
                     <button class="btn btn-success pengikutRab" data-bs-toggle="modal" data-bs-target="#createRAB">
                         Tambah RAB
                     </button>
+
                 </div>
             </div>
 
@@ -63,15 +65,15 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($rab as $i => $item)
+                            @foreach ($rab as $i => $row)
                                 <tr>
                                     <td>{{ ++$i }}</td>
-                                    <td>{{ $item->pengikut->user->name }}</td>
-                                    <td>{{ $item->jumlah_harga_tiket }}</td>
-                                    <td>{{ $item->jumlah_biaya_harian }}</td>
-                                    <td>{{ $item->jumlah_biaya_penginapan }}</td>
-                                    <td>{{ $item->jumlah_biaya_lain }}</td>
-                                    <td>{{ $item->total }}</td>
+                                    <td>{{ $row->pengikut->user->name }}</td>
+                                    <td>{{ $row->jumlah_harga_tiket }}</td>
+                                    <td>{{ $row->jumlah_biaya_harian }}</td>
+                                    <td>{{ $row->jumlah_biaya_penginapan }}</td>
+                                    <td>{{ $row->jumlah_biaya_lain }}</td>
+                                    <td>{{ $row->total }}</td>
                                     <td>
                                         <div class="dropdown position-static">
                                             <a class="dropdown" href="#" role="button" id="actionlink"
@@ -82,8 +84,8 @@
                                             <ul class="dropdown-menu shadow" aria-labelledby="actionlink"
                                                 style="min-width:inherit;">
                                                 @role('admin|manajer')
-                                                    <li><a href="" class="dropdown-item"><i
-                                                                class="bi bi-eye text-success"></i>
+                                                    <li><a href="{{ route('perjalanan-dinas.rab', $row->id) }}"
+                                                            class="dropdown-item"><i class="bi bi-eye text-success"></i>
                                                             Lihat form RAB</a></li>
                                                     <li>
                                                     @endrole
