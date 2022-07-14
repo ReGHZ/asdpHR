@@ -94,7 +94,7 @@
                                                     <li>
                                                         <hr class="dropdown-divider">
                                                     </li>
-                                                    <li><button value="" class="dropdown-item btnCutiDel"><i
+                                                    <li><button value="{{ $row->id }}" class="dropdown-item btnRabDel"><i
                                                                 class="bi bi-exclamation-circle text-danger"></i>
                                                             Hapus
                                                         </button>
@@ -339,12 +339,52 @@
                                 <span class="d-none d-sm-block">Simpan</span>
                             </button>
                         </div>
+                    </div>
+                </div>
             </form>
         </div>
-    </div>
-    </div>
-    {{-- end RAB modal --}}
+        {{-- end RAB modal --}}
 
+        <!-- Delete RAB Modal -->
+        <div class="modal fade text-left" id="rabDelete" tabindex="-1" role="dialog"
+            aria-labelledby="myModalLabel160" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+                <div class="modal-content">
+                    <div class="modal-header bg-danger">
+                        <h5 class="modal-title white" id="myModalLabel120">Hapus RAB perjalanan Dinas
+                        </h5>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <i data-feather="x"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{{ route('perjalanan-dinas.destroyRab') }}" method="post">
+                            @method('delete')
+                            @csrf
+                            <p class="text-center">Apakah kamu ingin menghapus RAB ?</p>
+                            <input type="hidden" name="rab_id" id="rab_id">
+                            <div class="row">
+                                <div class="col-6">
+                                    <button type="button" class="btn btn-light-secondary rounded-pill"
+                                        data-bs-dismiss="modal" style="min-width:200px; padding:10px 20px">
+                                        <i class="bx bx-x d-block d-sm-none"></i>
+                                        <span class="d-none d-sm-block">Close</span>
+                                    </button>
+                                </div>
+                                <div class="col-6">
+                                    <button type="submit" class="btn btn-danger ml-1 rounded-pill"
+                                        data-bs-dismiss="modal" style="min-width:200px; padding:10px 20px">
+                                        <i class="bx bx-check d-block d-sm-none"></i>
+                                        <span class="d-none d-sm-block">Hapus</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{-- end Delete RAB modal --}}
     </div>
 @endsection
 @push('scripts')
@@ -362,6 +402,13 @@
                 text.style.display = "none";
             }
         }
+
+        $(document).on('click', '.btnRabDel', function() {
+            var rab_id = $(this).val();
+            // alert(cuti_id);
+            $('#rabDelete').modal('show');
+            $('#rab_id').val(rab_id);
+        });
     </script>
     <script>
         let vue = Vue.createApp({

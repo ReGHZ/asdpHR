@@ -74,10 +74,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/perjalanan-dinas', [App\Http\Controllers\PerjalananDinasController::class, 'index'])->name('perjalanan-dinas');
     Route::post('/perjalanan-dinas/store', [App\Http\Controllers\PerjalananDinasController::class, 'store'])->name('perjalanan-dinas.store');
     Route::get('/perjalanan-dinas/{penugasan}/show', [App\Http\Controllers\PerjalananDinasController::class, 'show'])->name('perjalanan-dinas.show');
-    Route::get('/perjalanan-dinas/{id}/getPenugasan', [App\Http\Controllers\PerjalananDinasController::class, 'getPenugasan'])->name('perjalanan-dinas.getPenugasan');
+    Route::delete('/perjalanan-dinas/destroy', [App\Http\Controllers\PerjalananDinasController::class, 'destroy'])->name('perjalanan-dinas.destroy');
     Route::get('/perjalanan-dinas/{penugasan}/createRab', [App\Http\Controllers\PerjalananDinasController::class, 'createRab'])->name('perjalanan-dinas.createRab');
     Route::post('/perjalanan-dinas/storeRab', [App\Http\Controllers\PerjalananDinasController::class, 'storeRab'])->name('perjalanan-dinas.storeRab');
     Route::get('/perjalanan-dinas/{rab}/rab', [App\Http\Controllers\PerjalananDinasController::class, 'rabForm'])->name('perjalanan-dinas.rab');
+    Route::delete('/perjalanan-dinas/destroyRab', [App\Http\Controllers\PerjalananDinasController::class, 'destroyRab'])->name('perjalanan-dinas.destroyRab');
     // ----------------------------- Nortifications ------------------------------//
     Route::get('/notifications/mark-notif/{id}', [App\Http\Controllers\NotificationsController::class, 'markNotif'])->name('notifications.mark-notif');
     Route::get('/notifications/mark-all', [App\Http\Controllers\NotificationsController::class, 'markAll'])->name('notifications.mark-all');

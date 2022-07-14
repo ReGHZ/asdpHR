@@ -538,7 +538,7 @@
                                 </tr>
                                 <tr>
                                     <td class="alignkanan" style="width:50%">Jumlah</td>
-                                    @if (isset($rab->jumlah_biaya_penginapan))
+                                    @if (isset($rab->biaya_penginapan))
                                         <td>{{ $rab->jumlah_biaya_penginapan }}</td>
                                     @else
                                         <td style="width:50%"></td>

@@ -132,17 +132,26 @@ class PerjalananDinasController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Remove the specified resource from storage.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function getPenugasan($id)
+    public function destroy(Request $request)
     {
-        $penugasan = PerjalananDinas::with('pengikut')->find($id);
-        return response()->json(
-            ['penugasan' => $penugasan]
-        );
+        //get data penugasan from request by id
+        $penugasan_id = $request->input('penugasan_id');
+
+        //find penugasan id
+        $penugasan = PerjalananDinas::find($penugasan_id);
+
+        //delete prjalanan dinas
+        if ($penugasan != null) {
+            $penugasan->delete();
+            return redirect()->back()->with(['success' => 'Penugasan berhasil dihapus']);
+        }
+
+        return redirect()->back()->with(['error' => 'Id Salah!!']);
     }
 
     /**
@@ -239,6 +248,29 @@ class PerjalananDinasController extends Controller
     }
 
     /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroyRab(Request $request)
+    {
+        //get data penugasan from request by id
+        $rab_id = $request->input('rab_id');
+
+        //find penugasan id
+        $rab = Rab::find($rab_id);
+
+        //delete prjalanan dinas
+        if ($rab != null) {
+            $rab->delete();
+            return redirect()->back()->with(['success' => 'Rab berhasil dihapus']);
+        }
+
+        return redirect()->back()->with(['error' => 'Id Salah!!']);
+    }
+
+    /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
@@ -257,17 +289,6 @@ class PerjalananDinasController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
     {
         //
     }
