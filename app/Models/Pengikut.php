@@ -19,7 +19,7 @@ class Pengikut extends Model
     {
         return $this->belongsTo(User::class);
     }
-    public function perjalanan_dinas()
+    public function perjalananDinas()
     {
         return $this->belongsTo(PerjalananDinas::class);
     }

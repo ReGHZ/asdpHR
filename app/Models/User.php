@@ -13,6 +13,7 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoleAndPermission;
+    use \Znck\Eloquent\Traits\BelongsToThrough;
 
     /**
      * The attributes that are mass assignable.
@@ -78,12 +79,9 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Role::class);
     }
+
     public function pengajuanCuti()
     {
         return $this->hasMany(PengajuanCuti::class);
-    }
-    public function perjalananDinas()
-    {
-        return $this->hasMany(PerjalananDinas::class);
     }
 }

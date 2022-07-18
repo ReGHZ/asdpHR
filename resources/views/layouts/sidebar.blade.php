@@ -104,17 +104,21 @@
                     </ul>
                 </li>
 
-                <li class="sidebar-item  has-sub {{ request()->is('perjalanan-dinas*') ? 'active' : '' }}">
+                <li
+                    class="sidebar-item  has-sub {{ request()->is('perjalanan-dinas*') || request()->is('laporan-dinas*') ? 'active' : '' }}">
                     <a href="#" class='sidebar-link'>
                         <i class="fas fa-plane"></i>
                         <span>Perjalanan Dinas</span>
                     </a>
-                    <ul class="submenu {{ request()->is('perjalanan-dinas*') ? 'active' : '' }}">
-                        <li class="submenu-item {{ request()->is('perjalanan-dinas*') ? 'active' : '' }}">
-                            <a href="{{ route('perjalanan-dinas') }}">Daftar Penugasan</a>
-                        </li>
-                        <li class="submenu-item ">
-                            <a href="table-datatable-jquery.html">Laporan selesai</a>
+                    <ul
+                        class="submenu {{ request()->is('perjalanan-dinas*') || request()->is('laporan-dinas*') ? 'active' : '' }}">
+                        @role('admin|manajer')
+                            <li class="submenu-item {{ request()->is('perjalanan-dinas*') ? 'active' : '' }}">
+                                <a href="{{ route('perjalanan-dinas') }}">Daftar Penugasan</a>
+                            </li>
+                        @endrole
+                        <li class="submenu-item {{ request()->is('laporan-dinas*') ? 'active' : '' }}">
+                            <a href="{{ route('laporan-dinas') }}">Laporan Penugasan</a>
                         </li>
                     </ul>
                 </li>

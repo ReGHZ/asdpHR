@@ -11,6 +11,7 @@ use App\Notifications\NotifPenugasanDinas;
 use Carbon\Carbon;
 use DateTime;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
 
 class PerjalananDinasController extends Controller
@@ -276,7 +277,7 @@ class PerjalananDinasController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function RealisasiRab($id)
     {
         //
     }
@@ -291,5 +292,22 @@ class PerjalananDinasController extends Controller
     public function update(Request $request, $id)
     {
         //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function indexLaporan()
+    {
+        $user = Auth::user();
+        $penugasan = Pengikut::whereHas('perjalananDinas', function ($query) use ($user) {
+            $query->where('status', 'Berlangsung')->where('user_id', $user->id);
+        })->get();
+        // $penugasan = Pengikut::with('perjalananDinas')->where('user_id', $user->id)->get();
+        return view('perjalanandinas.laporan.index', compact('penugasan'));
     }
 }
