@@ -182,6 +182,263 @@
                     </div>
                 </div>
             @endif
+
+            <div class="card">
+                <div class="row card-body">
+                    <div class="panel col-lg-6">
+                        <canvas id="masaKerja" class="rounded shadow"></canvas>
+                        <div class="mt-2">
+                            <a id="dlmasakerja" download="grafik-masakerja.jpg" href=""
+                                class="btn btn-primary float-right bg-flat-color-1" title="download grafik usia">
+
+                                <!-- Download Icon -->
+                                <i class="fa fa-download"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="panel col-lg-6">
+                        <canvas id="masaJabatan" class="rounded shadow"></canvas>
+                        <div class="mt-2">
+                            <a id="dlmasajabatan" download="grafik-masajabatan.jpg" href=""
+                                class="btn btn-primary float-right bg-flat-color-1" title="download grafik usia">
+
+                                <!-- Download Icon -->
+                                <i class="fa fa-download"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="row card-body">
+                    <div class="panel col-lg-6">
+                        <canvas id="cutiUsers" class="rounded shadow"></canvas>
+                        <div class="mt-2">
+                            <a id="dlmasajabatan" download="grafik-masajabatan.jpg" href=""
+                                class="btn btn-primary float-right bg-flat-color-1" title="download grafik usia">
+
+                                <!-- Download Icon -->
+                                <i class="fa fa-download"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="panel col-lg-6">
+                        <canvas id="cuti" class="rounded shadow"></canvas>
+                        <div class="mt-2">
+                            <a id="dlmasajabatan" download="grafik-masajabatan.jpg" href=""
+                                class="btn btn-primary float-right bg-flat-color-1" title="download grafik usia">
+
+                                <!-- Download Icon -->
+                                <i class="fa fa-download"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
     </div>
 @endsection
+@push('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <script>
+        var ctx = document.getElementById('masaKerja').getContext('2d');
+        var chart = new Chart(ctx, {
+            // The type of chart we want to create
+            type: 'pie',
+            // The data for our dataset
+            data: {
+                labels: {!! json_encode($grafikMasaKerja->labels) !!},
+                datasets: [{
+                    label: 'Grafik masa kerja',
+                    backgroundColor: [
+                        'rgba(9, 160, 132, 0.5)',
+                        'rgba(67, 159, 399, 0.5)',
+                        'rgba(0, 255, 255, 0.5)',
+                    ],
+                    data: {!! json_encode($grafikMasaKerja->dataset) !!},
+                }]
+            },
+            // Configuration options go here
+            options: {
+                title: {
+                    display: true,
+                    text: 'Grafik Masa Kerja Pegawai PT.ASDP'
+                },
+                legend: {
+                    labels: {
+                        // This more specific font property overrides the global property
+                        fontColor: '#122C4B',
+                        fontFamily: "'Muli', sans-serif",
+                        padding: 25,
+                        boxWidth: 25,
+                        fontSize: 14,
+                    }
+                },
+                layout: {
+                    padding: {
+                        left: 10,
+                        right: 10,
+                        top: 0,
+                        bottom: 10
+                    }
+                }
+            }
+        });
+
+        var ctx = document.getElementById('masaJabatan').getContext('2d');
+        var chart = new Chart(ctx, {
+            // The type of chart we want to create
+            type: 'doughnut',
+            // The data for our dataset
+            data: {
+                labels: {!! json_encode($grafikMasaJabatan->labels) !!},
+                datasets: [{
+                    label: 'Grafik masa jabatan',
+                    backgroundColor: [
+                        'rgba(242, 99, 242, 0.5)',
+                        'rgba(124, 55, 171, 0.5)',
+                        'rgba(28, 3, 110, 0.5)',
+                    ],
+
+                    data: {!! json_encode($grafikMasaJabatan->dataset) !!},
+                }]
+            },
+            // Configuration options go here
+            options: {
+                title: {
+                    display: true,
+                    text: 'Grafik Masa Kerja jabatan Pegawai PT.ASDP'
+                },
+                legend: {
+                    labels: {
+                        // This more specific font property overrides the global property
+                        fontColor: '#122C4B',
+                        fontFamily: "'Muli', sans-serif",
+                        padding: 25,
+                        boxWidth: 25,
+                        fontSize: 14,
+                    }
+                },
+                layout: {
+                    padding: {
+                        left: 10,
+                        right: 10,
+                        top: 0,
+                        bottom: 10
+                    }
+                }
+            }
+        });
+
+        var ctx = document.getElementById('cutiUsers').getContext('2d');
+        var chart = new Chart(ctx, {
+            // The type of chart we want to create
+            type: 'doughnut',
+            // The data for our dataset
+            data: {
+                labels: {!! json_encode($grafikCutiUsers->labels) !!},
+                datasets: [{
+                    label: 'Grafik masa jabaran',
+                    backgroundColor: [
+                        'rgba(242, 99, 242, 0.5)',
+                        'rgba(124, 55, 171, 0.5)',
+                        'rgba(28, 3, 110, 0.5)',
+                    ],
+
+                    data: {!! json_encode($grafikCutiUsers->dataset) !!},
+                }]
+            },
+            // Configuration options go here
+            options: {
+                title: {
+                    display: true,
+                    text: 'Grafik Cuti PT.ASDP'
+                },
+                legend: {
+                    labels: {
+                        // This more specific font property overrides the global property
+                        fontColor: '#122C4B',
+                        fontFamily: "'Muli', sans-serif",
+                        padding: 25,
+                        boxWidth: 25,
+                        fontSize: 14,
+                    }
+                },
+                layout: {
+                    padding: {
+                        left: 10,
+                        right: 10,
+                        top: 0,
+                        bottom: 10
+                    }
+                }
+            }
+        });
+
+        var ctx = document.getElementById('cuti').getContext('2d');
+        var chart = new Chart(ctx, {
+            // The type of chart we want to create
+            type: 'doughnut',
+            // The data for our dataset
+            data: {
+                labels: {!! json_encode($grafikCuti->labels) !!},
+                datasets: [{
+                    label: 'Grafik masa jabaran',
+                    backgroundColor: [
+                        'rgba(242, 99, 242, 0.5)',
+                        'rgba(124, 55, 171, 0.5)',
+                        'rgba(28, 3, 110, 0.5)',
+                        'rgba(28, 3, 110, 200)',
+                    ],
+
+                    data: {!! json_encode($grafikCuti->dataset) !!},
+                }]
+            },
+            // Configuration options go here
+            options: {
+                title: {
+                    display: true,
+                    text: 'Grafik Cuti Pegawai PT.ASDP'
+                },
+                legend: {
+                    labels: {
+                        // This more specific font property overrides the global property
+                        fontColor: '#122C4B',
+                        fontFamily: "'Muli', sans-serif",
+                        padding: 25,
+                        boxWidth: 25,
+                        fontSize: 14,
+                    }
+                },
+                layout: {
+                    padding: {
+                        left: 10,
+                        right: 10,
+                        top: 0,
+                        bottom: 10
+                    }
+                }
+            }
+        });
+
+
+        document.getElementById("dlmasakerja").addEventListener('click', function() {
+            /*Get image of canvas element*/
+            var url_base64jp = document.getElementById("masaKerja").toDataURL("image/jpg");
+            /*get download button (tag: <a></a>) */
+            var a = document.getElementById("dlmasakerja");
+            /*insert chart image url to download button (tag: <a></a>) */
+            a.href = url_base64jp;
+        });
+        document.getElementById("dlmasajabatan").addEventListener('click', function() {
+            /*Get image of canvas element*/
+            var url_base64jp = document.getElementById("masaJabatan").toDataURL("image/jpg");
+            /*get download button (tag: <a></a>) */
+            var a = document.getElementById("dlmasajabatan");
+            /*insert chart image url to download button (tag: <a></a>) */
+            a.href = url_base64jp;
+        });
+    </script>
+@endpush

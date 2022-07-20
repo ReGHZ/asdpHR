@@ -122,13 +122,13 @@
                         </li>
                     </ul>
                 </li>
-                <li class="sidebar-title">Reports</li>
+                {{-- <li class="sidebar-title">Reports</li>
                 <li class="sidebar-item  ">
                     <a href="https://github.com/zuramai/mazer#donation" class='sidebar-link'>
                         <i class="bi bi-card-list"></i>
                         <span>Data Report</span>
                     </a>
-                </li>
+                </li> --}}
             </ul>
         </div>
     </div>

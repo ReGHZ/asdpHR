@@ -200,10 +200,6 @@ class JabatanSeeder extends Seeder
                 'nama_jabatan' => 'ABK',
                 'deskripsi' => 'Jabatan abk',
             ],
-            [
-                'nama_jabatan' => 'admin apl',
-                'deskripsi' => 'Jabatan admin apl',
-            ],
         ];
 
         Jabatan::insert($jabatan);

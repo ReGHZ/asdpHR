@@ -76,10 +76,6 @@ class DivisiSeeder extends Seeder
                 'nama_divisi' => 'KMP PRATHITA-IV',
                 'deskripsi' => 'Divisi kmp prathita-iv',
             ],
-            [
-                'nama_divisi' => 'admin apl',
-                'deskripsi' => 'admin apl',
-            ],
         ];
 
         Divisi::insert($divisi);
