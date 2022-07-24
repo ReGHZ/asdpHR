@@ -127,7 +127,7 @@
                                                                     class="bi bi-pencil text-secondary"></i>
                                                                 Buat RAB</a>
                                                         </li>
-                                                    @elseif($row->status == 'Berlangsung')
+                                                    @elseif($row->status == 'Berlangsung' || $row->status == 'Selesai')
                                                         <li><a href="{{ route('perjalanan-dinas.createRab', $row->id) }}"
                                                                 class="dropdown-item"><i class="bi bi-eye text-secondary"></i>
                                                                 Halaman RAB</a>

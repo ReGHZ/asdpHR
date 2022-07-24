@@ -8,6 +8,7 @@ use App\Models\PerjalananDinas;
 use App\Models\Rab;
 use App\Models\User;
 use App\Notifications\NotifPenugasanDinas;
+use App\Notifications\NotifSelesaiDinas;
 use Carbon\Carbon;
 use DateTime;
 use Illuminate\Http\Request;
@@ -305,9 +306,35 @@ class PerjalananDinasController extends Controller
     {
         $user = Auth::user();
         $penugasan = Pengikut::whereHas('perjalananDinas', function ($query) use ($user) {
-            $query->where('status', 'Berlangsung')->where('user_id', $user->id);
+            $query->where('status', 'Berlangsung')->orwhere('status', 'Selesai')->where('user_id', $user->id);
         })->get();
         // $penugasan = Pengikut::with('perjalananDinas')->where('user_id', $user->id)->get();
         return view('perjalanandinas.laporan.index', compact('penugasan'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function tandaiSelesai(Request $request)
+    {
+        $penugasan_id = $request->input('penugasan_id');
+
+        $penugasan = PerjalananDinas::find($penugasan_id);
+        $penugasan->status = "Selesai";
+        $penugasan->update();
+
+        // get user to send notification
+        $user = User::whereHas('roles', function ($query) {
+            $query->where('name', 'admin');
+        })->get();
+
+        //send notification to admin
+        Notification::send($user, new NotifSelesaiDinas($penugasan));
+
+        return redirect()->back()->with('success', 'Data berhasil ditandai selesai');
     }
 }

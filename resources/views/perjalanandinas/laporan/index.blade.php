@@ -58,12 +58,21 @@
                                     <td>{{ tanggal_indonesia($row->perjalananDinas->tanggal_keberangkatan) }}</td>
                                     <td>{{ tanggal_indonesia($row->perjalananDinas->tanggal_kembali) }}</td>
                                     <td>{{ $row->PerjalananDinas->tujuan }}</td>
-                                    <td>
-                                        <span class="badge bg-warning">
-                                            <i class="bi bi-hourglass-split me-2">
-                                            </i>{{ $row->perjalananDinas->status }}
-                                        </span>
-                                    </td>
+                                    @if ($row->perjalananDinas->status == 'Berlangsung')
+                                        <td>
+                                            <span class="badge bg-warning">
+                                                <i class="bi bi-hourglass-split me-2">
+                                                </i>{{ $row->perjalananDinas->status }}
+                                            </span>
+                                        </td>
+                                    @else
+                                        <td>
+                                            <span class="badge bg-success">
+                                                <i class="bi bi-hourglass-split me-2">
+                                                </i>{{ $row->perjalananDinas->status }}
+                                            </span>
+                                        </td>
+                                    @endif
                                     <td>
                                         <div class="dropdown position-static">
                                             <a class="dropdown" href="#" role="button" id="actionlink"
@@ -79,28 +88,48 @@
                                                         Lihat Surat penugasan</a></li>
                                                 <li>
 
+                                                    @if ($row->perjalananDinas->status == 'Berlangsung')
                                                 <li>
                                                     <hr class="dropdown-divider">
                                                 </li>
+                                                <li>
+                                                    <button value="{{ $row->perjalananDinas->id }}"
+                                                        class="dropdown-item btnselesai"><i
+                                                            class="bi bi-check text-success"></i>Tandai sudah
+                                                        selesai</button>
+                                                </li>
+                            @endif
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
 
-                                                @if ($row->perjalananDinas->status == 'Berlangsung')
-                                                    <li><a href="{{ route('perjalanan-dinas.createRab', $row->PerjalananDinas->id) }}"
-                                                            class="dropdown-item"><i class="bi bi-eye text-secondary"></i>
-                                                            Halaman RAB</a>
-                                                    </li>
-                                                @endif
+                            @if ($row->perjalananDinas->status == 'Berlangsung' || $row->perjalananDinas->status == 'Selesai')
+                                <li><a href="{{ route('perjalanan-dinas.createRab', $row->PerjalananDinas->id) }}"
+                                        class="dropdown-item"><i class="bi bi-eye text-secondary"></i>
+                                        Halaman RAB</a>
+                                </li>
+                            @endif
 
-                                            </ul>
-                                        </div>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                            </ul>
                 </div>
+                </td>
+                </tr>
+                @endforeach
+                </tbody>
+                </table>
             </div>
-        </section>
     </div>
+    </section>
+    </div>
+    @include('perjalananDinas.laporan.modalSelesai')
 @endsection
 @push('scripts')
+    <script>
+        $(document).on('click', '.btnselesai', function() {
+            var penugasan_id = $(this).val();
+            // alert(penugasan_id);
+            $('#perdinSelesai').modal('show');
+            $('#penugasan_id').val(penugasan_id);
+        });
+    </script>
 @endpush

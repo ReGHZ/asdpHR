@@ -14,7 +14,7 @@
                             @role('admin|manajer')
                                 <i class='bi bi-bell bi-sub fs-4'></i><span
                                     class="position-absolute top-0 start-99 translate-middle badge rounded-pill bg-danger">
-                                    {{ Auth::user()->unreadnotifications->whereIn('type', ['App\Notifications\NotifCuti', 'App\Notifications\NotifPenugasanDinas'])->count() }}
+                                    {{ Auth::user()->unreadnotifications->whereIn('type', ['App\Notifications\NotifCuti', 'App\Notifications\NotifPenugasanDinas', 'App\Notifications\NotifSelesaiDinas'])->count() }}
                                     <span class="visually-hidden">unread messages</span>
                                 </span>
                             @endrole
@@ -45,6 +45,10 @@
                                 @foreach (Auth::user()->unreadnotifications->where('type', 'App\Notifications\NotifPenugasanDinas') as $notification)
                                     <li><a class="dropdown-item">Ada penugasan masuk<br>Perlu membuat RAB perjalanan
                                             dinas</a> </li>
+                                @endforeach
+                                @foreach (Auth::user()->unreadnotifications->where('type', 'App\Notifications\NotifSelesaiDinas') as $notification)
+                                    <li><a class="dropdown-item">{{ $notification->data['message'] }}</a>
+                                    </li>
                                 @endforeach
                             @endrole
 

@@ -81,6 +81,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::delete('/perjalanan-dinas/destroyRab', [App\Http\Controllers\PerjalananDinasController::class, 'destroyRab'])->name('perjalanan-dinas.destroyRab');
     // ----------------------------- perjalanan dinas ------------------------------//
     Route::get('/laporan-dinas', [App\Http\Controllers\PerjalananDinasController::class, 'indexLaporan'])->name('laporan-dinas');
+    Route::put('/laporan-dinas/tandai-selesai', [App\Http\Controllers\PerjalananDinasController::class, 'tandaiSelesai'])->name('laporan-dinas.tandai-selesai');
     // ----------------------------- Nortifications ------------------------------//
     Route::get('/notifications/mark-notif/{id}', [App\Http\Controllers\NotificationsController::class, 'markNotif'])->name('notifications.mark-notif');
     Route::get('/notifications/mark-all', [App\Http\Controllers\NotificationsController::class, 'markAll'])->name('notifications.mark-all');
