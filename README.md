@@ -32,8 +32,15 @@ How to Install:
 
 1. Download .zip or git clone https://github.com/ReGHZ/asdp
 2. composer update
-3. composer install
-4. edit database .env file
-5. php artisan migrate
-6. php artisan key:generate
-7. done
+3. change in vendor>laravel>ui>auth-backend->AuthenticatesUsers :
+
+    public function username()
+    {
+        return 'email'; //change to return 'nik';
+    }
+
+4. composer install
+5. edit database .env file
+6. php artisan migrate
+7. php artisan key:generate
+8. done
