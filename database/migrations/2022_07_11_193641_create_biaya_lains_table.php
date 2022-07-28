@@ -20,7 +20,7 @@ return new class extends Migration
             //biaya lain
             $table->string('qty',)->nullable();
             $table->string('jenis',)->nullable();
-            $table->string('biaya_lain',)->nullable();
+            $table->string('biaya',)->nullable();
             $table->timestamps();
             //foreign key
             $table->foreign('rab_id')->references('id')->on('rabs')->onDelete('cascade');

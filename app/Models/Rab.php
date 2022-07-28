@@ -22,6 +22,7 @@ class Rab extends Model
         'charge',
         'jumlah_harga_tiket',
         //biaya harian
+        'lama_hari',
         'biaya_harian',
         'jumlah_biaya_harian',
         //biaya penginapan

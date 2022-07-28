@@ -16,7 +16,7 @@ class BiayaLain extends Model
         //biaya lain
         'qty',
         'jenis',
-        'biaya_lain',
+        'biaya',
     ];
 
     public function rab()

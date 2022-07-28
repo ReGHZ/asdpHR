@@ -166,7 +166,7 @@ class PerjalananDinasController extends Controller
         //get data penugasan
         $penugasan = PerjalananDinas::find($penugasan->id);
         //get data rab
-        $rab = Rab::where('perjalanan_dinas_id', $penugasan->id)->get();
+        $rab = Rab::with('biayaLain')->where('perjalanan_dinas_id', $penugasan->id)->get();
         return view('perjalanandinas.createRab', compact('penugasan', 'rab'));
     }
 
@@ -205,6 +205,7 @@ class PerjalananDinasController extends Controller
             'charge' => $request->charge,
             'jumlah_harga_tiket' => $request->jumlah_harga_tiket,
             //biaya harian
+            'lama_hari' => $request->lama_hari,
             'biaya_harian' => $request->biaya_harian,
             'jumlah_biaya_harian' => $request->jumlah_biaya_harian,
             //biaya penginaran
@@ -222,7 +223,7 @@ class PerjalananDinasController extends Controller
                 'rab_id' => $rab->id,
                 'qty' => $request->qty[$key],
                 'jenis' => $request->jenis[$key],
-                'biaya_lain' => $value,
+                'biaya' => $value,
             ]);
         }
         //update status penugasan ke berlangsung

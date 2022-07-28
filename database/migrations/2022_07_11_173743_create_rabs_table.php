@@ -26,6 +26,7 @@ return new class extends Migration
             $table->string('charge')->nullable();
             $table->string('jumlah_harga_tiket')->nullable();
             //biaya harian
+            $table->string('lama_hari')->nullable();
             $table->string('biaya_harian')->nullable();
             $table->string('jumlah_biaya_harian')->nullable();
             //biaya penginapan
