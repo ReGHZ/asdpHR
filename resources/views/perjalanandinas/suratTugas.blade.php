@@ -210,9 +210,16 @@
         </div>
         <div class="row mb-2">
             <div class="col">
-                <a href="{{ route('perjalanan-dinas') }}" class="btn icon btn-primary"><i data-feather="arrow-left"></i>
-                    Kembali
-                </a>
+                @role('admin|manajer')
+                    <a href="{{ route('perjalanan-dinas') }}" class="btn icon btn-primary"><i data-feather="arrow-left"></i>
+                        Kembali
+                    </a>
+                @endrole
+                @role('user')
+                    <a href="{{ route('laporan-dinas') }}" class="btn icon btn-primary"><i data-feather="arrow-left"></i>
+                        Kembali
+                    </a>
+                @endrole
 
                 <a id="btnPrint" class="btn icon btn-secondary me-1"><i data-feather="printer"></i>
                     Cetak
@@ -225,8 +232,7 @@
             <div id="printDinas">
                 <header class="header">
                     <div class="header__left">
-                        <img class="header__logo" src="{{ asset('backend/assets/images/logo/ASDP.png') }}"
-                            alt="logo" />
+                        <img class="header__logo" src="{{ asset('backend/assets/images/logo/ASDP.png') }}" alt="logo" />
                         <h1 class="header__title">FORMULIR SURAT PENUGASAN PERJALANAN DINAS</h1>
                     </div>
                     <div class="header__detail">

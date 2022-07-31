@@ -20,11 +20,15 @@ class ProfileController extends Controller
      */
     public function index()
     {
-        //get data user
-        $divisi = Divisi::all();
-        $jabatan = Jabatan::all();
-        $user = Auth::user();
-        return view('usermanagement.profile', compact('user', 'divisi', 'jabatan'));
+        try {
+            //get data user
+            $divisi = Divisi::all();
+            $jabatan = Jabatan::all();
+            $user = Auth::user();
+            return view('usermanagement.profile', compact('user', 'divisi', 'jabatan'));
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 
     /**
@@ -35,13 +39,20 @@ class ProfileController extends Controller
      */
     public function edit()
     {
-        //get user dengan relasi pegawai
-        $user = User::with('pegawai')->find(Auth::id());;
+        try {
+            //get user dengan relasi pegawai
+            $user = User::with('pegawai')->find(Auth::id());;
 
-        return response()->json([
-            'status' => 200,
-            'user' => $user,
-        ]);
+            return response()->json([
+                'status' => 200,
+                'user' => $user,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 500,
+                'error' => $e->getMessage(),
+            ]);
+        }
     }
 
     /**
@@ -106,25 +117,29 @@ class ProfileController extends Controller
      */
     public function updatePersonal(Request $request)
     {
-        //user id
-        $per_id = $request->per_id;
-        $user = User::find($per_id);
+        try {
+            //user id
+            $per_id = $request->per_id;
+            $user = User::find($per_id);
 
-        //update data pegawai
-        $user->pegawai()->update([
-            'status_keluarga'           => $request->status_keluarga,
-            'pendidikan'                => $request->pendidikan,
-            'jurusan'                   => $request->jurusan,
-            'nik_ktp'                   => $request->nik_ktp,
-            'no_bpjs_kesehatan'         => $request->no_bpjs_kesehatan,
-            'no_bpjs_ketenagakerjaan'   => $request->no_bpjs_ketenagakerjaan,
-            'no_rek'                    => $request->no_rek,
-            'npwp'                      => $request->npwp,
-            'ukuran_baju'               => $request->ukuran_baju,
-            'ukuran_sepatu'             => $request->ukuran_sepatu,
-        ]);
+            //update data pegawai
+            $user->pegawai()->update([
+                'status_keluarga'           => $request->status_keluarga,
+                'pendidikan'                => $request->pendidikan,
+                'jurusan'                   => $request->jurusan,
+                'nik_ktp'                   => $request->nik_ktp,
+                'no_bpjs_kesehatan'         => $request->no_bpjs_kesehatan,
+                'no_bpjs_ketenagakerjaan'   => $request->no_bpjs_ketenagakerjaan,
+                'no_rek'                    => $request->no_rek,
+                'npwp'                      => $request->npwp,
+                'ukuran_baju'               => $request->ukuran_baju,
+                'ukuran_sepatu'             => $request->ukuran_sepatu,
+            ]);
 
-        return redirect()->back()->with('success', 'Data personal Berhasil Diubah');
+            return redirect()->back()->with('success', 'Data personal Berhasil Diubah');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Data personal Gagal Diubah');
+        }
     }
 
     /**
@@ -136,27 +151,31 @@ class ProfileController extends Controller
      */
     public function updateKantor(Request $request)
     {
-        //user id
-        $kan_id = $request->kan_id;
-        $user = User::find($kan_id);
+        try {
+            //user id
+            $kan_id = $request->kan_id;
+            $user = User::find($kan_id);
 
-        //update data kantor
-        $user->pegawai()->update([
-            'sk'                        => $request->sk,
-            'segmen'                    => $request->segmen,
-            'no_inhealth'               => $request->no_inhealth,
-            'darat_laut_lokasi'         => $request->darat_laut_lokasi,
-            'gol_skala_tht'             => $request->gol_skala_tht,
-            'skala_tht'                 => $request->skala_tht,
-            'gol_skala_phdp'            => $request->gol_skala_phdp,
-            'gol_phdp'                  => $request->gol_phdp,
-            'gol_skala_gaji'            => $request->gol_skala_gaji,
-            'gol_gaji'                  => $request->gol_gaji,
-            'golongan'                  => $request->golongan,
-            'pangkat'                   => $request->pangkat,
-        ]);
+            //update data kantor
+            $user->pegawai()->update([
+                'sk'                        => $request->sk,
+                'segmen'                    => $request->segmen,
+                'no_inhealth'               => $request->no_inhealth,
+                'darat_laut_lokasi'         => $request->darat_laut_lokasi,
+                'gol_skala_tht'             => $request->gol_skala_tht,
+                'skala_tht'                 => $request->skala_tht,
+                'gol_skala_phdp'            => $request->gol_skala_phdp,
+                'gol_phdp'                  => $request->gol_phdp,
+                'gol_skala_gaji'            => $request->gol_skala_gaji,
+                'gol_gaji'                  => $request->gol_gaji,
+                'golongan'                  => $request->golongan,
+                'pangkat'                   => $request->pangkat,
+            ]);
 
-        return redirect()->back()->with('success', 'Data Kantor Berhasil Diubah');
+            return redirect()->back()->with('success', 'Data Kantor Berhasil Diubah');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Data Kantor Gagal Diubah');
+        }
     }
 
     /**
@@ -168,21 +187,25 @@ class ProfileController extends Controller
      */
     public function updateFotoPegawai(Request $request, $id)
     {
-        //user id
-        $user = User::find($id);
+        try {
+            //user id
+            $user = User::find($id);
 
-        //update foto profile
-        if ($request->hasFile('foto')) {
+            //update foto profile
+            if ($request->hasFile('foto')) {
 
-            $lokasi = 'fotoPegawai/' . $user->pegawai->foto;
-            if (File::exists($lokasi)) {
-                File::delete($lokasi);
+                $lokasi = 'fotoPegawai/' . $user->pegawai->foto;
+                if (File::exists($lokasi)) {
+                    File::delete($lokasi);
+                }
+                $request->file('foto')->move('fotoPegawai/', $request->file('foto')->getClientoriginalName());
+                $user->pegawai->foto = $request->file('foto')->getClientOriginalName();
+                $user->pegawai->update();
             }
-            $request->file('foto')->move('fotoPegawai/', $request->file('foto')->getClientoriginalName());
-            $user->pegawai->foto = $request->file('foto')->getClientOriginalName();
-            $user->pegawai->update();
-        }
 
-        return redirect()->back()->with('success', 'Foto Profile Berhasil Diubah');
+            return redirect()->back()->with('success', 'Foto Profile Berhasil Diubah');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Foto Profile Gagal Diubah');
+        }
     }
 }

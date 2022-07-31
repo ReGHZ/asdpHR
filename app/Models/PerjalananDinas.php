@@ -23,8 +23,6 @@ class PerjalananDinas extends Model
         'keterangan',
         'jenis_kendaraan',
         'tujuan',
-        'biaya_kas',
-        'biaya_ybs',
         'disetujui_di',
         'status',
     ];

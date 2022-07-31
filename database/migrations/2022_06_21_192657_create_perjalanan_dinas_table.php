@@ -28,8 +28,6 @@ return new class extends Migration
             $table->string('keterangan')->nullable();
             $table->string('jenis_kendaraan')->nullable();
             $table->string('tujuan')->nullable();
-            $table->string('biaya_kas')->nullable();
-            $table->string('biaya_ybs')->nullable();
             $table->string('disetujui_di')->nullable();
             $table->string('status')->nullable();
             $table->timestamps();

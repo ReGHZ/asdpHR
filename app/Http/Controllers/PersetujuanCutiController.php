@@ -32,10 +32,14 @@ class PersetujuanCutiController extends Controller
      */
     public function index()
     {
-        // get data persetujuan cuti
-        $persetujuan = PersetujuanCuti::with('pengajuanCuti')->get();
-        // dd($persetujuan);
-        return view('cuti.persetujuan.index', compact('persetujuan'));
+        try {
+            // get data persetujuan cuti
+            $persetujuan = PersetujuanCuti::with('pengajuanCuti')->get();
+            // dd($persetujuan);
+            return view('cuti.persetujuan.index', compact('persetujuan'));
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 
     /**
@@ -46,14 +50,18 @@ class PersetujuanCutiController extends Controller
      */
     public function show(PersetujuanCuti $persetujuan)
     {
-        //get data pengajuan cuti, get user that have role manajer, and tembusan
-        $persetujuan = PersetujuanCuti::with('pengajuanCuti')->findOrFail($persetujuan->id);
-        $manajer = User::whereHas('jabatan', function ($query) {
-            $query->where('nama_jabatan', 'GENERAL MANAGER');
-        })->get();
-        $tembusan = Tembusan::where('persetujuan_cuti_id', $persetujuan->id)->get();
-        return view('cuti.persetujuan.suratIzinCuti', compact('persetujuan', 'manajer', 'tembusan'));
-        // dd($tembusan);
+        try {
+            //get data pengajuan cuti, get user that have role manajer, and tembusan
+            $persetujuan = PersetujuanCuti::with('pengajuanCuti')->findOrFail($persetujuan->id);
+            $manajer = User::whereHas('jabatan', function ($query) {
+                $query->where('nama_jabatan', 'GENERAL MANAGER');
+            })->get();
+            $tembusan = Tembusan::where('persetujuan_cuti_id', $persetujuan->id)->get();
+            return view('cuti.persetujuan.suratIzinCuti', compact('persetujuan', 'manajer', 'tembusan'));
+            // dd($tembusan);
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Data tidak ditemukan');
+        }
     }
 
     /**

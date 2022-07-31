@@ -76,8 +76,8 @@
                                                 <li><a href="{{ route('persetujuan-cuti.show', $row->id) }}"
                                                         class="dropdown-item" id="show-persetujuan"><i
                                                             class="bi bi-eye text-success"></i>
-                                                        Lihat</a></li>
-                                                <li>
+                                                        Lihat</a>
+                                                </li>
                                             </ul>
                                         </div>
                                     </td>

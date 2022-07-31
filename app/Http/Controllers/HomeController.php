@@ -113,8 +113,8 @@ class HomeController extends Controller
         }
 
         $grafikCutiUsers = new PengajuanCuti;
-        $grafikCutiUsers->labels = (array_keys($groupCutiUser));
-        $grafikCutiUsers->dataset = (array_values($groupCutiUser));
+        $grafikCutiUsers->labels = (array_keys($groupCutiUser ?? []));
+        $grafikCutiUsers->dataset = (array_values($groupCutiUser ?? []));
 
         // dd($groupCuti);
         return view('layouts.home', compact('todayDate', 'pengajuanCuti', 'pegawai', 'grafikMasaKerja', 'grafikMasaJabatan', 'pengajuanCuti', 'grafikCutiUsers', 'grafikCuti'));

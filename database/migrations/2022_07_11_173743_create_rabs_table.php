@@ -37,6 +37,11 @@ return new class extends Migration
             $table->string('total')->nullable();
             //biaya lain
             $table->string('jumlah_biaya_lain')->nullable();
+            //kas
+            $table->string('biaya_kas')->nullable();
+            $table->string('biaya_ybs')->nullable();
+            $table->string('uang_muka')->nullable();
+            $table->date('tanggal_uang_muka')->nullable();
             $table->timestamps();
             //foreign key
             $table->foreign('perjalanan_dinas_id')->references('id')->on('perjalanan_dinas')->onDelete('cascade');

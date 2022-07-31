@@ -28,9 +28,13 @@ class JabatanController extends Controller
      */
     public function index()
     {
-        //get all jabatan
-        $jabatan = Jabatan::all();
-        return view('employee.positions.index', compact('jabatan'));
+        try {
+            //get all jabatan
+            $jabatan = Jabatan::all();
+            return view('employee.positions.index', compact('jabatan'));
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 
     /**
@@ -69,14 +73,18 @@ class JabatanController extends Controller
      */
     public function edit($id)
     {
-        //find jabatan by id
-        $jabatan = Jabatan::find($id);
+        try {
+            //find jabatan by id
+            $jabatan = Jabatan::find($id);
 
-        // return json with jabatan
-        return response()->json([
-            'status' => 200,
-            'jabatan' => $jabatan
-        ]);
+            // return json with jabatan
+            return response()->json([
+                'status' => 200,
+                'jabatan' => $jabatan
+            ]);
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 
     /**

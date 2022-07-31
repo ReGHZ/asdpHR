@@ -268,8 +268,7 @@
             <div id="printRAB">
                 <header class="header">
                     <div class="header__left">
-                        <img class="header__logo" src="{{ asset('backend/assets/images/logo/ASDP.png') }}"
-                            alt="logo" />
+                        <img class="header__logo" src="{{ asset('backend/assets/images/logo/ASDP.png') }}" alt="logo" />
                         <h1 class="header__title">FORMULIR PERHITUNGAN BIAYA PERJALANAN DINAS</h1>
                     </div>
                     <div class="header__detail">
@@ -589,25 +588,50 @@
                             <td style="width:25%">{{ $rab->total }}</td>
                         </tr>
                         <tr style="border-bottom: 1pt solid black">
-                            <td></td>
-                            <td>Uang Muka Tanggal</td>
-                            <td>:................................................</td>
-                            <td>Jumlah</td>
-                            <td></td>
+                            @if (isset($rab->tanggal_uang_muka))
+                                <td></td>
+                                <td>Uang Muka Tanggal</td>
+                                <td>:{{ $rab->tanggal_uang_muka }}</td>
+                                <td>Jumlah</td>
+                                <td>{{ $rab->biaya_kas }}</td>
+                            @else
+                                <td></td>
+                                <td>Uang Muka</td>
+                                <td>:................................................</td>
+                                <td>Jumlah</td>
+                                <td>-</td>
+                            @endif
                         </tr>
                         <tr>
-                            <td></td>
-                            <td>Untuk Distor kembali ke KAS</td>
-                            <td>.................................................</td>
-                            <td>Jumlah</td>
-                            <td></td>
+                            @if (isset($rab->biaya_kas))
+                                <td></td>
+                                <td>Untuk Distor kembali ke KAS</td>
+                                <td>.................................................</td>
+                                <td>Jumlah</td>
+                                <td>{{ $rab->biaya_kas }}</td>
+                            @else
+                                <td></td>
+                                <td>Untuk Distor kembali ke KAS</td>
+                                <td>.................................................</td>
+                                <td>Jumlah</td>
+                                <td>-</td>
+                            @endif
+
                         </tr>
                         <tr>
-                            <td></td>
-                            <td>Untuk dibayarkan kepada Ybs</td>
-                            <td>.................................................</td>
-                            <td>Jumlah</td>
-                            <td></td>
+                            @if (isset($rab->biaya_ybs))
+                                <td></td>
+                                <td>Untuk dibayarkan kepada Ybs</td>
+                                <td>.................................................</td>
+                                <td>Jumlah</td>
+                                <td>{{ $rab->biaya_ybs }}</td>
+                            @else
+                                <td></td>
+                                <td>Untuk dibayarkan kepada Ybs</td>
+                                <td>.................................................</td>
+                                <td>Jumlah</td>
+                                <td>-</td>
+                            @endif
                         </tr>
                     </table>
                 </main>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BiayaLain;
 use App\Models\Divisi;
 use App\Models\Pengikut;
 use App\Models\PerjalananDinas;
@@ -24,11 +25,15 @@ class PerjalananDinasController extends Controller
      */
     public function index()
     {
-        //get data penugasan with pegawai and pengikut
-        $penugasan = PerjalananDinas::with('pengikut')->get();
-        $pegawai = User::all();
-        $divisi = Divisi::all();
-        return view('perjalanandinas.index', compact('penugasan', 'pegawai', 'divisi'));
+        try {
+            //get data penugasan with pegawai and pengikut
+            $penugasan = PerjalananDinas::with('pengikut')->get();
+            $pegawai = User::all();
+            $divisi = Divisi::all();
+            return view('perjalanandinas.index', compact('penugasan', 'pegawai', 'divisi'));
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 
     /**
@@ -39,6 +44,7 @@ class PerjalananDinasController extends Controller
      */
     public function store(Request $request)
     {
+
         //validate request
         $request->validate([
             'user_id'                       => 'required',
@@ -120,17 +126,21 @@ class PerjalananDinasController extends Controller
      */
     public function show(PerjalananDinas $penugasan)
     {
-        //get data penugasan with pengikut
-        $penugasan = PerjalananDinas::with('pengikut')->find($penugasan->id);
+        try {
+            //get data penugasan with pengikut
+            $penugasan = PerjalananDinas::with('pengikut')->find($penugasan->id);
 
-        //get data user manajer
-        $manajer = User::whereHas('jabatan', function ($query) {
-            $query->where('nama_jabatan', 'GENERAL MANAGER');
-        })->get();
+            //get data user manajer
+            $manajer = User::whereHas('jabatan', function ($query) {
+                $query->where('nama_jabatan', 'GENERAL MANAGER');
+            })->get();
 
-        //get data pengikut
-        $pengikut = Pengikut::where('perjalanan_dinas_id', $penugasan->id)->get();
-        return view('perjalanandinas.suratTugas', compact('penugasan', 'manajer', 'pengikut'));
+            //get data pengikut
+            $pengikut = Pengikut::where('perjalanan_dinas_id', $penugasan->id)->get();
+            return view('perjalanandinas.suratTugas', compact('penugasan', 'manajer', 'pengikut'));
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 
     /**
@@ -163,11 +173,15 @@ class PerjalananDinasController extends Controller
      */
     public function createRab(PerjalananDinas $penugasan)
     {
-        //get data penugasan
-        $penugasan = PerjalananDinas::find($penugasan->id);
-        //get data rab
-        $rab = Rab::with('biayaLain')->where('perjalanan_dinas_id', $penugasan->id)->get();
-        return view('perjalanandinas.createRab', compact('penugasan', 'rab'));
+        try {
+            //get data penugasan
+            $penugasan = PerjalananDinas::find($penugasan->id);
+            //get data rab
+            $rab = Rab::with('biayaLain')->where('perjalanan_dinas_id', $penugasan->id)->get();
+            return view('perjalanandinas.rab.createRab', compact('penugasan', 'rab'));
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 
     /**
@@ -178,16 +192,19 @@ class PerjalananDinasController extends Controller
      */
     public function storeRab(Request $request)
     {
+
         //validate request
         $request->validate([
             'biaya_harian'        => 'required',
             'jumlah_biaya_harian' => 'required',
             'total'               => 'required',
+            'pengikut_id'         => 'required',
         ], [
 
             'biaya_harian.required'        => 'biaya Harian harus diisi',
             'jumlah_biaya_harian.required' => 'jumlah biaya harian harus ada',
             'total.required'               => 'Total harus ada',
+            'pengikut_id.required'         => 'nama harus ada',
         ]);
 
         //get penugasan by id
@@ -241,13 +258,17 @@ class PerjalananDinasController extends Controller
      */
     public function rabForm(Rab $rab)
     {
-        //get data rab
-        $rab = Rab::find($rab->id);
-        //get data manajer
-        $manajer = User::whereHas('jabatan', function ($query) {
-            $query->where('nama_jabatan', 'GENERAL MANAGER');
-        })->get();
-        return view('perjalanandinas.rabForm', compact('rab', 'manajer'));
+        try {
+            //get data rab
+            $rab = Rab::find($rab->id);
+            //get data manajer
+            $manajer = User::whereHas('jabatan', function ($query) {
+                $query->where('nama_jabatan', 'GENERAL MANAGER');
+            })->get();
+            return view('perjalanandinas.rab.rabForm', compact('rab', 'manajer'));
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 
     /**
@@ -279,9 +300,74 @@ class PerjalananDinasController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function RealisasiRab($id)
+    public function realisasiRab(Request $request)
     {
-        //
+        try {
+            //get data rab
+            $rab_id = $request->rab_id;
+            $rab = Rab::find($rab_id);
+
+            $rab->maskapai                  = $request->maskapai;
+            $rab->harga_tiket               = $request->harga_tiket;
+            $rab->tempat_berangkat          = $request->tempat_berangkat;
+            $rab->tempat_tujuan             = $request->tempat_tujuan;
+            $rab->charge                    = $request->charge;
+            $rab->jumlah_harga_tiket        = $request->jumlah_harga_tiket;
+            $rab->lama_hari                 = $request->lama_hari;
+            $rab->biaya_harian              = $request->biaya_harian;
+            $rab->jumlah_biaya_harian       = $request->jumlah_biaya_harian;
+            $rab->lama_hari_penginap        = $request->lama_hari_penginap;
+            $rab->biaya_penginapan          = $request->biaya_penginapan;
+            $rab->jumlah_biaya_penginapan   = $request->jumlah_biaya_penginapan;
+            $rab->total                     = $request->total;
+            $rab->jumlah_biaya_lain         = $request->jumlah_biaya_lain;
+            $rab->uang_muka                 = $request->uang_muka;
+            $rab->tanggal_uang_muka         = $request->tanggal_uang_muka;
+            $rab->biaya_kas                 = $request->biaya_kas;
+            $rab->biaya_ybs                 = $request->biaya_ybs;
+
+            $pengajuan = $rab->perjalananDinas;
+            $pengajuan->status = "Selesai";
+
+            //get biayalain
+            $biayaLain = $rab->biayaLain;
+
+            //store biayalain in array
+            $biayaLain_id = [];
+
+            //get same biayaLain_id to requ3est biaya lain
+            foreach ($biayaLain as $key => $value) {
+                array_push($biayaLain_id, $value->id);
+            }
+
+            //get different value from request biaya lain to delete
+            $hapus_biayalain = array_diff($biayaLain_id, $request->biayaLain_id);
+            foreach ($hapus_biayalain as $key => $value) {
+                $rab->biayaLain()->where('id', $value)->delete();
+            }
+
+            //request biayalain_id to update or create
+            foreach ($request->biayaLain_id as $key => $value) {
+                $data = array(
+                    'id' => $value,
+                    'rab_id' => $rab_id,
+                    'qty' => $request->qty[$key],
+                    'jenis' => $request->jenis[$key],
+                    'biaya' => $request->biaya_lain[$key],
+                );
+
+                $new = BiayaLain::updateOrCreate(
+                    ['rab_id' => $rab_id, 'id' => $value],
+                    $data
+                );
+            }
+
+            $rab->update();
+            $pengajuan->update();
+            return redirect()->back()->with('success', 'Data RAB berhasil direalisasi');
+        } catch (\Exception $e) {
+            return redirect()->back()->with(['error', 'Data RAB gagal direalisasi']);
+        }
     }
 
     /**
@@ -291,9 +377,19 @@ class PerjalananDinasController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function realisasiForm(Rab $rab)
     {
-        //
+        try {
+            //get data rab
+            $rab = Rab::find($rab->id);
+            //get data manajer
+            $manajer = User::whereHas('jabatan', function ($query) {
+                $query->where('nama_jabatan', 'GENERAL MANAGER');
+            })->get();
+            return view('perjalanandinas.realisasi.formrealisasi', compact('rab', 'manajer'));
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 
     /**
@@ -305,12 +401,19 @@ class PerjalananDinasController extends Controller
      */
     public function indexLaporan()
     {
-        $user = Auth::user();
-        $penugasan = Pengikut::whereHas('perjalananDinas', function ($query) use ($user) {
-            $query->where('status', 'Berlangsung')->orwhere('status', 'Selesai')->where('user_id', $user->id);
-        })->get();
-        // $penugasan = Pengikut::with('perjalananDinas')->where('user_id', $user->id)->get();
-        return view('perjalanandinas.laporan.index', compact('penugasan'));
+        try {
+            //get auth user
+            $user = Auth::user();
+
+            //get data perjalanan dinas
+            $penugasan = Pengikut::with('perjalananDinas')->whereHas('perjalananDinas', function ($query) use ($user) {
+                $query->where('user_id', $user->id);
+            })->get();
+
+            return view('perjalanandinas.laporan.index', compact('penugasan'));
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 
     /**
@@ -322,20 +425,24 @@ class PerjalananDinasController extends Controller
      */
     public function tandaiSelesai(Request $request)
     {
-        $penugasan_id = $request->input('penugasan_id');
+        try {
+            $penugasan_id = $request->input('penugasan_id');
 
-        $penugasan = PerjalananDinas::find($penugasan_id);
-        $penugasan->status = "Selesai";
-        $penugasan->update();
+            $penugasan = PerjalananDinas::find($penugasan_id);
+            $penugasan->status = "Menunggu Realisasi";
+            $penugasan->update();
 
-        // get user to send notification
-        $user = User::whereHas('roles', function ($query) {
-            $query->where('name', 'admin');
-        })->get();
+            // get user to send notification
+            $user = User::whereHas('roles', function ($query) {
+                $query->where('name', 'admin');
+            })->get();
 
-        //send notification to admin
-        Notification::send($user, new NotifSelesaiDinas($penugasan));
+            //send notification to admin
+            Notification::send($user, new NotifSelesaiDinas($penugasan));
 
-        return redirect()->back()->with('success', 'Data berhasil ditandai selesai');
+            return redirect()->back()->with('success', 'Data berhasil ditandai selesai');
+        } catch (\Exception $e) {
+            return redirect()->back()->with(['error', 'Data gagal ditandai selesai']);
+        }
     }
 }

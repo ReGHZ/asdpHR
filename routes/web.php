@@ -78,6 +78,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/perjalanan-dinas/{penugasan}/createRab', [App\Http\Controllers\PerjalananDinasController::class, 'createRab'])->name('perjalanan-dinas.createRab');
     Route::post('/perjalanan-dinas/storeRab', [App\Http\Controllers\PerjalananDinasController::class, 'storeRab'])->name('perjalanan-dinas.storeRab');
     Route::get('/perjalanan-dinas/{rab}/rab', [App\Http\Controllers\PerjalananDinasController::class, 'rabForm'])->name('perjalanan-dinas.rab');
+    Route::put('/perjalanan-dinas/realisasiRab', [App\Http\Controllers\PerjalananDinasController::class, 'realisasiRab'])->name('perjalanan-dinas.realisasiRab');
+    Route::get('/perjalanan-dinas/{rab}/realisasiForm', [App\Http\Controllers\PerjalananDinasController::class, 'realisasiForm'])->name('perjalanan-dinas.realisasiForm');
     Route::delete('/perjalanan-dinas/destroyRab', [App\Http\Controllers\PerjalananDinasController::class, 'destroyRab'])->name('perjalanan-dinas.destroyRab');
     // ----------------------------- perjalanan dinas ------------------------------//
     Route::get('/laporan-dinas', [App\Http\Controllers\PerjalananDinasController::class, 'indexLaporan'])->name('laporan-dinas');

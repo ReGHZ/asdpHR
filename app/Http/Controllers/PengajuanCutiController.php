@@ -42,11 +42,14 @@ class PengajuanCutiController extends Controller
      */
     public function index()
     {
+        try {
+            //get all data cuti
+            $dataCuti = PengajuanCuti::with('user')->get();
 
-        //get all data cuti
-        $dataCuti = PengajuanCuti::with('user')->get();
-
-        return view('cuti.index', compact('dataCuti'));
+            return view('cuti.index', compact('dataCuti'));
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 
     /**
@@ -172,13 +175,17 @@ class PengajuanCutiController extends Controller
      */
     public function show(PengajuanCuti $pengajuan)
     {
-        //get data pengajuan cuti and get user where have role manajer
-        $pengajuan = PengajuanCuti::with('user.pegawai')->findOrFail($pengajuan->id);
-        $manajerSDM = User::whereHas('jabatan', function ($query) {
-            $query->where('nama_jabatan', 'MANAGER SDM & UMUM');
-        })->get();
-        $user = User::all();
-        return view('cuti.suratCuti', compact('pengajuan', 'manajerSDM', 'user'));
+        try {
+            //get data pengajuan cuti and get user where have role manajer
+            $pengajuan = PengajuanCuti::with('user.pegawai')->findOrFail($pengajuan->id);
+            $manajerSDM = User::whereHas('jabatan', function ($query) {
+                $query->where('nama_jabatan', 'MANAGER SDM & UMUM');
+            })->get();
+            $user = User::all();
+            return view('cuti.suratCuti', compact('pengajuan', 'manajerSDM', 'user'));
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Data tidak ditemukan');
+        }
     }
 
     /**
@@ -199,12 +206,19 @@ class PengajuanCutiController extends Controller
      */
     public function getPengajuan($id)
     {
-        //get pengajuan to json by id
-        $pengajuan = PengajuanCuti::findOrFail($id);
-        return response()->json([
-            'status' => 200,
-            'pengajuan' => $pengajuan,
-        ]);
+        try {
+            //get pengajuan to json by id
+            $pengajuan = PengajuanCuti::findOrFail($id);
+            return response()->json([
+                'status' => 200,
+                'pengajuan' => $pengajuan,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 500,
+                'message' => 'Data tidak ditemukan',
+            ]);
+        }
     }
 
     /**
@@ -216,28 +230,32 @@ class PengajuanCutiController extends Controller
      */
     public function updateReject(Request $request)
     {
-        //get penmgajuan cuti id
-        $pengajuan_id = $request->pengajuan_id;
-        $pengajuan = PengajuanCuti::findOrFail($pengajuan_id);
-        //when cuti tahunan ditolak kuota cuti dikembalikan
-        if ($pengajuan->jenis_cuti == 'Cuti tahunan') {
-            $cuti = Pegawai::where('id', $pengajuan->user_id)->first();
-            $cuti->kuota_cuti = $cuti->kuota_cuti + $pengajuan->lama_hari;
-            $cuti->update();
+        try {
+            //get penmgajuan cuti id
+            $pengajuan_id = $request->pengajuan_id;
+            $pengajuan = PengajuanCuti::findOrFail($pengajuan_id);
+            //when cuti tahunan ditolak kuota cuti dikembalikan
+            if ($pengajuan->jenis_cuti == 'Cuti tahunan') {
+                $cuti = Pegawai::where('id', $pengajuan->user_id)->first();
+                $cuti->kuota_cuti = $cuti->kuota_cuti + $pengajuan->lama_hari;
+                $cuti->update();
+            }
+
+            //update status to ditolak when reject
+            $pengajuan->status = 'Ditolak';
+            $pengajuan->alasan = $request->alasan;
+            $pengajuan->update();
+
+            //get data user that have role user
+            $user = User::where('id', $pengajuan->user_id)->get();
+
+            //send notification to user
+            Notification::send($user, new NotifTolakCuti($pengajuan));
+
+            return redirect('/pengajuan-cuti')->with('success', 'Pengajuan cuti ditolak');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Data tidak ditemukan');
         }
-
-        //update status to ditolak when reject
-        $pengajuan->status = 'Ditolak';
-        $pengajuan->alasan = $request->alasan;
-        $pengajuan->update();
-
-        //get data user that have role user
-        $user = User::where('id', $pengajuan->user_id)->get();
-
-        //send notification to user
-        Notification::send($user, new NotifTolakCuti($pengajuan));
-
-        return redirect('/pengajuan-cuti')->with('success', 'Pengajuan cuti ditolak');
     }
 
     /**
@@ -249,53 +267,58 @@ class PengajuanCutiController extends Controller
      */
     public function updateApprove(Request $request)
     {
-        //get penmgajuan cuti id
-        $pengajuan_id = $request->pengajuan_id;
-        $pengajuan = PengajuanCuti::findOrFail($pengajuan_id);
-        //generate nomor surat thats reset every year
-        $nomorSurat = PengajuanCuti::whereYear("created_at", Carbon::now()->year)->count();
+        try {
 
-        //update status to disetujui when approve
-        $pengajuan->status = 'Disetujui';
-        $pengajuan->update();
+            //get penmgajuan cuti id
+            $pengajuan_id = $request->pengajuan_id;
+            $pengajuan = PengajuanCuti::findOrFail($pengajuan_id);
+            //generate nomor surat thats reset every year
+            $nomorSurat = PengajuanCuti::whereYear("created_at", Carbon::now()->year)->count();
+
+            //update status to disetujui when approve
+            $pengajuan->status = 'Disetujui';
+            $pengajuan->update();
 
 
-        //create file persetujuan cuti when approve
-        if ($request->tembusan == true) {
+            //create file persetujuan cuti when approve
+            if ($request->tembusan == true) {
 
-            $persetujuan = PersetujuanCuti::create([
-                'pengajuan_cuti_id' => $pengajuan_id,
-                'user_id' => $pengajuan->user_id,
-                'nomor_surat' => $nomorSurat,
-                'tanggal_surat' => Carbon::now(),
-                'keterangan' => $pengajuan->keterangan,
-                'alasan' => $request->alasan,
-            ]);
+                $persetujuan = PersetujuanCuti::create([
+                    'pengajuan_cuti_id' => $pengajuan_id,
+                    'user_id' => $pengajuan->user_id,
+                    'nomor_surat' => $nomorSurat,
+                    'tanggal_surat' => Carbon::now(),
+                    'keterangan' => $pengajuan->keterangan,
+                    'alasan' => $request->alasan,
+                ]);
 
-            foreach ($request->tembusan as $key => $value) {
-                $persetujuan->tembusan()->create([
-                    'user_id' => $request->tembusan[$key],
-                    'persetujuan_cuti_id' => $persetujuan->id,
+                foreach ($request->tembusan as $key => $value) {
+                    $persetujuan->tembusan()->create([
+                        'user_id' => $request->tembusan[$key],
+                        'persetujuan_cuti_id' => $persetujuan->id,
+                    ]);
+                }
+            } else {
+                $persetujuan = PersetujuanCuti::create([
+                    'pengajuan_cuti_id' => $pengajuan_id,
+                    'user_id' => $pengajuan->user_id,
+                    'nomor_surat' => $nomorSurat,
+                    'tanggal_surat' => Carbon::now(),
+                    'keterangan' => $pengajuan->keterangan,
+                    'alasan' => $request->alasan,
                 ]);
             }
-        } else {
-            $persetujuan = PersetujuanCuti::create([
-                'pengajuan_cuti_id' => $pengajuan_id,
-                'user_id' => $pengajuan->user_id,
-                'nomor_surat' => $nomorSurat,
-                'tanggal_surat' => Carbon::now(),
-                'keterangan' => $pengajuan->keterangan,
-                'alasan' => $request->alasan,
-            ]);
+
+            //get user that send notification
+            $user = User::where('id', $pengajuan->user_id)->get();
+
+            //send notification to user
+            Notification::send($user, new NotifTerimaCuti($pengajuan));
+
+            return redirect('/persetujuan-cuti')->with('success', 'Pengajuan cuti disetujui');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Data tidak ditemukan');
         }
-
-        //get user that send notification
-        $user = User::where('id', $pengajuan->user_id)->get();
-
-        //send notification to user
-        Notification::send($user, new NotifTerimaCuti($pengajuan));
-
-        return redirect('/persetujuan-cuti')->with('success', 'Pengajuan cuti disetujui');
     }
 
     /**
@@ -311,6 +334,13 @@ class PengajuanCutiController extends Controller
 
         //find pengajuan cuti id
         $pengajuan = PengajuanCuti::find($cuti_id);
+
+        //if cuti = cuti tahunan kuota cuti dikembalikan
+        if ($pengajuan->jenis_cuti == 'Cuti tahunan') {
+            $cuti = Pegawai::where('id', $pengajuan->user_id)->first();
+            $cuti->kuota_cuti = $cuti->kuota_cuti + $pengajuan->lama_hari;
+            $cuti->update();
+        }
 
         //delete file pengajuan cuti sakit
         if ($pengajuan->jenis_cuti == 'Cuti sakit') {
@@ -339,11 +369,15 @@ class PengajuanCutiController extends Controller
      */
     public function downloadFile($id)
     {
-        //find pengajuan cuti id
-        $pengajuan = PengajuanCuti::find($id);
+        try {
+            //find pengajuan cuti id
+            $pengajuan = PengajuanCuti::find($id);
 
-        //download file 
-        $file = public_path() . '/suratDokter/' . $pengajuan->file_surat_dokter;
-        return response()->download($file);
+            //download file 
+            $file = public_path() . '/suratDokter/' . $pengajuan->file_surat_dokter;
+            return response()->download($file);
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Data tidak ditemukan');
+        }
     }
 }

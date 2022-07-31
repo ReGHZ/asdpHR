@@ -29,9 +29,13 @@ class DivisiController extends Controller
      */
     public function index()
     {
-        //get all divisi
-        $divisi = Divisi::all();
-        return view('employee.departements.index', compact('divisi'));
+        try {
+            //get all divisi
+            $divisi = Divisi::all();
+            return view('employee.departements.index', compact('divisi'));
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 
     /**
@@ -71,14 +75,21 @@ class DivisiController extends Controller
      */
     public function edit($id)
     {
-        //find divisi by id
-        $divisi = Divisi::find($id);
+        try {
+            //find divisi by id
+            $divisi = Divisi::find($id);
 
-        //return json with divisi
-        return response()->json([
-            'status' => 200,
-            'divisi' => $divisi
-        ]);
+            //return json with divisi
+            return response()->json([
+                'status' => 200,
+                'divisi' => $divisi
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 500,
+                'message' => $e->getMessage()
+            ]);
+        }
     }
 
     /**

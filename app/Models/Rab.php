@@ -32,6 +32,11 @@ class Rab extends Model
         //total
         'total',
         'jumlah_biaya_lain',
+        //kas
+        'biaya_kas',
+        'biaya_ybs',
+        'uang_muka',
+        'tanggal_uang_muka',
     ];
 
     public function perjalananDinas()

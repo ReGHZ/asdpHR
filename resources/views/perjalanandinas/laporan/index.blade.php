@@ -65,6 +65,20 @@
                                                 </i>{{ $row->perjalananDinas->status }}
                                             </span>
                                         </td>
+                                    @elseif($row->perjalananDinas->status == 'Menunggu Realisasi')
+                                        <td>
+                                            <span class="badge bg-primary">
+                                                <i class="bi bi-hourglass-split me-2">
+                                                </i>{{ $row->perjalananDinas->status }}
+                                            </span>
+                                        </td>
+                                    @elseif($row->perjalananDinas->status == 'Menunggu RAB')
+                                        <td>
+                                            <span class="badge bg-secondary">
+                                                <i class="bi bi-hourglass-split me-2">
+                                                </i>{{ $row->perjalananDinas->status }}
+                                            </span>
+                                        </td>
                                     @else
                                         <td>
                                             <span class="badge bg-success">
@@ -85,41 +99,40 @@
 
                                                 <li><a href="{{ route('perjalanan-dinas.show', $row->perjalananDinas->id) }}"
                                                         class="dropdown-item"><i class="bi bi-eye text-success"></i>
-                                                        Lihat Surat penugasan</a></li>
-                                                <li>
-
-                                                    @if ($row->perjalananDinas->status == 'Berlangsung')
+                                                        Lihat Surat penugasan</a>
+                                                </li>
+                                                @if ($row->perjalananDinas->status == 'Berlangsung')
+                                                    <li>
+                                                        <hr class="dropdown-divider">
+                                                    </li>
+                                                    <li>
+                                                        <button value="{{ $row->perjalananDinas->id }}"
+                                                            class="dropdown-item btnselesai"><i
+                                                                class="bi bi-check text-success"></i>Tandai sudah
+                                                            selesai</button>
+                                                    </li>
+                                                @endif
                                                 <li>
                                                     <hr class="dropdown-divider">
                                                 </li>
-                                                <li>
-                                                    <button value="{{ $row->perjalananDinas->id }}"
-                                                        class="dropdown-item btnselesai"><i
-                                                            class="bi bi-check text-success"></i>Tandai sudah
-                                                        selesai</button>
-                                                </li>
-                            @endif
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
 
-                            @if ($row->perjalananDinas->status == 'Berlangsung' || $row->perjalananDinas->status == 'Selesai')
-                                <li><a href="{{ route('perjalanan-dinas.createRab', $row->PerjalananDinas->id) }}"
-                                        class="dropdown-item"><i class="bi bi-eye text-secondary"></i>
-                                        Halaman RAB</a>
-                                </li>
-                            @endif
+                                                @if ($row->perjalananDinas->status == 'Berlangsung' || $row->perjalananDinas->status == 'Selesai')
+                                                    <li><a href="{{ route('perjalanan-dinas.createRab', $row->PerjalananDinas->id) }}"
+                                                            class="dropdown-item"><i class="bi bi-eye text-primary"></i>
+                                                            Halaman RAB</a>
+                                                    </li>
+                                                @endif
 
-                            </ul>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
-                </td>
-                </tr>
-                @endforeach
-                </tbody>
-                </table>
             </div>
-    </div>
-    </section>
+        </section>
     </div>
     @include('perjalananDinas.laporan.modalSelesai')
 @endsection

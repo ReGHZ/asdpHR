@@ -15,13 +15,17 @@ class NotificationsController extends Controller
      */
     public function markNotif($id)
     {
-        //if get id auth user mark notif
-        if ($id) {
+        try {
+            //if get id auth user mark notif
+            if ($id) {
 
-            auth()->user()->unreadNotifications->where('id', $id)->markAsRead();
+                auth()->user()->unreadNotifications->where('id', $id)->markAsRead();
+            }
+
+            return redirect()->back();
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
         }
-
-        return redirect()->back();
     }
 
     /**
@@ -32,8 +36,12 @@ class NotificationsController extends Controller
      */
     public function markAll()
     {
-        //mark all auth user notif
-        auth()->user()->unreadNotifications->markAsRead();
-        return redirect()->back();
+        try {
+            //mark all auth user notif
+            auth()->user()->unreadNotifications->markAsRead();
+            return redirect()->back();
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 }

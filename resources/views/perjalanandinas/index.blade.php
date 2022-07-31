@@ -114,10 +114,10 @@
                                                 @role('admin|manajer')
                                                     <li><a href="{{ route('perjalanan-dinas.show', $row->id) }}"
                                                             class="dropdown-item"><i class="bi bi-eye text-success"></i>
-                                                            Lihat Surat penugasan</a></li>
-                                                    <li>
-                                                    @endrole
-                                                    @role('admin')
+                                                            Lihat Surat penugasan</a>
+                                                    </li>
+                                                @endrole
+                                                @role('admin')
                                                     <li>
                                                         <hr class="dropdown-divider">
                                                     </li>
@@ -127,9 +127,9 @@
                                                                     class="bi bi-pencil text-secondary"></i>
                                                                 Buat RAB</a>
                                                         </li>
-                                                    @elseif($row->status == 'Berlangsung' || $row->status == 'Selesai')
+                                                    @elseif($row->status == 'Berlangsung' || $row->status == 'Selesai' || $row->status == 'Menunggu Realisasi')
                                                         <li><a href="{{ route('perjalanan-dinas.createRab', $row->id) }}"
-                                                                class="dropdown-item"><i class="bi bi-eye text-secondary"></i>
+                                                                class="dropdown-item"><i class="bi bi-eye text-primary"></i>
                                                                 Halaman RAB</a>
                                                         </li>
                                                     @endif
