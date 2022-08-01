@@ -101,17 +101,7 @@
                                                         class="dropdown-item"><i class="bi bi-eye text-success"></i>
                                                         Lihat Surat penugasan</a>
                                                 </li>
-                                                @if ($row->perjalananDinas->status == 'Berlangsung')
-                                                    <li>
-                                                        <hr class="dropdown-divider">
-                                                    </li>
-                                                    <li>
-                                                        <button value="{{ $row->perjalananDinas->id }}"
-                                                            class="dropdown-item btnselesai"><i
-                                                                class="bi bi-check text-success"></i>Tandai sudah
-                                                            selesai</button>
-                                                    </li>
-                                                @endif
+
                                                 <li>
                                                     <hr class="dropdown-divider">
                                                 </li>
@@ -123,6 +113,17 @@
                                                     </li>
                                                 @endif
 
+                                                @if ($row->perjalananDinas->status == 'Berlangsung')
+                                                    <li>
+                                                        <hr class="dropdown-divider">
+                                                    </li>
+                                                    <li>
+                                                        <button value="{{ $row->perjalananDinas->id }}"
+                                                            class="dropdown-item btnselesai"><i
+                                                                class="bi bi-check text-success"></i>Tandai sudah
+                                                            selesai</button>
+                                                    </li>
+                                                @endif
                                             </ul>
                                         </div>
                                     </td>

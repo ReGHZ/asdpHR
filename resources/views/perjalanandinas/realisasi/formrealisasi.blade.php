@@ -229,23 +229,21 @@
             <div id="printRealisasi">
                 <header class="header">
                     <div class="header__left">
-                        <img class="header__logo"
-                            src="https://pbs.twimg.com/profile_images/1203697865803083776/yx8UuN_g_400x400.jpg"
-                            alt="logo" />
-                        <h1 class="header__title">FORMULIR PERHITUNGAN REALISASI YA ITU/ITU AJA POKOKNYA</h1>
+                        <img class="header__logo" src="{{ asset('backend/assets/images/logo/ASDP.png') }}" alt="logo" />
+                        <h1 class="header__title">FORMULIR PERHITUNGAN REALISASI BIAYA PERJALANAN DINAS</h1>
                     </div>
                     <div class="header__detail">
                         <div class="header__item">
                             <span class="header__key">No. Dokumen</span>
-                            <span class="header__value">: kntolodon</span>
+                            <span class="header__value">: PPU-204.00.04</span>
                         </div>
                         <div class="header__item">
                             <span class="header__key">Revisi</span>
-                            <span class="header__value">: 69</span>
+                            <span class="header__value">: 02</span>
                         </div>
                         <div class="header__item">
                             <span class="header__key">Berlaku Efektif</span>
-                            <span class="header__value">: 3022</span>
+                            <span class="header__value">: 2019</span>
                         </div>
                         <div class="header__item">
                             <span class="header__key">Halaman</span>
@@ -258,32 +256,35 @@
                         <tr>
                             <td>SPPD NO</td>
                             <td>:</td>
-                            <td>DONT.48/UL.102/DONT-TOL/2051</td>
+                            <td>SPEN.{{ $rab->perjalananDinas->nomor_surat }}/UM.102/ASDP-KTP/{{ \Carbon\Carbon::now()->year }}
+                            </td>
                         </tr>
                         <tr>
                             <td>ATAS NAMA</td>
                             <td>:</td>
-                            <td>DONTOL</td>
+                            <td>{{ $rab->pengikut->user->name }}</td>
                         </tr>
                         <tr>
                             <td>TEMPAT ASAL</td>
                             <td>:</td>
-                            <td>GATAU JATIM KEKNYA</td>
+                            @foreach ($manajer as $item)
+                                <td>{{ $item->segmen }}</td>
+                            @endforeach
                         </tr>
                         <tr>
                             <td>TGL BERANGKAT</td>
                             <td>:</td>
-                            <td>12/24/2051</td>
+                            <td>{{ tanggal_indonesia($rab->perjalananDinas->tanggal_keberangkatan) }}</td>
                         </tr>
                         <tr>
                             <td>TGL SELESAI</td>
                             <td>:</td>
-                            <td>12:00:00 AM</td>
+                            <td>{{ tanggal_indonesia($rab->perjalananDinas->tanggal_kembali) }}</td>
                         </tr>
                         <tr>
                             <td>JUMLAH HARI BERANGKAT</td>
                             <td>:</td>
-                            <td>4 HARI</td>
+                            <td>{{ $rab->lama_hari }}</td>
                         </tr>
                     </table>
                     <div class="content__item">
@@ -296,139 +297,220 @@
                         <tr>
                             <td>PENERIMAAN</td>
                             <td>Rp</td>
-                            <td>1600000</td>
+                            <td>{{ $rab->jumlah_biaya_harian }}</td>
                             <td>HARI</td>
-                            <td>4</td>
+                            <td>{{ $rab->lama_hari }}</td>
                         </tr>
                         <tr>
                             <td>REALISASI</td>
                             <td>Rp</td>
-                            <td>1600000</td>
+                            <td>{{ $realisasi->jumlah_biaya_harian }}</td>
                             <td>HARI</td>
-                            <td>4</td>
+                            <td>{{ $realisasi->lama_hari }}</td>
                         </tr>
                         <tr>
                             <td>KURANG</td>
                             <td>Rp</td>
-                            <td>1600000</td>
-                            <td>HARI</td>
-                            <td>4</td>
+                            <td>-</td>
                         </tr>
                         <tr>
                             <td>TAMBAH</td>
                             <td>Rp</td>
-                            <td>1600000</td>
-                            <td>HARI</td>
-                            <td>4</td>
+                            <td>-</td>
                         </tr>
                     </table>
                     <div class="content__item">
                         <span>2.</span>
                         <span>
-                            REALISASI BIAYA HARIAN
+                            REALISASI BIAYA PESAWAT
                         </span>
                     </div>
                     <table id="tabel">
-                        <tr>
-                            <td>PENERIMAAN</td>
-                            <td>Rp</td>
-                            <td>1600000</td>
-                            <td>HARI</td>
-                            <td>4</td>
-                        </tr>
-                        <tr>
-                            <td>REALISASI</td>
-                            <td>Rp</td>
-                            <td>1600000</td>
-                            <td>HARI</td>
-                            <td>4</td>
-                        </tr>
-                        <tr>
-                            <td>KURANG</td>
-                            <td>Rp</td>
-                            <td>1600000</td>
-                            <td>HARI</td>
-                            <td>4</td>
-                        </tr>
-                        <tr>
-                            <td>TAMBAH</td>
-                            <td>Rp</td>
-                            <td>1600000</td>
-                            <td>HARI</td>
-                            <td>4</td>
-                        </tr>
+                        @if (isset($rab->jumlah_harga_tiket))
+                            <tr>
+                                <td>PENERIMAAN</td>
+                                <td>Rp</td>
+                                <td>{{ $rab->jumlah_harga_tiket }}</td>
+                                <td>HARI</td>
+                                <td>{{ $rab->lama_hari }}</td>
+                            </tr>
+                            <tr>
+                                <td>REALISASI</td>
+                                <td>Rp</td>
+                                <td>{{ $realisasi->jumlah_harga_tiket }}</td>
+                                <td>HARI</td>
+                                <td>{{ $realisasi->lama_hari }}</td>
+                            </tr>
+                            <tr>
+                                <td>KURANG</td>
+                                <td>Rp</td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td>TAMBAH</td>
+                                <td>Rp</td>
+                                <td>-</td>
+                            </tr>
+                        @else
+                            <tr>
+                                <td>PENERIMAAN</td>
+                                <td>Rp</td>
+                                <td>-</td>
+                                <td>HARI</td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td>REALISASI</td>
+                                <td>Rp</td>
+                                <td>-</td>
+                                <td>HARI</td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td>KURANG</td>
+                                <td>Rp</td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td>TAMBAH</td>
+                                <td>Rp</td>
+                                <td>-</td>
+                            </tr>
+                        @endif
                     </table>
                     <div class="content__item">
                         <span>3.</span>
                         <span>
-                            REALISASI BIAYA HARIAN
+                            REALISASI BIAYA HOTEL
                         </span>
                     </div>
                     <table id="tabel">
-                        <tr>
-                            <td>PENERIMAAN</td>
-                            <td>Rp</td>
-                            <td>1600000</td>
-                            <td>HARI</td>
-                            <td>4</td>
-                        </tr>
-                        <tr>
-                            <td>REALISASI</td>
-                            <td>Rp</td>
-                            <td>1600000</td>
-                            <td>HARI</td>
-                            <td>4</td>
-                        </tr>
-                        <tr>
-                            <td>KURANG</td>
-                            <td>Rp</td>
-                            <td>1600000</td>
-                            <td>HARI</td>
-                            <td>4</td>
-                        </tr>
-                        <tr>
-                            <td>TAMBAH</td>
-                            <td>Rp</td>
-                            <td>1600000</td>
-                            <td>HARI</td>
-                            <td>4</td>
-                        </tr>
+                        @if (isset($rab->jumlah_biaya_penginapan))
+                            <tr>
+                                <td>PENERIMAAN</td>
+                                <td>Rp</td>
+                                <td>{{ $rab->jumlah_biaya_penginapan }}</td>
+                                <td>HARI</td>
+                                <td>{{ $rab->lama_hari_penginap }}</td>
+                            </tr>
+                            <tr>
+                                <td>REALISASI</td>
+                                <td>Rp</td>
+                                <td>{{ $rab->jumlah_biaya_penginapan }}</td>
+                                <td>HARI</td>
+                                <td>{{ $rab->lama_hari_penginap }}</td>
+                            </tr>
+                            <tr>
+                                <td>KURANG</td>
+                                <td>Rp</td>
+                                <td>-</td>
+                                <td>HARI</td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td>TAMBAH</td>
+                                <td>Rp</td>
+                                <td>-</td>
+                                <td>HARI</td>
+                                <td>-</td>
+                            </tr>
+                        @else
+                            <tr>
+                                <td>PENERIMAAN</td>
+                                <td>Rp</td>
+                                <td>-</td>
+                                <td>HARI</td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td>REALISASI</td>
+                                <td>Rp</td>
+                                <td>-</td>
+                                <td>HARI</td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td>KURANG</td>
+                                <td>Rp</td>
+                                <td>-</td>
+                                <td>HARI</td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td>TAMBAH</td>
+                                <td>Rp</td>
+                                <td>-</td>
+                                <td>HARI</td>
+                                <td>-</td>
+                            </tr>
+                        @endif
                     </table>
                     <div class="content__item">
                         <span>4.</span>
                         <span>
-                            REALISASI BIAYA HARIAN
+                            REALISASI BIAYA LAIN-LAIN
                         </span>
                     </div>
                     <table id="tabel">
-                        <tr>
-                            <td>PENERIMAAN</td>
-                            <td>Rp</td>
-                            <td>1600000</td>
-                            <td>HARI</td>
-                            <td>4</td>
-                        </tr>
-                        <tr>
-                            <td>REALISASI</td>
-                            <td>Rp</td>
-                            <td>1600000</td>
-                            <td>HARI</td>
-                            <td>4</td>
-                        </tr>
-                        <tr>
-                            <td>KURANG</td>
-                            <td>Rp</td>
-                            <td>1600000</td>
-                            <td>HARI</td>
-                            <td>4</td>
-                        </tr>
-                        <tr>
-                            <td>TAMBAH</td>
-                            <td>Rp</td>
-                            <td>1600000</td>
-                            <td>HARI</td>
-                            <td>4</td>
-                        </tr>
+                        @if (isset($rab->jumlah_biaya_lain))
+                            <tr>
+                                <td>PENERIMAAN</td>
+                                <td>Rp</td>
+                                <td>{{ $rab->jumlah_biaya_lain }}</td>
+                                <td>HARI</td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td>REALISASI</td>
+                                <td>Rp</td>
+                                <td>{{ $realisasi->jumlah_biaya_lain }}</td>
+                                <td>HARI</td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td>KURANG</td>
+                                <td>Rp</td>
+                                <td>-</td>
+                                <td>HARI</td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td>TAMBAH</td>
+                                <td>Rp</td>
+                                <td>-</td>
+                                <td>HARI</td>
+                                <td>-</td>
+                            </tr>
+                        @else
+                            <tr>
+                                <td>PENERIMAAN</td>
+                                <td>Rp</td>
+                                <td>-</td>
+                                <td>HARI</td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td>REALISASI</td>
+                                <td>Rp</td>
+                                <td>-</td>
+                                <td>HARI</td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td>KURANG</td>
+                                <td>Rp</td>
+                                <td>-</td>
+                                <td>HARI</td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td>TAMBAH</td>
+                                <td>Rp</td>
+                                <td>-</td>
+                                <td>HARI</td>
+                                <td>-</td>
+                            </tr>
+                        @endif
                     </table>
                     <hr>
                     <table style="width:68.5%">
@@ -437,14 +519,14 @@
                             <td id="tebal">TOTAL SELISIH KURANG</td>
                             <td>:</td>
                             <td style="width:10%">Rp</td>
-                            <td>2890000</td>
+                            <td>-</td>
                         </tr>
                         <tr>
                             <td id="tebal">II.</td>
                             <td id="tebal">TOTAL SELISIH TAMBAH</td>
                             <td>:</td>
                             <td style="width:10%">Rp</td>
-                            <td>2890000</td>
+                            <td>-</td>
                         </tr>
                     </table>
                     <hr>
@@ -454,7 +536,7 @@
                             <td id="tebal">TOTAL SELISIH</td>
                             <td>:</td>
                             <td style="width:10%">Rp</td>
-                            <td>2890000</td>
+                            <td>{{ $rab->total }}</td>
                         </tr>
                     </table>
 
@@ -468,7 +550,7 @@
                             <strong></strong>
                         </span>
                         <span class="signature__name">
-                            <u><strong>DONTOL</strong></u>
+                            <u><strong>{{ $rab->pengikut->user->name }}</strong></u>
                         </span>
                     </div>
                     <div class="signature__item">
@@ -478,7 +560,9 @@
                             <strong>GENERAL MANAGER</strong>
                         </span>
                         <span class="signature__name">
-                            <u><strong>NAMA ANDA</strong></u>
+                            @foreach ($manajer as $item)
+                                <u><strong>{{ $item->name }}</strong></u>
+                            @endforeach
                         </span>
                     </div>
                 </section>

@@ -282,7 +282,7 @@
                         </div>
                         <div class="header__item">
                             <span class="header__key">Berlaku Efektif</span>
-                            <span class="header__value">: {{ \Carbon\Carbon::now()->year }}</span>
+                            <span class="header__value">: 2019</span>
                         </div>
                         <div class="header__item">
                             <span class="header__key">Halaman</span>

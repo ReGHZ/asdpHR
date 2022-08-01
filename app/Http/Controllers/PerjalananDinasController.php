@@ -7,6 +7,7 @@ use App\Models\Divisi;
 use App\Models\Pengikut;
 use App\Models\PerjalananDinas;
 use App\Models\Rab;
+use App\Models\Realisasi;
 use App\Models\User;
 use App\Notifications\NotifPenugasanDinas;
 use App\Notifications\NotifSelesaiDinas;
@@ -233,6 +234,11 @@ class PerjalananDinasController extends Controller
             'total' => $request->total,
             //biaya lain
             'jumlah_biaya_lain' => $request->jumlah_biaya_lain,
+            //kas
+            'uang_muka' => $request->uang_muka,
+            'tangal_uang_muka' => $request->tangal_uang_muka,
+            'biaya_kas' => $request->biaya_kas,
+            'biaya_ybs' => $request->biaya_ybs,
         ]);
 
         foreach ($request->biaya_lain as $key => $value) {
@@ -302,73 +308,132 @@ class PerjalananDinasController extends Controller
      */
     public function realisasiRab(Request $request)
     {
-        try {
-            //get data rab
-            $rab_id = $request->rab_id;
-            $rab = Rab::find($rab_id);
 
-            $rab->maskapai                  = $request->maskapai;
-            $rab->harga_tiket               = $request->harga_tiket;
-            $rab->tempat_berangkat          = $request->tempat_berangkat;
-            $rab->tempat_tujuan             = $request->tempat_tujuan;
-            $rab->charge                    = $request->charge;
-            $rab->jumlah_harga_tiket        = $request->jumlah_harga_tiket;
-            $rab->lama_hari                 = $request->lama_hari;
-            $rab->biaya_harian              = $request->biaya_harian;
-            $rab->jumlah_biaya_harian       = $request->jumlah_biaya_harian;
-            $rab->lama_hari_penginap        = $request->lama_hari_penginap;
-            $rab->biaya_penginapan          = $request->biaya_penginapan;
-            $rab->jumlah_biaya_penginapan   = $request->jumlah_biaya_penginapan;
-            $rab->total                     = $request->total;
-            $rab->jumlah_biaya_lain         = $request->jumlah_biaya_lain;
-            $rab->uang_muka                 = $request->uang_muka;
-            $rab->tanggal_uang_muka         = $request->tanggal_uang_muka;
-            $rab->biaya_kas                 = $request->biaya_kas;
-            $rab->biaya_ybs                 = $request->biaya_ybs;
+        //get data rab
+        $rab_id = $request->rab_id;
+        $rab = Rab::find($rab_id);
 
-            $pengajuan = $rab->perjalananDinas;
-            $pengajuan->status = "Selesai";
+        //create realisasi
+        $realisasi = Realisasi::create([
+            'rab_id' => $rab->id,
+            //tiket perjalanan dinas
+            'maskapai' => $request->maskapai,
+            'harga_tiket' => $request->harga_tiket,
+            'tempat_berangkat' => $request->tempat_berangkat,
+            'tempat_tujuan' => $request->tempat_tujuan,
+            'charge' => $request->charge,
+            'jumlah_harga_tiket' => $request->jumlah_harga_tiket,
+            //biaya harian
+            'lama_hari' => $request->lama_hari,
+            'biaya_harian' => $request->biaya_harian,
+            'jumlah_biaya_harian' => $request->jumlah_biaya_harian,
+            //biaya penginaran
+            'lama_hari_penginap' => $request->lama_hari_penginap,
+            'biaya_penginapan' => $request->biaya_penginapan,
+            'jumlah_biaya_penginapan' => $request->jumlah_biaya_penginapan,
+            //total
+            'total' => $request->total,
+            //biaya lain
+            'jumlah_biaya_lain' => $request->jumlah_biaya_lain,
+            //kas
+            'uang_muka' => $request->uang_muka,
+            'tangal_uang_muka' => $request->tangal_uang_muka,
+            'biaya_kas' => $request->biaya_kas,
+            'biaya_ybs' => $request->biaya_ybs,
+        ]);
 
-            //get biayalain
-            $biayaLain = $rab->biayaLain;
-
-            //store biayalain in array
-            $biayaLain_id = [];
-
-            //get same biayaLain_id to requ3est biaya lain
-            foreach ($biayaLain as $key => $value) {
-                array_push($biayaLain_id, $value->id);
-            }
-
-            //get different value from request biaya lain to delete
-            $hapus_biayalain = array_diff($biayaLain_id, $request->biayaLain_id);
-            foreach ($hapus_biayalain as $key => $value) {
-                $rab->biayaLain()->where('id', $value)->delete();
-            }
-
-            //request biayalain_id to update or create
-            foreach ($request->biayaLain_id as $key => $value) {
-                $data = array(
-                    'id' => $value,
-                    'rab_id' => $rab_id,
-                    'qty' => $request->qty[$key],
-                    'jenis' => $request->jenis[$key],
-                    'biaya' => $request->biaya_lain[$key],
-                );
-
-                $new = BiayaLain::updateOrCreate(
-                    ['rab_id' => $rab_id, 'id' => $value],
-                    $data
-                );
-            }
-
-            $rab->update();
-            $pengajuan->update();
-            return redirect()->back()->with('success', 'Data RAB berhasil direalisasi');
-        } catch (\Exception $e) {
-            return redirect()->back()->with(['error', 'Data RAB gagal direalisasi']);
+        foreach ($request->biaya_lain as $key => $value) {
+            $realisasi->realisasiBLain()->create([
+                'realisasi_id' => $realisasi->id,
+                'qty' => $request->qty[$key],
+                'jenis' => $request->jenis[$key],
+                'biaya' => $value,
+            ]);
         }
+
+        //update status penugasan ke Selesai
+        $pengajuan = $rab->perjalananDinas;
+        $pengajuan->status = "Selesai";
+        $pengajuan->save();
+
+        return redirect()->back()->with('success', 'Data Realisasi ditambahkan');
     }
+
+    // /**
+    //  * Show the form for editing the specified resource.
+    //  *
+    //  * @param  int  $id
+    //  * @return \Illuminate\Http\Response
+    //  */
+    // public function realisasiRab(Request $request)
+    // {
+    //     try {
+    //         //get data rab
+    //         $rab_id = $request->rab_id;
+    //         $rab = Rab::find($rab_id);
+
+    //         $rab->maskapai                  = $request->maskapai;
+    //         $rab->harga_tiket               = $request->harga_tiket;
+    //         $rab->tempat_berangkat          = $request->tempat_berangkat;
+    //         $rab->tempat_tujuan             = $request->tempat_tujuan;
+    //         $rab->charge                    = $request->charge;
+    //         $rab->jumlah_harga_tiket        = $request->jumlah_harga_tiket;
+    //         $rab->lama_hari                 = $request->lama_hari;
+    //         $rab->biaya_harian              = $request->biaya_harian;
+    //         $rab->jumlah_biaya_harian       = $request->jumlah_biaya_harian;
+    //         $rab->lama_hari_penginap        = $request->lama_hari_penginap;
+    //         $rab->biaya_penginapan          = $request->biaya_penginapan;
+    //         $rab->jumlah_biaya_penginapan   = $request->jumlah_biaya_penginapan;
+    //         $rab->total                     = $request->total;
+    //         $rab->jumlah_biaya_lain         = $request->jumlah_biaya_lain;
+    //         $rab->uang_muka                 = $request->uang_muka;
+    //         $rab->tanggal_uang_muka         = $request->tanggal_uang_muka;
+    //         $rab->biaya_kas                 = $request->biaya_kas;
+    //         $rab->biaya_ybs                 = $request->biaya_ybs;
+
+    //         $pengajuan = $rab->perjalananDinas;
+    //         $pengajuan->status = "Selesai";
+
+    //         //get biayalain
+    //         $biayaLain = $rab->biayaLain;
+
+    //         //store biayalain in array
+    //         $biayaLain_id = [];
+
+    //         //get same biayaLain_id to requ3est biaya lain
+    //         foreach ($biayaLain as $key => $value) {
+    //             array_push($biayaLain_id, $value->id);
+    //         }
+
+    //         //get different value from request biaya lain to delete
+    //         $hapus_biayalain = array_diff($biayaLain_id, $request->biayaLain_id);
+    //         foreach ($hapus_biayalain as $key => $value) {
+    //             $rab->biayaLain()->where('id', $value)->delete();
+    //         }
+
+    //         //request biayalain_id to update or create
+    //         foreach ($request->biayaLain_id as $key => $value) {
+    //             $data = array(
+    //                 'id' => $value,
+    //                 'rab_id' => $rab_id,
+    //                 'qty' => $request->qty[$key],
+    //                 'jenis' => $request->jenis[$key],
+    //                 'biaya' => $request->biaya_lain[$key],
+    //             );
+
+    //             $new = BiayaLain::updateOrCreate(
+    //                 ['rab_id' => $rab_id, 'id' => $value],
+    //                 $data
+    //             );
+    //         }
+
+    //         $rab->update();
+    //         $pengajuan->update();
+    //         return redirect()->back()->with('success', 'Data RAB berhasil direalisasi');
+    //     } catch (\Exception $e) {
+    //         return redirect()->back()->with(['error', 'Data RAB gagal direalisasi']);
+    //     }
+    // }
 
     /**
      * Update the specified resource in storage.
@@ -382,11 +447,12 @@ class PerjalananDinasController extends Controller
         try {
             //get data rab
             $rab = Rab::find($rab->id);
+            $realisasi = Realisasi::where('rab_id', $rab->id)->first();
             //get data manajer
             $manajer = User::whereHas('jabatan', function ($query) {
                 $query->where('nama_jabatan', 'GENERAL MANAGER');
             })->get();
-            return view('perjalanandinas.realisasi.formrealisasi', compact('rab', 'manajer'));
+            return view('perjalanandinas.realisasi.formrealisasi', compact('rab', 'realisasi', 'manajer'));
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
@@ -443,6 +509,25 @@ class PerjalananDinasController extends Controller
             return redirect()->back()->with('success', 'Data berhasil ditandai selesai');
         } catch (\Exception $e) {
             return redirect()->back()->with(['error', 'Data gagal ditandai selesai']);
+        }
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function kebenaran(Rab $rab)
+    {
+        try {
+            //get data rab
+            $rab = Rab::find($rab->id);
+            $realisasi = Realisasi::where('rab_id', $rab->id)->first();
+            return view('perjalanandinas.laporan.kebenaranForm', compact('rab', 'realisasi'));
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
 }

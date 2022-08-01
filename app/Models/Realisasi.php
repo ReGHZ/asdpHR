@@ -5,15 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Rab extends Model
+class Realisasi extends Model
 {
     use HasFactory;
     use \Znck\Eloquent\Traits\BelongsToThrough;
 
     protected $fillable = [
         //id
-        'perjalanan_dinas_id',
-        'pengikut_id',
+        'rab_id',
         //tiket perjalanan dinas
         'maskapai',
         'harga_tiket',
@@ -39,23 +38,13 @@ class Rab extends Model
         'tanggal_uang_muka',
     ];
 
-    public function perjalananDinas()
+    public function rab()
     {
-        return $this->belongsTo(PerjalananDinas::class);
+        return $this->belongsTo(Rab::class);
     }
 
-    public function pengikut()
+    public function realisasiBLain()
     {
-        return $this->belongsTo(Pengikut::class);
-    }
-
-    public function biayaLain()
-    {
-        return $this->hasMany(BiayaLain::class);
-    }
-
-    public function realisasi()
-    {
-        return $this->hasMany(Realisasi::class);
+        return $this->hasMany(RealisasiBLain::class);
     }
 }

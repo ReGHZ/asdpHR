@@ -48,11 +48,11 @@
                             Kembali
                         </a>
                     @endrole
-
-                    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#createRAB">
-                        Tambah RAB
-                    </button>
-
+                    @role('admin|manajer')
+                        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#createRAB">
+                            Tambah RAB
+                        </button>
+                    @endrole
                 </div>
             </div>
 
@@ -95,13 +95,21 @@
                                                         class="dropdown-item"><i class="bi bi-eye text-success"></i>
                                                         Lihat form RAB</a>
                                                 </li>
-                                                <li>
-                                                    <hr class="dropdown-divider">
-                                                </li>
                                                 @if ($row->perjalananDinas->status == 'Selesai')
+                                                    <li>
+                                                        <hr class="dropdown-divider">
+                                                    </li>
                                                     <li><a href="{{ route('perjalanan-dinas.realisasiForm', $row->id) }}"
                                                             class="dropdown-item"><i class="bi bi-eye text-primary"></i>
                                                             Lihat form Realisasi</a>
+                                                    </li>
+
+                                                    <li>
+                                                        <hr class="dropdown-divider">
+                                                    </li>
+                                                    <li><a href="{{ route('laporan-dinas.kebenaran', $row->id) }}"
+                                                            class="dropdown-item"><i class="bi bi-eye text-secondary"></i>
+                                                            Lihat form Pernyataan Kebenaran</a>
                                                     </li>
                                                 @endif
                                                 @role('admin|manajer')
@@ -343,6 +351,43 @@
                                                     id="hasillain" placeholder="NaN" :value="jumlah_lain(yangditugaskan)">
                                             </div>
                                         </div>
+                                        <div class="form-group row">
+                                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                                <label class="form-control-label">Uang muka</label>
+                                                <input class="form-control @error('uang_muka') is-invalid @enderror"
+                                                    name="uang_muka" placeholder="Uang muka">
+                                                @error('uang_muka')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <label class="form-control-label">Tanggal diberikan</label>
+                                                <input name='tanggal_uang_muka' type="date"
+                                                    class="form-control @error('tanggal_uang_muka') is-invalid @enderror">
+                                                @error('tanggal_uang_muka')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-sm-6  mb-3 mb-sm-0">
+                                                <label class="form-control-label">Untuk dibayarkan kepada Ybs</label>
+                                                <input name='biaya_ybs' type="text"
+                                                    class="form-control @error('biaya_ybs') is-invalid @enderror"
+                                                    placeholder="Jumlah dibayarkan kepada Ybs">
+                                                @error('biaya_ybs')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <label class="form-control-label">Untuk Distor kembali ke KAS</label>
+                                                <input class="form-control @error('biaya_kas') is-invalid @enderror"
+                                                    name="biaya_kas" placeholder="Jumlah Distor kembali ke KAS">
+                                                @error('biaya_kas')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
                                         <div class="form-group">
                                             <label class="form-control-label">Total</label>
                                             <input name="total" class="form-control" readonly id="totalsemua"
@@ -373,7 +418,6 @@
             aria-labelledby="myModalLabel160" aria-hidden="true">
             <form action="{{ route('perjalanan-dinas.realisasiRab') }}" method="POST">
                 @csrf
-                @method('PUT')
                 <input type="hidden" name="rab_id" v-model="datarealisasi.id">
                 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg" role="document">
                     <div class="modal-content">
@@ -563,11 +607,6 @@
                                                     id="hasillain" placeholder="NaN" :value="jumlah_lain(datarealisasi)">
                                             </div>
                                         </div>
-                                        <div class="form-group">
-                                            <label class="form-control-label">Total</label>
-                                            <input class="form-control" name="total" readonly id="totalsemua"
-                                                placeholder="NaN" :value="jumlah_keseluruhan(datarealisasi)">
-                                        </div>
                                         <div class="form-group row">
                                             <div class="col-sm-6 mb-3 mb-sm-0">
                                                 <label class="form-control-label">Uang muka</label>
@@ -608,6 +647,11 @@
                                                     <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
                                             </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-control-label">Total</label>
+                                            <input class="form-control" name="total" readonly id="totalsemua"
+                                                placeholder="NaN" :value="jumlah_keseluruhan(datarealisasi)">
                                         </div>
                                     </div>
                                 </div>
