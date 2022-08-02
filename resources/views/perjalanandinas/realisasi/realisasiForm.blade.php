@@ -328,7 +328,7 @@
                                 <td>5.</td>
                                 <td>Jumlah Hari</td>
                                 <td>:</td>
-                                <td>{{ $rab->lama_hari }}</td>
+                                <td>{{ $realisasi->lama_hari }}</td>
                             </tr>
                         </table>
                     </div>
@@ -363,7 +363,7 @@
                         <span>A.</span>
                         <span>PERJALANAN DARI TEMPAT ASAL, TUJUAN, TIKET DAN AIRPORT CHARGE DLL:</span>
                     </div>
-                    @if (isset($rab->maskapai))
+                    @if (isset($realisasi->maskapai))
                         <table id="tabel_a" style="width:100%">
                             <tr>
                                 <td rowspan="2">Tanggal</td>
@@ -385,17 +385,17 @@
                             </tr>
                             <tr>
                                 <td>{{ $rab->perjalananDinas->tanggal_keberangkatan }}</td>
-                                <td>{{ $rab->maskapai }}</td>
-                                <td>{{ $rab->tempat_berangkat }}</td>
-                                <td>{{ $rab->tempat_tujuan }}</td>
-                                <td>{{ $rab->harga_tiket }}</td>
-                                @if (isset($rab->charge))
-                                    <td>{{ $rab->charge }}</td>
+                                <td>{{ $realisasi->maskapai }}</td>
+                                <td>{{ $realisasi->tempat_berangkat }}</td>
+                                <td>{{ $realisasi->tempat_tujuan }}</td>
+                                <td>{{ $realisasi->harga_tiket }}</td>
+                                @if (isset($realisasi->charge))
+                                    <td>{{ $realisasi->charge }}</td>
                                 @else
                                     <td></td>
                                 @endif
-                                @if (isset($rab->jumlah_harga_tiket))
-                                    <td>{{ $rab->jumlah_harga_tiket }}</td>
+                                @if (isset($realisasi->jumlah_harga_tiket))
+                                    <td>{{ $realisasi->jumlah_harga_tiket }}</td>
                                 @else
                                     <td></td>
                                 @endif
@@ -416,8 +416,8 @@
                                 <!--PLACEHOLDER-->
                                 <!--PLACEHOLDER-->
                                 <td>Jumlah</td>
-                                @if (isset($rab->jumlah_harga_tiket))
-                                    <td>{{ $rab->jumlah_harga_tiket }}</td>
+                                @if (isset($realisasi->jumlah_harga_tiket))
+                                    <td>{{ $realisasi->jumlah_harga_tiket }}</td>
                                 @else
                                     <td></td>
                                 @endif
@@ -482,7 +482,7 @@
                             <table id="hariankiri" style="width:100%">
                                 <tr style="border-bottom: 1pt solid black">
                                     <td>1.</td>
-                                    <td>{{ $rab->lama_hari }}x{{ $rab->biaya_harian }}</td>
+                                    <td>{{ $realisasi->lama_hari }}x{{ $realisasi->biaya_harian }}</td>
                                 </tr>
                                 <tr style="border-bottom: 1pt solid black">
                                     <td>2.</td>
@@ -498,7 +498,7 @@
                                 </tr>
                                 <tr>
                                     <td class="alignkanan" style="width:50%">Jumlah</td>
-                                    <td>{{ $rab->jumlah_biaya_harian }}</td>
+                                    <td>{{ $realisasi->jumlah_biaya_harian }}</td>
                                 </tr>
                                 <tr>
                                     <td class="alignkanan" style="width:50%">Jumlah</td>
@@ -515,10 +515,10 @@
                     <section class="sender">
                         <div class="sender__detail">
                             <table id="penginapankiri" style="width:100%">
-                                @if (isset($rab->biaya_penginapan))
+                                @if (isset($realisasi->biaya_penginapan))
                                     <tr style="border-bottom: 1pt solid black">
                                         <td>1.</td>
-                                        <td> {{ $rab->lama_hari_penginap }}x{{ $rab->biaya_penginapan }}
+                                        <td> {{ $realisasi->lama_hari_penginap }}x{{ $realisasi->biaya_penginapan }}
                                         </td>
                                     </tr>
                                 @else
@@ -537,8 +537,8 @@
                                 </tr>
                                 <tr>
                                     <td class="alignkanan" style="width:50%">Jumlah</td>
-                                    @if (isset($rab->biaya_penginapan))
-                                        <td>{{ $rab->jumlah_biaya_penginapan }}</td>
+                                    @if (isset($realisasi->biaya_penginapan))
+                                        <td>{{ $realisasi->jumlah_biaya_penginapan }}</td>
                                     @else
                                         <td style="width:50%"></td>
                                     @endif
@@ -553,9 +553,9 @@
                         </span>
                     </div>
                     <section class="sender">
-                        @if (isset($rab->biayaLain))
+                        @if (isset($realisasi->realisasiBLain))
                             <table id="lainlain" style="width:100%">
-                                @foreach ($rab->biayaLain as $i => $item)
+                                @foreach ($realisasi->realisasiBLain as $i => $item)
                                     <tr style="border-bottom: 1pt solid black">
                                         <td>{{ ++$i }}</td>
 
@@ -570,8 +570,8 @@
                                     <td>-</td>
                                     <td style="width:60%">-</td>
                                     <td style="width:10%">Jumlah</td>
-                                    @if (isset($rab->jumlah_biaya_lain))
-                                        <td style="width:25%">{{ $rab->jumlah_biaya_lain }}</td>
+                                    @if (isset($realisasi->jumlah_biaya_lain))
+                                        <td style="width:25%">{{ $realisasi->jumlah_biaya_lain }}</td>
                                     @else
                                         <td style="width:25%"></td>
                                     @endif
@@ -585,15 +585,15 @@
                             <td style="width:30%">JUMLAH A s/d D</td>
                             <td>:................................................</td>
                             <td style="width:10%">Jumlah</td>
-                            <td style="width:25%">{{ $rab->total }}</td>
+                            <td style="width:25%">{{ $realisasi->total }}</td>
                         </tr>
                         <tr style="border-bottom: 1pt solid black">
-                            @if (isset($rab->tanggal_uang_muka))
+                            @if (isset($realisasi->tanggal_uang_muka))
                                 <td></td>
                                 <td>Uang Muka Tanggal</td>
-                                <td>:{{ $rab->tanggal_uang_muka }}</td>
+                                <td>:{{ $realisasi->tanggal_uang_muka }}</td>
                                 <td>Jumlah</td>
-                                <td>{{ $rab->biaya_kas }}</td>
+                                <td>{{ $realisasi->biaya_kas }}</td>
                             @else
                                 <td></td>
                                 <td>Uang Muka</td>
@@ -603,12 +603,12 @@
                             @endif
                         </tr>
                         <tr>
-                            @if (isset($rab->biaya_kas))
+                            @if (isset($realisasi->biaya_kas))
                                 <td></td>
                                 <td>Untuk Distor kembali ke KAS</td>
                                 <td>.................................................</td>
                                 <td>Jumlah</td>
-                                <td>{{ $rab->biaya_kas }}</td>
+                                <td>{{ $realisasi->biaya_kas }}</td>
                             @else
                                 <td></td>
                                 <td>Untuk Distor kembali ke KAS</td>
@@ -619,12 +619,12 @@
 
                         </tr>
                         <tr>
-                            @if (isset($rab->biaya_ybs))
+                            @if (isset($realisasi->biaya_ybs))
                                 <td></td>
                                 <td>Untuk dibayarkan kepada Ybs</td>
                                 <td>.................................................</td>
                                 <td>Jumlah</td>
-                                <td>{{ $rab->biaya_ybs }}</td>
+                                <td>{{ $realisasi->biaya_ybs }}</td>
                             @else
                                 <td></td>
                                 <td>Untuk dibayarkan kepada Ybs</td>

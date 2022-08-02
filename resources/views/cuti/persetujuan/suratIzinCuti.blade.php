@@ -217,8 +217,7 @@
             <div id="printIzinCUti">
                 <header class="header">
                     <div class="header__left">
-                        <img class="header__logo" src="{{ asset('backend/assets/images/logo/ASDP.png') }}"
-                            alt="logo" />
+                        <img class="header__logo" src="{{ asset('backend/assets/images/logo/ASDP.png') }}" alt="logo" />
                         <h1 class="header__title">FORMULIR SURAT IZIN CUTI</h1>
                     </div>
                     <div class="header__detail">
@@ -232,7 +231,7 @@
                         </div>
                         <div class="header__item">
                             <span class="header__key">Berlaku Efektif</span>
-                            <span class="header__value">: {{ \Carbon\Carbon::now()->year }}</span>
+                            <span class="header__value">: 2019</span>
                         </div>
                         <div class="header__item">
                             <span class="header__key">Halaman</span>

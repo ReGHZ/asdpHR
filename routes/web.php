@@ -75,14 +75,17 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/perjalanan-dinas/store', [App\Http\Controllers\PerjalananDinasController::class, 'store'])->name('perjalanan-dinas.store');
     Route::get('/perjalanan-dinas/{penugasan}/show', [App\Http\Controllers\PerjalananDinasController::class, 'show'])->name('perjalanan-dinas.show');
     Route::delete('/perjalanan-dinas/destroy', [App\Http\Controllers\PerjalananDinasController::class, 'destroy'])->name('perjalanan-dinas.destroy');
+    // -----------------------------RAB perjalanan dinas ------------------------------//
     Route::get('/perjalanan-dinas/{penugasan}/createRab', [App\Http\Controllers\PerjalananDinasController::class, 'createRab'])->name('perjalanan-dinas.createRab');
     Route::post('/perjalanan-dinas/storeRab', [App\Http\Controllers\PerjalananDinasController::class, 'storeRab'])->name('perjalanan-dinas.storeRab');
+    // Route::put('/perjalanan-dinas/editRab', [App\Http\Controllers\PerjalananDinasController::class, 'editRab'])->name('perjalanan-dinas.editRab');
     Route::get('/perjalanan-dinas/{rab}/rab', [App\Http\Controllers\PerjalananDinasController::class, 'rabForm'])->name('perjalanan-dinas.rab');
-    Route::post('/perjalanan-dinas/realisasiRab', [App\Http\Controllers\PerjalananDinasController::class, 'realisasiRab'])->name('perjalanan-dinas.realisasiRab');
-    // Route::put('/perjalanan-dinas/realisasiRab', [App\Http\Controllers\PerjalananDinasController::class, 'realisasiRab'])->name('perjalanan-dinas.realisasiRab');
-    Route::get('/perjalanan-dinas/{rab}/realisasiForm', [App\Http\Controllers\PerjalananDinasController::class, 'realisasiForm'])->name('perjalanan-dinas.realisasiForm');
     Route::delete('/perjalanan-dinas/destroyRab', [App\Http\Controllers\PerjalananDinasController::class, 'destroyRab'])->name('perjalanan-dinas.destroyRab');
-    // ----------------------------- perjalanan dinas ------------------------------//
+    // ----------------------------- Realisasi RAB perjalanan dinas ------------------------------//
+    Route::post('/perjalanan-dinas/realisasiRab', [App\Http\Controllers\PerjalananDinasController::class, 'realisasiRab'])->name('perjalanan-dinas.realisasiRab');
+    Route::get('/perjalanan-dinas/{rab}/realisasiForm', [App\Http\Controllers\PerjalananDinasController::class, 'realisasiForm'])->name('perjalanan-dinas.realisasiForm');
+    Route::get('/perjalanan-dinas/{rab}/laporanRealisasiForm', [App\Http\Controllers\PerjalananDinasController::class, 'laporanRealisasiForm'])->name('perjalanan-dinas.laporanRealisasiForm');
+    // ----------------------------- Laporan perjalanan dinas ------------------------------//
     Route::get('/laporan-dinas', [App\Http\Controllers\PerjalananDinasController::class, 'indexLaporan'])->name('laporan-dinas');
     Route::put('/laporan-dinas/tandai-selesai', [App\Http\Controllers\PerjalananDinasController::class, 'tandaiSelesai'])->name('laporan-dinas.tandai-selesai');
     Route::get('/laporan-dinas/{rab}/kebenaran', [App\Http\Controllers\PerjalananDinasController::class, 'kebenaran'])->name('laporan-dinas.kebenaran');

@@ -100,8 +100,16 @@
                                                         <hr class="dropdown-divider">
                                                     </li>
                                                     <li><a href="{{ route('perjalanan-dinas.realisasiForm', $row->id) }}"
-                                                            class="dropdown-item"><i class="bi bi-eye text-primary"></i>
+                                                            class="dropdown-item"><i class="bi bi-eye text-warning"></i>
                                                             Lihat form Realisasi</a>
+                                                    </li>
+
+                                                    <li>
+                                                        <hr class="dropdown-divider">
+                                                    </li>
+                                                    <li><a href="{{ route('perjalanan-dinas.laporanRealisasiForm', $row->id) }}"
+                                                            class="dropdown-item"><i class="bi bi-eye text-primary"></i>
+                                                            Lihat form Laporan Realisasi</a>
                                                     </li>
 
                                                     <li>
@@ -113,7 +121,7 @@
                                                     </li>
                                                 @endif
                                                 @role('admin|manajer')
-                                                    @if ($row->perjalananDinas->status == 'Menunggu Realisasi')
+                                                    @if ($row->perjalananDinas->status == 'Menunggu Realisasi' || $row->perjalananDinas->status == 'Selesai')
                                                         <li>
                                                             <hr class="dropdown-divider">
                                                         </li>
@@ -179,7 +187,7 @@
                                             @enderror
                                         </div>
                                         <div class="text-center">
-                                            <h1 class="h4 text-gray-900 mb-4">Tiket Perjalanan!</h1>
+                                            <h1 class="h4 text-gray-900 mb-4">Tiket Perjalanan</h1>
                                         </div>
                                         <div class="form-group row">
                                             <div class="col-sm-6 mb-3 mb-sm-0">
@@ -266,7 +274,7 @@
                                                 :value="jumlah_harian(yangditugaskan)">
                                         </div>
                                         <div class="text-center">
-                                            <h1 class="h4 text-gray-900 mb-4">Biaya penginapan!</h1>
+                                            <h1 class="h4 text-gray-900 mb-4">Biaya penginapan</h1>
                                         </div>
                                         <div class="form-group row">
                                             <div class="col-sm-6 mb-3 mb-sm-0">
@@ -301,7 +309,7 @@
                                         </div>
                                         <div class="form-group" style="display: none" id="showBiayaLain">
                                             <div class="text-center">
-                                                <h1 class="h4 text-gray-900 mb-4">Biaya lainnya!</h1>
+                                                <h1 class="h4 text-gray-900 mb-4">Biaya lainnya</h1>
                                             </div>
                                             <div class="form-row">
                                                 <div class="text-right">
@@ -434,7 +442,7 @@
                                 <div class="col-lg-12">
                                     <div class="p-3">
                                         <div class="text-center">
-                                            <h1 class="h4 text-gray-900 mb-4">Tiket Perjalanan!</h1>
+                                            <h1 class="h4 text-gray-900 mb-4">Tiket Perjalanan</h1>
                                         </div>
                                         <div class="form-group row">
                                             <div class="col-sm-6 mb-3 mb-sm-0">
@@ -521,7 +529,7 @@
                                                 :value="jumlah_harian(datarealisasi)">
                                         </div>
                                         <div class="text-center">
-                                            <h1 class="h4 text-gray-900 mb-4">Biaya penginapan!</h1>
+                                            <h1 class="h4 text-gray-900 mb-4">Biaya penginapan</h1>
                                         </div>
                                         <div class="form-group row">
                                             <div class="col-sm-6 mb-3 mb-sm-0">
@@ -552,7 +560,7 @@
                                         </div>
                                         <div class="form-group">
                                             <div class="text-center">
-                                                <h1 class="h4 text-gray-900 mb-4">Biaya lainnya!</h1>
+                                                <h1 class="h4 text-gray-900 mb-4">Biaya lainnya</h1>
                                                 <p>Jika tidak ada biaya lain cukup kosongi baris pertama, <b>Jangan
                                                         dihapus</b>
                                                 </p>
@@ -767,6 +775,10 @@
                         biaya_harian: null,
                         lama_hari_penginap: null,
                         biaya_penginapan: null,
+                        uang_muka: null,
+                        tanggal_uang_muka: null,
+                        biaya_kas: null,
+                        biaya_ybs: null,
                     },
                     rab: {!! $rab !!},
                     datarealisasi: {
@@ -798,6 +810,7 @@
                 realisasi(id) {
                     $('#createRealisasi').modal('show');
                     this.datarealisasi = this.rab.filter(val => val.id == id)[0];
+                    console.log(this.datarealisasi = this.rab.filter(val => val.id == id)[0])
                 },
 
                 jumlah_tiket(variable) {
