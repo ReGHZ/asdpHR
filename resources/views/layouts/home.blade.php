@@ -85,7 +85,7 @@
                                 </div>
                                 <div class="col-md-8">
                                     <h6 class="text-muted font-semibold">Perjalanan Dinas</h6>
-                                    <h6 class="font-extrabold mb-0">183.000</h6>
+                                    <h6 class="font-extrabold mb-0">{{ $perjalananDinas->count() }}</h6>
                                 </div>
                             </div>
                         </div>
@@ -215,7 +215,7 @@
                     <div class="panel col-lg-6">
                         <canvas id="cutiUsers" class="rounded shadow"></canvas>
                         <div class="mt-2">
-                            <a id="dlmasajabatan" download="grafik-masajabatan.jpg" href=""
+                            <a id="dlcutipegawai" download="grafik-cuti-pegawai.jpg" href=""
                                 class="btn btn-primary float-right bg-flat-color-1" title="download grafik usia">
 
                                 <!-- Download Icon -->
@@ -227,7 +227,7 @@
                     <div class="panel col-lg-6">
                         <canvas id="cuti" class="rounded shadow"></canvas>
                         <div class="mt-2">
-                            <a id="dlmasajabatan" download="grafik-masajabatan.jpg" href=""
+                            <a id="dlcuti" download="grafik-cuti.jpg" href=""
                                 class="btn btn-primary float-right bg-flat-color-1" title="download grafik usia">
 
                                 <!-- Download Icon -->
@@ -340,12 +340,8 @@
             data: {
                 labels: {!! json_encode($grafikCutiUsers->labels) !!},
                 datasets: [{
-                    label: 'Grafik masa jabaran',
-                    backgroundColor: [
-                        'rgba(242, 99, 242, 0.5)',
-                        'rgba(124, 55, 171, 0.5)',
-                        'rgba(28, 3, 110, 0.5)',
-                    ],
+                    label: 'Grafik cuti pegawai',
+                    backgroundColor: {!! json_encode($grafikCutiUsers->warnagrafikCutiUsers) !!},
 
                     data: {!! json_encode($grafikCutiUsers->dataset) !!},
                 }]
@@ -354,7 +350,7 @@
             options: {
                 title: {
                     display: true,
-                    text: 'Grafik Cuti PT.ASDP'
+                    text: 'Grafik Cuti Pegawai PT.ASDP'
                 },
                 legend: {
                     labels: {
@@ -385,7 +381,7 @@
             data: {
                 labels: {!! json_encode($grafikCuti->labels) !!},
                 datasets: [{
-                    label: 'Grafik masa jabaran',
+                    label: 'Grafik cuti',
                     backgroundColor: [
                         'rgba(242, 99, 242, 0.5)',
                         'rgba(124, 55, 171, 0.5)',
@@ -400,7 +396,7 @@
             options: {
                 title: {
                     display: true,
-                    text: 'Grafik Cuti Pegawai PT.ASDP'
+                    text: 'Grafik Cuti PT.ASDP'
                 },
                 legend: {
                     labels: {
@@ -437,6 +433,22 @@
             var url_base64jp = document.getElementById("masaJabatan").toDataURL("image/jpg");
             /*get download button (tag: <a></a>) */
             var a = document.getElementById("dlmasajabatan");
+            /*insert chart image url to download button (tag: <a></a>) */
+            a.href = url_base64jp;
+        });
+        document.getElementById("dlcutipegawai").addEventListener('click', function() {
+            /*Get image of canvas element*/
+            var url_base64jp = document.getElementById("cutiUsers").toDataURL("image/jpg");
+            /*get download button (tag: <a></a>) */
+            var a = document.getElementById("dlcutipegawai");
+            /*insert chart image url to download button (tag: <a></a>) */
+            a.href = url_base64jp;
+        });
+        document.getElementById("dlcuti").addEventListener('click', function() {
+            /*Get image of canvas element*/
+            var url_base64jp = document.getElementById("cuti").toDataURL("image/jpg");
+            /*get download button (tag: <a></a>) */
+            var a = document.getElementById("dlcuti");
             /*insert chart image url to download button (tag: <a></a>) */
             a.href = url_base64jp;
         });
