@@ -66,25 +66,27 @@
                     </a>
                 </li>
 
-                <li
-                    class="sidebar-item  has-sub {{ request()->is('employee*') || request()->is('divisi*') || request()->is('jabatan*') || request()->is('roles*') ? 'active' : '' }} ">
-                    <a href="#" class='sidebar-link'>
-                        <i class="bi bi-people-fill"></i>
-                        <span>Data Pegawai</span>
-                    </a>
-                    <ul
-                        class="submenu {{ request()->is('employee*') || request()->is('divisi*') || request()->is('jabatan*') || request()->is('roles*') ? 'active' : '' }}">
-                        <li class="submenu-item {{ request()->is('employee*') ? 'active' : '' }}">
-                            <a href="{{ route('employee') }}">Pegawai</a>
-                        </li>
-                        <li class="submenu-item {{ request()->is('divisi') ? 'active' : '' }}">
-                            <a href="{{ route('divisi') }}">Divisi</a>
-                        </li>
-                        <li class="submenu-item {{ request()->is('jabatan') ? 'active' : '' }}">
-                            <a href="{{ route('jabatan') }}">Jabatan</a>
-                        </li>
-                    </ul>
-                </li>
+                @role('admin|manajer')
+                    <li
+                        class="sidebar-item  has-sub {{ request()->is('employee*') || request()->is('divisi*') || request()->is('jabatan*') || request()->is('roles*') ? 'active' : '' }} ">
+                        <a href="#" class='sidebar-link'>
+                            <i class="bi bi-people-fill"></i>
+                            <span>Data Pegawai</span>
+                        </a>
+                        <ul
+                            class="submenu {{ request()->is('employee*') || request()->is('divisi*') || request()->is('jabatan*') || request()->is('roles*') ? 'active' : '' }}">
+                            <li class="submenu-item {{ request()->is('employee*') ? 'active' : '' }}">
+                                <a href="{{ route('employee') }}">Pegawai</a>
+                            </li>
+                            <li class="submenu-item {{ request()->is('divisi') ? 'active' : '' }}">
+                                <a href="{{ route('divisi') }}">Divisi</a>
+                            </li>
+                            <li class="submenu-item {{ request()->is('jabatan') ? 'active' : '' }}">
+                                <a href="{{ route('jabatan') }}">Jabatan</a>
+                            </li>
+                        </ul>
+                    </li>
+                @endrole
 
                 <li
                     class="sidebar-item  has-sub {{ request()->is('pengajuan-cuti*') || request()->is('persetujuan-cuti*') ? 'active' : '' }}">
@@ -97,8 +99,7 @@
                         <li class="submenu-item {{ request()->is('pengajuan-cuti*') ? 'active' : '' }}">
                             <a href="{{ route('pengajuan-cuti') }}">Pengajuan</a>
                         </li>
-                        <li
-                            class="submenu-item submenu-item {{ request()->is('persetujuan-cuti*') ? 'active' : '' }}">
+                        <li class="submenu-item submenu-item {{ request()->is('persetujuan-cuti*') ? 'active' : '' }}">
                             <a href="{{ route('persetujuan-cuti') }}">Persetujuan</a>
                         </li>
                     </ul>

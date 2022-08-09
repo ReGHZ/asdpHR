@@ -161,6 +161,19 @@ class PermissionsTableSeeder extends Seeder
                 'description' => 'bisa delete persetujuan cuti',
                 'model'       => 'Permission',
             ],
+            // perjalanan dinas
+            [
+                'name'        => 'lihat daftar perjalanan dinas',
+                'slug'        => 'daftar.dinas',
+                'description' => 'lihat daftar perjalanan dinas',
+                'model'       => 'Permission',
+            ],
+            [
+                'name'        => 'delete perjalanan dinas',
+                'slug'        => 'delete.dinas',
+                'description' => 'bisa delete perjalanan dinas',
+                'model'       => 'Permission',
+            ]
         ];
 
         /*
