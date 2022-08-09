@@ -84,4 +84,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(PengajuanCuti::class);
     }
+
+    public function perjalananDinas()
+    {
+        return $this->hasMany(Pengikut::class);
+    }
 }
