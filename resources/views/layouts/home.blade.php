@@ -55,184 +55,272 @@
         </div>
     </div>
     <div class="page-content">
-        <section class="row">
-            @if (Auth::user()->hasRole('admin') || Auth::user()->hasRole('manajer'))
-                <div class="col-6 col-lg-4 col-md-6">
-                    <div class="card">
-                        <div class="card-body px-3 py-4-5">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="stats-icon purple">
-                                        <i class="fas fa-suitcase-rolling"></i>
+        <section>
+            <div class="row">
+                @if (Auth::user()->hasRole('admin') || Auth::user()->hasRole('manajer'))
+                    <div class="col-6 col-lg-4 col-md-6">
+                        <div class="card">
+                            <div class="card-body px-3 py-4-5">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="stats-icon purple">
+                                            <i class="fas fa-suitcase-rolling"></i>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-8">
-                                    <h6 class="text-muted font-semibold">Pengajuan Cuti</h6>
-                                    <h6 class="font-extrabold mb-0">{{ $pengajuanCuti->count() }}</h6>
+                                    <div class="col-md-8">
+                                        <h6 class="text-muted font-semibold">Pengajuan Cuti</h6>
+                                        <h6 class="font-extrabold mb-0">{{ $pengajuanCuti->count() }}</h6>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-6 col-lg-4 col-md-6">
-                    <div class="card">
-                        <div class="card-body px-3 py-4-5">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="stats-icon blue">
-                                        <i class="fas fa-plane"></i>
+                    <div class="col-6 col-lg-4 col-md-6">
+                        <div class="card">
+                            <div class="card-body px-3 py-4-5">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="stats-icon blue">
+                                            <i class="fas fa-plane"></i>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-8">
-                                    <h6 class="text-muted font-semibold">Perjalanan Dinas</h6>
-                                    <h6 class="font-extrabold mb-0">{{ $perjalananDinas->count() }}</h6>
+                                    <div class="col-md-8">
+                                        <h6 class="text-muted font-semibold">Perjalanan Dinas</h6>
+                                        <h6 class="font-extrabold mb-0">{{ $perjalananDinas->count() }}</h6>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-6 col-lg-4 col-md-6">
-                    <div class="card">
-                        <div class="card-body px-3 py-4-5">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="stats-icon red">
-                                        <i class="fas fa-user-friends"></i>
+                    <div class="col-6 col-lg-4 col-md-6">
+                        <div class="card">
+                            <div class="card-body px-3 py-4-5">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="stats-icon red">
+                                            <i class="fas fa-user-friends"></i>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-8">
-                                    <h6 class="text-muted font-semibold">Pegawai</h6>
-                                    <h6 class="font-extrabold mb-0">{{ $pegawai->count() }}</h6>
+                                    <div class="col-md-8">
+                                        <h6 class="text-muted font-semibold">Pegawai</h6>
+                                        <h6 class="font-extrabold mb-0">{{ $pegawai->count() }}</h6>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            @else
-                <div class="col-6 col-lg-3 col-md-6">
-                    <div class="card">
-                        <div class="card-body px-3 py-4-5">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="stats-icon purple">
-                                        <i class="fas fa-suitcase-rolling"></i>
+                @else
+                    <div class="col-6 col-lg-3 col-md-6">
+                        <div class="card">
+                            <div class="card-body px-3 py-4-5">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="stats-icon purple">
+                                            <i class="fas fa-suitcase-rolling"></i>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-8">
-                                    <h6 class="text-muted font-semibold">Pengajuan Cuti</h6>
-                                    <h6 class="font-extrabold mb-0">
-                                        {{ Auth::user()->pengajuanCuti->count() }}</h6>
+                                    <div class="col-md-8">
+                                        <h6 class="text-muted font-semibold">Pengajuan Cuti</h6>
+                                        <h6 class="font-extrabold mb-0">
+                                            {{ Auth::user()->pengajuanCuti->count() }}</h6>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-6 col-lg-3 col-md-6">
-                    <div class="card">
-                        <div class="card-body px-3 py-4-5">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="stats-icon green">
-                                        <i class="far fa-check-circle"></i>
+                    <div class="col-6 col-lg-3 col-md-6">
+                        <div class="card">
+                            <div class="card-body px-3 py-4-5">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="stats-icon green">
+                                            <i class="far fa-check-circle"></i>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-8">
-                                    <h6 class="text-muted font-semibold">Cuti Diterima</h6>
-                                    <h6 class="font-extrabold mb-0">
-                                        {{ Auth::user()->pengajuanCuti->where('status', 'Disetujui')->count() }}</h6>
+                                    <div class="col-md-8">
+                                        <h6 class="text-muted font-semibold">Cuti Diterima</h6>
+                                        <h6 class="font-extrabold mb-0">
+                                            {{ Auth::user()->pengajuanCuti->where('status', 'Disetujui')->count() }}</h6>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-6 col-lg-3 col-md-6">
-                    <div class="card">
-                        <div class="card-body px-3 py-4-5">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="stats-icon red">
-                                        <i class="fas fa-times"></i>
+                    <div class="col-6 col-lg-3 col-md-6">
+                        <div class="card">
+                            <div class="card-body px-3 py-4-5">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="stats-icon red">
+                                            <i class="fas fa-times"></i>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-8">
-                                    <h6 class="text-muted font-semibold">Cuti Ditolak</h6>
-                                    <h6 class="font-extrabold mb-0">
-                                        {{ Auth::user()->pengajuanCuti->where('status', 'Ditolak')->count() }}</h6>
-                                    </h6>
+                                    <div class="col-md-8">
+                                        <h6 class="text-muted font-semibold">Cuti Ditolak</h6>
+                                        <h6 class="font-extrabold mb-0">
+                                            {{ Auth::user()->pengajuanCuti->where('status', 'Ditolak')->count() }}</h6>
+                                        </h6>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-6 col-lg-3 col-md-6">
-                    <div class="card">
-                        <div class="card-body px-3 py-4-5">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="stats-icon blue">
-                                        <i class="fas fa-plane"></i>
+                    <div class="col-6 col-lg-3 col-md-6">
+                        <div class="card">
+                            <div class="card-body px-3 py-4-5">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="stats-icon blue">
+                                            <i class="fas fa-plane"></i>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-8">
-                                    <h6 class="text-muted font-semibold">Perjalanan Dinas</h6>
-                                    <h6 class="font-extrabold mb-0">183.000</h6>
+                                    <div class="col-md-8">
+                                        <h6 class="text-muted font-semibold">Perjalanan Dinas</h6>
+                                        <h6 class="font-extrabold mb-0">{{ Auth::user()->perjalananDinas->count() }}</h6>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            @endif
-
-            <div class="card">
-                <div class="row card-body">
-                    <div class="panel col-lg-6">
-                        <canvas id="masaKerja" class="rounded shadow"></canvas>
-                        <div class="mt-2">
-                            <a id="dlmasakerja" download="grafik-masakerja.jpg" href=""
-                                class="btn btn-primary float-right bg-flat-color-1" title="download grafik usia">
-
-                                <!-- Download Icon -->
-                                <i class="fa fa-download"></i>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="panel col-lg-6">
-                        <canvas id="masaJabatan" class="rounded shadow"></canvas>
-                        <div class="mt-2">
-                            <a id="dlmasajabatan" download="grafik-masajabatan.jpg" href=""
-                                class="btn btn-primary float-right bg-flat-color-1" title="download grafik usia">
-
-                                <!-- Download Icon -->
-                                <i class="fa fa-download"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
+                @endif
             </div>
 
-            <div class="card">
-                <div class="row card-body">
-                    <div class="panel col-lg-6">
-                        <canvas id="cutiUsers" class="rounded shadow"></canvas>
-                        <div class="mt-2">
-                            <a id="dlcutipegawai" download="grafik-cuti-pegawai.jpg" href=""
-                                class="btn btn-primary float-right bg-flat-color-1" title="download grafik usia">
+            <div class="row">
+                <div class="col-12 col-lg-7">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <h6>Grafik Masa Kerja</h6>
+                                        </div>
+                                        <div class="col-6 text-end">
+                                            <button class="btn btn-sm border" data-bs-toggle="collapse"
+                                                data-bs-target="#collapseOne"><i class="bi bi-dash"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body" id="collapseOne">
+                                    <canvas id="masaKerja"></canvas>
+                                    <a id="dlmasakerja" download="grafik-masakerja.jpg" href=""
+                                        class="btn btn-primary float-right bg-flat-color-1"
+                                        title="download grafik masa kerja">
 
-                                <!-- Download Icon -->
-                                <i class="fa fa-download"></i>
-                            </a>
+                                        <!-- Download Icon -->
+                                        <i class="fa fa-download"></i>
+                                    </a>
+                                </div>
+                            </div>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <h6>Grafik Masa jabatan</h6>
+                                        </div>
+                                        <div class="col-6 text-end">
+                                            <button class="btn btn-sm border" data-bs-toggle="collapse"
+                                                data-bs-target="#collapseTwo"><i class="bi bi-dash"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body" id="collapseTwo">
+                                    <canvas id="masaJabatan"></canvas>
+                                    <a id="dlmasajabatan" download="grafik-masajabatan.jpg" href=""
+                                        class="btn btn-primary float-right bg-flat-color-1"
+                                        title="download grafik masa jabatan">
 
-                    <div class="panel col-lg-6">
-                        <canvas id="cuti" class="rounded shadow"></canvas>
-                        <div class="mt-2">
-                            <a id="dlcuti" download="grafik-cuti.jpg" href=""
-                                class="btn btn-primary float-right bg-flat-color-1" title="download grafik usia">
+                                        <!-- Download Icon -->
+                                        <i class="fa fa-download"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-5">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <h6>Grafik Perjalanaan Dinas</h6>
+                                        </div>
+                                        <div class="col-6 text-end">
+                                            <button class="btn btn-sm border" data-bs-toggle="collapse"
+                                                data-bs-target="#collapseThree"><i class="bi bi-dash"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body" id="collapseThree">
+                                    <canvas id="perjadin"></canvas>
+                                    <a id="dlperjadin" download="grafik-perjadin.jpg" href=""
+                                        class="btn btn-primary float-right bg-flat-color-1"
+                                        title="download grafik perjadin">
 
-                                <!-- Download Icon -->
-                                <i class="fa fa-download"></i>
-                            </a>
+                                        <!-- Download Icon -->
+                                        <i class="fa fa-download"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <h6>Grafik Cuti Pegawai</h6>
+                                        </div>
+                                        <div class="col-6 text-end">
+                                            <button class="btn btn-sm border" data-bs-toggle="collapse"
+                                                data-bs-target="#collapseFour"><i class="bi bi-dash"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body" id="collapseFour">
+                                    <canvas id="cutiUsers"></canvas>
+                                    <a id="dlcutipegawai" download="grafik-cuti-pegawai.jpg" href=""
+                                        class="btn btn-primary float-right bg-flat-color-1"
+                                        title="download grafik cuti pegawai">
+
+                                        <!-- Download Icon -->
+                                        <i class="fa fa-download"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <h6>Grafik Cuti</h6>
+                                        </div>
+                                        <div class="col-6 text-end">
+                                            <button class="btn btn-sm border" data-bs-toggle="collapse"
+                                                data-bs-target="#collapseFive"><i class="bi bi-dash"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body" id="collapseFive">
+                                    <canvas id="cuti"></canvas>
+                                    <a id="dlcuti" download="grafik-cuti.jpg" href=""
+                                        class="btn btn-primary float-right bg-flat-color-1" title="download grafik cuti">
+
+                                        <!-- Download Icon -->
+                                        <i class="fa fa-download"></i>
+                                    </a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -376,7 +464,7 @@
         var ctx = document.getElementById('cuti').getContext('2d');
         var chart = new Chart(ctx, {
             // The type of chart we want to create
-            type: 'doughnut',
+            type: 'bar',
             // The data for our dataset
             data: {
                 labels: {!! json_encode($grafikCuti->labels) !!},
@@ -397,6 +485,47 @@
                 title: {
                     display: true,
                     text: 'Grafik Cuti PT.ASDP'
+                },
+                legend: {
+                    labels: {
+                        // This more specific font property overrides the global property
+                        fontColor: '#122C4B',
+                        fontFamily: "'Muli', sans-serif",
+                        padding: 25,
+                        boxWidth: 25,
+                        fontSize: 14,
+                    }
+                },
+                layout: {
+                    padding: {
+                        left: 10,
+                        right: 10,
+                        top: 0,
+                        bottom: 10
+                    }
+                }
+            }
+        });
+
+        var ctx = document.getElementById('perjadin').getContext('2d');
+        var chart = new Chart(ctx, {
+            // The type of chart we want to create
+            type: 'doughnut',
+            // The data for our dataset
+            data: {
+                labels: {!! json_encode($grafikPerjalananDinas->labels) !!},
+                datasets: [{
+                    label: 'Grafik perjalanan Dinas',
+                    backgroundColor: {!! json_encode($grafikPerjalananDinas->warnagrafikPerjalananDinas) !!},
+
+                    data: {!! json_encode($grafikPerjalananDinas->dataset) !!},
+                }]
+            },
+            // Configuration options go here
+            options: {
+                title: {
+                    display: true,
+                    text: 'Grafik Perjalanan Dinas PT.ASDP'
                 },
                 legend: {
                     labels: {
@@ -449,6 +578,14 @@
             var url_base64jp = document.getElementById("cuti").toDataURL("image/jpg");
             /*get download button (tag: <a></a>) */
             var a = document.getElementById("dlcuti");
+            /*insert chart image url to download button (tag: <a></a>) */
+            a.href = url_base64jp;
+        });
+        document.getElementById("dlperjadin").addEventListener('click', function() {
+            /*Get image of canvas element*/
+            var url_base64jp = document.getElementById("perjadin").toDataURL("image/jpg");
+            /*get download button (tag: <a></a>) */
+            var a = document.getElementById("dlperjadin");
             /*insert chart image url to download button (tag: <a></a>) */
             a.href = url_base64jp;
         });

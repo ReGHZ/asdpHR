@@ -17,7 +17,7 @@
         <div class="row h-100">
             <div class="col-lg-5 col-12">
                 <div id="auth-left">
-                    <div class="auth-logo text-center">
+                    <div class="text-center mb-4">
                         <a href="{{ route('home') }}"><img src="{{ asset('backend/assets/images/logo/ASDP.svg') }}"
                                 alt="Logo"></a>
                     </div>
@@ -27,8 +27,9 @@
 
                         <div class="form-group position-relative has-icon-left mb-4">
                             <input id="nik" type="text"
-                                class="form-control form-control-xl @error('nik') is-invalid @enderror" placeholder="NIK"
-                                name="nik" value="{{ old('nik') }}" required autocomplete="nik" autofocus>
+                                class="form-control form-control-xl @error('nik') is-invalid @enderror"
+                                placeholder="NIK" name="nik" value="{{ old('nik') }}" required autocomplete="nik"
+                                autofocus>
                             @error('nik')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -71,7 +72,6 @@
             </div>
             <div class="col-lg-7 d-none d-lg-block">
                 <div id="auth-right">
-
                 </div>
             </div>
         </div>

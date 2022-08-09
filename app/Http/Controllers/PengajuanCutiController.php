@@ -77,6 +77,17 @@ class PengajuanCutiController extends Controller
         //generate nomor surat thats reset every year
         $nomorSurat = PengajuanCuti::whereYear("created_at", Carbon::now()->year)->count();
 
+        // function nomorSurat($nomorSurat)
+        // {
+        //     if ($nomorSurat[1] > 2) {
+        //         $nomorSurat[1]++;
+        //         $nomorSurat[0] = 1;
+        //     } else {
+        //         $nomorSurat[1]++;
+        //     }
+        //     return $nomorSurat;
+        // }
+
         //generate tanggal surat now
         $tanggal_surat = Carbon::now();
 
