@@ -144,6 +144,17 @@ class HomeController extends Controller
         $grafikPerjalananDinas->dataset = (array_values($groupPerjalananDinas ?? []));
         $grafikPerjalananDinas->warnagrafikPerjalananDinas = $warnagrafikPerjalananDinas;
 
-        return view('layouts.home', compact('todayDate', 'pengajuanCuti', 'perjalananDinas', 'pegawai', 'grafikMasaKerja', 'grafikMasaJabatan', 'pengajuanCuti', 'grafikCutiUsers', 'grafikCuti', 'grafikPerjalananDinas'));
+        return view('layouts.home', compact(
+            'todayDate',
+            'pengajuanCuti',
+            'perjalananDinas',
+            'pegawai',
+            'grafikMasaKerja',
+            'grafikMasaJabatan',
+            'pengajuanCuti',
+            'grafikCutiUsers',
+            'grafikCuti',
+            'grafikPerjalananDinas'
+        ));
     }
 }

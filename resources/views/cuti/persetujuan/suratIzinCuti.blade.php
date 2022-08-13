@@ -245,7 +245,8 @@
                             <tr>
                                 <td>Nomor</td>
                                 <td>:</td>
-                                <td>PA.207/8/3/ASDP-KTP/{{ \Carbon\Carbon::now()->year }}</td>
+                                <td>PA.207/{{ $persetujuan->pengajuanCuti->nomor_surat }}/ASDP-KTP/{{ \Carbon\Carbon::now()->year }}
+                                </td>
                             </tr>
                             <tr>
                                 <td>Lampiran</td>

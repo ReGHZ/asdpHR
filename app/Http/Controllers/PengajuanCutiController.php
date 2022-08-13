@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-
 use App\Models\Pegawai;
 use App\Models\PengajuanCuti;
 use App\Models\PersetujuanCuti;
@@ -53,6 +52,24 @@ class PengajuanCutiController extends Controller
     }
 
     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    function nomorSurat($nomorSurat)
+    {
+        $nomorSurat[1] = (int) $nomorSurat[1];
+        $nomorSurat[0] = (int) $nomorSurat[0];
+        if ($nomorSurat[1] > 9) {
+            $nomorSurat[0]++;
+            $nomorSurat[1] = 1;
+        } else {
+            $nomorSurat[1]++;
+        }
+        return $nomorSurat = implode("/", $nomorSurat);
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -66,7 +83,7 @@ class PengajuanCutiController extends Controller
             'jenis_cuti'                         => 'required',
             'keterangan'                         => 'required',
             'tanggal_mulai'                      => 'required|date',
-            'tanggal_selesai'                    => 'required|date|after_or_equal:tanggal_mulai',
+            'tanggal_selesai'                    => 'required|date|after:tanggal_mulai',
         ], [
             'jenis_cuti.required'                => 'Jenis cuti harus diisi',
             'keterangan.required'                => 'Keterangan harus diisi',
@@ -75,18 +92,9 @@ class PengajuanCutiController extends Controller
         ]);
 
         //generate nomor surat thats reset every year
-        $nomorSurat = PengajuanCuti::whereYear("created_at", Carbon::now()->year)->count();
-
-        // function nomorSurat($nomorSurat)
-        // {
-        //     if ($nomorSurat[1] > 2) {
-        //         $nomorSurat[1]++;
-        //         $nomorSurat[0] = 1;
-        //     } else {
-        //         $nomorSurat[1]++;
-        //     }
-        //     return $nomorSurat;
-        // }
+        $nomorSurat = PengajuanCuti::whereYear("created_at", Carbon::now()->year)->get()->last();
+        $nomorBaru = $nomorSurat->nomor_surat ?? "1/0";
+        $nomorBaru = explode("/", $nomorBaru);
 
         //generate tanggal surat now
         $tanggal_surat = Carbon::now();
@@ -143,7 +151,7 @@ class PengajuanCutiController extends Controller
         //create new pengajuan cuti
         $cuti = PengajuanCuti::create([
             'user_id'               => $pegawai->id,
-            'nomor_surat'           => $nomorSurat,
+            'nomor_surat'           => $this->nomorSurat($nomorBaru),
             'tanggal_mulai'         => $request->tanggal_mulai,
             'tanggal_selesai'       => $request->tanggal_selesai,
             'jenis_cuti'            => $request->jenis_cuti,
@@ -241,32 +249,35 @@ class PengajuanCutiController extends Controller
      */
     public function updateReject(Request $request)
     {
-        try {
-            //get penmgajuan cuti id
-            $pengajuan_id = $request->pengajuan_id;
-            $pengajuan = PengajuanCuti::findOrFail($pengajuan_id);
-            //when cuti tahunan ditolak kuota cuti dikembalikan
-            if ($pengajuan->jenis_cuti == 'Cuti tahunan') {
-                $cuti = Pegawai::where('id', $pengajuan->user_id)->first();
-                $cuti->kuota_cuti = $cuti->kuota_cuti + $pengajuan->lama_hari;
-                $cuti->update();
-            }
+        //validator
+        $request->validate([
+            'alasan'                         => 'required',
+        ], [
+            'alasan.required'                => 'Alasan ditolak harus diisi',
+        ]);
 
-            //update status to ditolak when reject
-            $pengajuan->status = 'Ditolak';
-            $pengajuan->alasan = $request->alasan;
-            $pengajuan->update();
-
-            //get data user that have role user
-            $user = User::where('id', $pengajuan->user_id)->get();
-
-            //send notification to user
-            Notification::send($user, new NotifTolakCuti($pengajuan));
-
-            return redirect('/pengajuan-cuti')->with('success', 'Pengajuan cuti ditolak');
-        } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Data tidak ditemukan');
+        //get penmgajuan cuti id
+        $pengajuan_id = $request->pengajuan_id;
+        $pengajuan = PengajuanCuti::findOrFail($pengajuan_id);
+        //when cuti tahunan ditolak kuota cuti dikembalikan
+        if ($pengajuan->jenis_cuti == 'Cuti tahunan') {
+            $cuti = Pegawai::where('id', $pengajuan->user_id)->first();
+            $cuti->kuota_cuti = $cuti->kuota_cuti + $pengajuan->lama_hari;
+            $cuti->update();
         }
+
+        //update status to ditolak when reject
+        $pengajuan->status = 'Ditolak';
+        $pengajuan->alasan = $request->alasan;
+        $pengajuan->update();
+
+        //get data user that have role user
+        $user = User::where('id', $pengajuan->user_id)->get();
+
+        //send notification to user
+        Notification::send($user, new NotifTolakCuti($pengajuan));
+
+        return redirect('/pengajuan-cuti')->with('success', 'Pengajuan cuti ditolak');
     }
 
     /**
@@ -278,58 +289,60 @@ class PengajuanCutiController extends Controller
      */
     public function updateApprove(Request $request)
     {
-        try {
+        //validator
+        $request->validate([
+            'alasan'                         => 'required',
+        ], [
+            'alasan.required'                => 'Alasan disetujui harus diisi',
+        ]);
 
-            //get penmgajuan cuti id
-            $pengajuan_id = $request->pengajuan_id;
-            $pengajuan = PengajuanCuti::findOrFail($pengajuan_id);
-            //generate nomor surat thats reset every year
-            $nomorSurat = PengajuanCuti::whereYear("created_at", Carbon::now()->year)->count();
+        //get penmgajuan cuti id
+        $pengajuan_id = $request->pengajuan_id;
+        $pengajuan = PengajuanCuti::findOrFail($pengajuan_id);
+        //generate nomor surat thats reset every year
+        $nomorSurat = PengajuanCuti::whereYear("created_at", Carbon::now()->year)->count();
 
-            //update status to disetujui when approve
-            $pengajuan->status = 'Disetujui';
-            $pengajuan->update();
+        //update status to disetujui when approve
+        $pengajuan->status = 'Disetujui';
+        $pengajuan->update();
 
 
-            //create file persetujuan cuti when approve
-            if ($request->tembusan == true) {
+        //create file persetujuan cuti when approve
+        if ($request->tembusan == true) {
 
-                $persetujuan = PersetujuanCuti::create([
-                    'pengajuan_cuti_id' => $pengajuan_id,
-                    'user_id' => $pengajuan->user_id,
-                    'nomor_surat' => $nomorSurat,
-                    'tanggal_surat' => Carbon::now(),
-                    'keterangan' => $pengajuan->keterangan,
-                    'alasan' => $request->alasan,
-                ]);
+            $persetujuan = PersetujuanCuti::create([
+                'pengajuan_cuti_id' => $pengajuan_id,
+                'user_id' => $pengajuan->user_id,
+                'nomor_surat' => $nomorSurat,
+                'tanggal_surat' => Carbon::now(),
+                'keterangan' => $pengajuan->keterangan,
+                'alasan' => $request->alasan,
+            ]);
 
-                foreach ($request->tembusan as $key => $value) {
-                    $persetujuan->tembusan()->create([
-                        'user_id' => $request->tembusan[$key],
-                        'persetujuan_cuti_id' => $persetujuan->id,
-                    ]);
-                }
-            } else {
-                $persetujuan = PersetujuanCuti::create([
-                    'pengajuan_cuti_id' => $pengajuan_id,
-                    'user_id' => $pengajuan->user_id,
-                    'nomor_surat' => $nomorSurat,
-                    'tanggal_surat' => Carbon::now(),
-                    'keterangan' => $pengajuan->keterangan,
-                    'alasan' => $request->alasan,
+            foreach ($request->tembusan as $key => $value) {
+                $persetujuan->tembusan()->create([
+                    'user_id' => $request->tembusan[$key],
+                    'persetujuan_cuti_id' => $persetujuan->id,
                 ]);
             }
-
-            //get user that send notification
-            $user = User::where('id', $pengajuan->user_id)->get();
-
-            //send notification to user
-            Notification::send($user, new NotifTerimaCuti($pengajuan));
-
-            return redirect('/persetujuan-cuti')->with('success', 'Pengajuan cuti disetujui');
-        } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Data tidak ditemukan');
+        } else {
+            $persetujuan = PersetujuanCuti::create([
+                'pengajuan_cuti_id' => $pengajuan_id,
+                'user_id' => $pengajuan->user_id,
+                'nomor_surat' => $nomorSurat,
+                'tanggal_surat' => Carbon::now(),
+                'keterangan' => $pengajuan->keterangan,
+                'alasan' => $request->alasan,
+            ]);
         }
+
+        //get user that send notification
+        $user = User::where('id', $pengajuan->user_id)->get();
+
+        //send notification to user
+        Notification::send($user, new NotifTerimaCuti($pengajuan));
+
+        return redirect('/persetujuan-cuti')->with('success', 'Pengajuan cuti disetujui');
     }
 
     /**
