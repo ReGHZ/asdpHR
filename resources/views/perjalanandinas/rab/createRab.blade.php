@@ -64,8 +64,14 @@
                             <tr>
                                 <th>No</th>
                                 <th>Nama</th>
+                                <th>Harga tiket</th>
+                                <th>Charge</th>
                                 <th>Jumlah tiket</th>
+                                <th>Lama hari</th>
+                                <th>Biaya harian</th>
                                 <th>Jumlah harian</th>
+                                <th>Lama hari Menginap</th>
+                                <th>Biaya Penginapan</th>
                                 <th>Jumlah Penginapan</th>
                                 <th>jumlah Lainnya</th>
                                 <th>Total</th>
@@ -77,8 +83,14 @@
                                 <tr>
                                     <td>{{ ++$i }}</td>
                                     <td>{{ $row->pengikut->user->name }}</td>
+                                    <td>{{ $row->harga_tiket }}</td>
+                                    <td>{{ $row->charge }}</td>
                                     <td>{{ $row->jumlah_harga_tiket }}</td>
+                                    <td>{{ $row->lama_hari }}</td>
+                                    <td>{{ $row->biaya_harian }}</td>
                                     <td>{{ $row->jumlah_biaya_harian }}</td>
+                                    <td>{{ $row->lama_hari_penginap }}</td>
+                                    <td>{{ $row->biaya_penginapan }}</td>
                                     <td>{{ $row->jumlah_biaya_penginapan }}</td>
                                     <td>{{ $row->jumlah_biaya_lain }}</td>
                                     <td>{{ $row->total }}</td>
