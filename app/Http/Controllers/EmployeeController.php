@@ -47,7 +47,7 @@ class EmployeeController extends Controller
 
             //get data role
             $allRoles = Role::all();
-            return view('employee.index', compact('divisi', 'jabatan', 'user', 'allRoles'));
+            return view('pegawai.index', compact('divisi', 'jabatan', 'user', 'allRoles'));
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
@@ -159,7 +159,7 @@ class EmployeeController extends Controller
             $jabatan = Jabatan::all();
             $allRoles = Role::all();
             $user = User::findorfail($id);
-            return view('employee.show', compact('user', 'divisi', 'jabatan', 'allRoles'));
+            return view('pegawai.show', compact('user', 'divisi', 'jabatan', 'allRoles'));
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Data tidak ditemukan');
         }

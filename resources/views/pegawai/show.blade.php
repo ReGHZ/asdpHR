@@ -34,8 +34,7 @@
             @endif
 
             <div class="pb-3">
-                <a href="{{ route('employee') }}" class="btn icon btn-primary pull-right"><i
-                        data-feather="arrow-left"></i>
+                <a href="{{ route('employee') }}" class="btn icon btn-primary pull-right"><i data-feather="arrow-left"></i>
                     Kembali</a>
             </div>
             <!-- SOLO PAGE -->
@@ -67,8 +66,8 @@
                                         </div>
                                     @else
                                         <div class="upload mb-3">
-                                            <img src="{{ asset('backend/assets/images/faces/2.jpg') }}" width=100
-                                                height=100 alt="">
+                                            <img src="{{ asset('backend/assets/images/faces/2.jpg') }}" width=100 height=100
+                                                alt="">
                                             <div class="round">
                                                 <input name="foto" type="file" id="file"
                                                     onchange="this.form.submit()">
@@ -368,7 +367,7 @@
             <!-- END DOUBLE PAGE -->
 
         </section>
-        @include('employee.edit')
+        @include('pegawai.edit')
     </div>
 @endsection
 

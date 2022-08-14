@@ -32,7 +32,7 @@ class DivisiController extends Controller
         try {
             //get all divisi
             $divisi = Divisi::all();
-            return view('employee.departements.index', compact('divisi'));
+            return view('pegawai.divisi.index', compact('divisi'));
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }

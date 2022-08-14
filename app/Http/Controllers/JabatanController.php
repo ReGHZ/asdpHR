@@ -31,7 +31,7 @@ class JabatanController extends Controller
         try {
             //get all jabatan
             $jabatan = Jabatan::all();
-            return view('employee.positions.index', compact('jabatan'));
+            return view('pegawai.jabatan.index', compact('jabatan'));
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }

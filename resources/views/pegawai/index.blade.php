@@ -4,7 +4,7 @@
         <div class="page-title">
             <div class="row">
                 <div class="col-12 col-md-6 order-md-1 order-last">
-                    <h3>Tabel Jabatan</h3>
+                    <h3>Tabel Pegawai</h3>
                     <p class="text-subtitle text-muted"></p>
                 </div>
                 <div class="col-12 col-md-6 order-md-2 order-first">
@@ -36,32 +36,37 @@
             @role('admin|manajer')
                 <div class="pb-3">
                     <a href="" class="btn icon btn-primary pull-right" data-bs-toggle="modal"
-                        data-bs-target="#createjabatan"><i data-feather="plus"></i>
+                        data-bs-target="#createpegawai"><i data-feather="user-plus"></i>
                         Tambah</a>
+                    <a href="{{ url('roles') }}" class="btn btn-secondary pull-right"><i class="fas fa-user-cog me-2"></i>
+                        Role user</a>
                 </div>
             @endrole
 
-            {{-- Tabel jabatan --}}
+            {{-- Tabel pegawai --}}
             <div class="card shadow-lg">
                 <div class="card-body">
                     <table class="table table-striped" id="table1">
                         <thead>
                             <tr>
                                 <th>NO</th>
-                                <th>Jabatan</th>
-                                <th>Deskripsi</th>
+                                <th>Nama</th>
+                                <th>Nik</th>
+                                <th>Masa Kerja</th>
+                                <th>Masa Jabatan</th>
                                 @role('admin|manajer')
                                     <th>action</th>
                                 @endrole
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($jabatan as $i => $row)
+                            @foreach ($user as $i => $row)
                                 <tr>
                                     <td>{{ ++$i }}</td>
-                                    <td>{{ $row->nama_jabatan }}</td>
-                                    <td>{{ $row->deskripsi }}</td>
-
+                                    <td>{{ $row->name }}</td>
+                                    <td>{{ $row->nik }}</td>
+                                    <td>{{ $row->masa_kerja }}</td>
+                                    <td>{{ $row->masa_jabatan }}</td>
                                     @role('admin|manajer')
                                         <td>
                                             <div class="dropdown position-static">
@@ -72,14 +77,13 @@
 
                                                 <ul class="dropdown-menu shadow" aria-labelledby="actionlink"
                                                     style="min-width:inherit;">
-                                                    <li><button value="{{ $row->id }}" class="dropdown-item editbtn"><i
-                                                                class="bi bi-pencil text-secondary"></i>
-                                                            Edit</button>
-                                                    </li>
+                                                    <li><a href="{{ route('employee.show', $row->id) }}"
+                                                            class="dropdown-item"><i class="bi bi-eye text-success"></i>
+                                                            Lihat</a></li>
                                                     <li>
                                                         <hr class="dropdown-divider">
                                                     </li>
-                                                    <li><button value="{{ $row->id }}" class="dropdown-item btnJabDel"><i
+                                                    <li><button value="{{ $row->id }}" class="dropdown-item btnEmpDel"><i
                                                                 class="bi bi-exclamation-circle text-danger"></i>
                                                             Hapus
                                                         </button>
@@ -91,46 +95,22 @@
                                     @endrole
                                 </tr>
                             @endforeach
-
                         </tbody>
                     </table>
                 </div>
             </div>
-
         </section>
-        @include('employee.positions.create')
-        @include('employee.positions.edit')
-        @include('employee.positions.delete')
+        @include('pegawai.create')
+        @include('pegawai.delete')
     </div>
 @endsection
-
 @push('scripts')
     <script>
-        $(document).on('click', '.btnJabDel', function() {
-            var jabatan_id = $(this).val();
-            // alert(jabatan_id);
-            $('#jabatanDelete').modal('show');
-            $('#jabatan_id').val(jabatan_id);
-        });
-
-        $(document).ready(function() {
-
-            $(document).on('click', '.editbtn', function() {
-                var jab_id = $(this).val();
-                // alert(jab_id);
-                $('#jabatanedit').modal('show');
-
-                $.ajax({
-                    type: "GET",
-                    url: "jabatan/" + jab_id + "/edit",
-                    success: function(response) {
-                        // console.log(response.jabatan.nama_jabatan);
-                        $('#jab_id').val(response.jabatan.id);
-                        $('#nama_jabatan').val(response.jabatan.nama_jabatan);
-                        $('#deskripsi').val(response.jabatan.deskripsi);
-                    }
-                });
-            });
+        $(document).on('click', '.btnEmpDel', function() {
+            var user_id = $(this).val();
+            // alert(user_id);
+            $('#pegawaiDelete').modal('show');
+            $('#user_id').val(user_id);
         });
     </script>
 @endpush

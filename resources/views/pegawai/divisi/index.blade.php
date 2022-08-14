@@ -96,9 +96,9 @@
             </div>
 
         </section>
-        @include('employee.departements.create')
-        @include('employee.departements.edit')
-        @include('employee.departements.delete')
+        @include('pegawai.divisi.create')
+        @include('pegawai.divisi.edit')
+        @include('pegawai.divisi.delete')
     </div>
 @endsection
 
