@@ -5,12 +5,15 @@ namespace App\Models;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use jeremykenedy\LaravelRoles\Traits\HasRoleAndPermission;
 use Illuminate\Notifications\Notifiable;
+use jeremykenedy\LaravelRoles\Models\Role;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, HasRoleAndPermission;
+    use \Znck\Eloquent\Traits\BelongsToThrough;
 
     /**
      * The attributes that are mass assignable.
@@ -21,6 +24,21 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+
+        'jabatan_id',
+        'divisi_id',
+        'nik',
+        'tempat_lahir',
+        'tanggal_lahir',
+        'usia',
+        'jenis_kelamin',
+        'no_hp',
+        'alamat',
+        'tanggal_masuk_kerja',
+        'masa_kerja',
+        'tanggal_pilih_jabatan',
+        'masa_jabatan',
+        'role',
     ];
 
     /**
@@ -41,4 +59,34 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function pegawai()
+    {
+        return $this->hasOne(Pegawai::class);
+    }
+
+    public function divisi()
+    {
+        return $this->belongsTo(Divisi::class);
+    }
+
+    public function jabatan()
+    {
+        return $this->belongsTo(Jabatan::class);
+    }
+
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
+
+    public function pengajuanCuti()
+    {
+        return $this->hasMany(PengajuanCuti::class);
+    }
+
+    public function perjalananDinas()
+    {
+        return $this->hasMany(Pengikut::class);
+    }
 }
