@@ -18,7 +18,7 @@
             <div class="col-lg-5 col-12">
                 <div id="auth-left">
                     <div class="text-center mb-4">
-                        <a href="{{ route('home') }}"><img src="{{ asset('backend/assets/images/logo/ASDP.svg') }}"
+                        <a href="{{ route('home') }}"><img src="{{ secure_asset('backend/assets/images/logo/ASDP.svg') }}"
                                 alt="Logo"></a>
                     </div>
                     <h1 class="auth-title">Log in.</h1>
