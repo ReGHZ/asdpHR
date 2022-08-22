@@ -313,11 +313,13 @@
                             <div class="detail__departure-item">
                                 <span>Pengikut</span>
                                 <span>:</span>
-                                @foreach ($pengikut as $i => $pengikut)
-                                    @if ($i > 0)
-                                        <span>{{ $pengikut->user->name }}</span>
-                                    @endif
-                                @endforeach
+                                <span>
+                                    @foreach ($pengikut as $i => $pengikut)
+                                        @if ($i > 0)
+                                            {{ $pengikut->user->name }},
+                                        @endif
+                                    @endforeach
+                                </span>
                             </div>
                         @else
                             <div class="detail__departure-item">
