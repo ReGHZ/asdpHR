@@ -41,65 +41,6 @@
                 </a>
             </div>
 
-            {{-- Statistik cuti --}}
-            <div class="row">
-                <div class="col-md-3">
-                    <div class="card text-center shadow">
-                        <div class="card-title shadow-sm">
-                            <h6 class="mt-2"><i class="bi bi-briefcase me-2"></i>Cuti Tahunan</h6>
-                        </div>
-                        <h4>{{ $dataCuti->where('jenis_cuti', 'Cuti tahunan')->count() }}</h4>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card text-center shadow">
-                        <div class="card-title shadow-sm">
-                            <h6 class="mt-2"><i class="bi bi-send me-2"></i>Cuti Besar</h6>
-                        </div>
-                        <h4>{{ $dataCuti->where('jenis_cuti', 'Cuti besar')->count() }}</h4>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card text-center shadow">
-                        <div class="card-title shadow-sm">
-                            <h6 class="mt-2"><i class="bi bi-balloon me-2"></i>Cuti Bersalin</h6>
-                        </div>
-                        <h4>{{ $dataCuti->where('jenis_cuti', 'Cuti bersalin')->count() }}</h4>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card text-center shadow">
-                        <div class="card-title shadow-sm">
-                            <h6 class="mt-2"><i class="bi bi-heart-pulse me-2"></i>Cuti Sakit</h6>
-                        </div>
-                        <h4>{{ $dataCuti->where('jenis_cuti', 'Cuti sakit')->count() }}</h4>
-                    </div>
-                </div>
-            </div>
-
-            {{-- statistik persetujuan cuti --}}
-            <div class="row">
-                <div class="col-3"></div>
-                <div class="col-3">
-                    <div class="card text-center bg-success shadow">
-                        <div class="card-title shadow-sm">
-                            <h6 class="mt-2 text-white"><i class="bi bi-check2-circle me-2"></i>Cuti Disetujui</h6>
-                        </div>
-                        <h4 class="text-white">{{ $dataCuti->where('status', 'Disetujui')->count() }}</h4>
-                    </div>
-                </div>
-
-                <div class="col-3">
-                    <div class="card text-center bg-danger shadow">
-                        <div class="card-title shadow-sm">
-                            <h6 class="mt-2 text-white"><i class="bi bi-x-circle me-2"></i>Cuti Ditolak</h6>
-                        </div>
-                        <h4 class="text-white">{{ $dataCuti->where('status', 'Ditolak')->count() }}</h4>
-                    </div>
-                </div>
-                <div class="col-3"></div>
-            </div>
-
             {{-- Tabel permohonan cuti --}}
             <div class="card shadow-lg">
                 <div class="card-body">
@@ -163,18 +104,6 @@
                                                         class="dropdown-item" id="show-cuti"><i
                                                             class="bi bi-eye text-success"></i>
                                                         Lihat</a></li>
-
-                                                @role('admin|manajer')
-                                                    <li>
-                                                        <hr class="dropdown-divider">
-                                                    </li>
-                                                    <li><button value="{{ $row->id }}" class="dropdown-item btnCutiDel"><i
-                                                                class="bi bi-exclamation-circle text-danger"></i>
-                                                            Hapus
-                                                        </button>
-
-                                                    </li>
-                                                @endrole
                                             </ul>
                                         </div>
                                     </td>
@@ -186,18 +115,9 @@
             </div>
         </section>
         @include('cuti.create')
-        @include('cuti.editDeleteCuti')
     </div>
 @endsection
 @push('scripts')
-    <script>
-        $(document).on('click', '.btnCutiDel', function() {
-            var cuti_id = $(this).val();
-            // alert(cuti_id);
-            $('#cutiDelete').modal('show');
-            $('#cuti_id').val(cuti_id);
-        });
-    </script>
     <script>
         function fileCutiSakit(that) {
             if (that.value == "Cuti sakit") {

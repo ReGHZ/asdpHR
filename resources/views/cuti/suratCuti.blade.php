@@ -206,10 +206,16 @@
         </div>
         <div class="row mb-2">
             <div class="col">
-                <a href="{{ route('pengajuan-cuti') }}" class="btn icon btn-primary"><i data-feather="arrow-left"></i>
-                    Kembali
-                </a>
-
+                @role('admin|manajer')
+                    <a href="{{ route('pengajuan-cuti-admin') }}" class="btn icon btn-primary"><i data-feather="arrow-left"></i>
+                        Kembali
+                    </a>
+                @endrole
+                @role('user')
+                    <a href="{{ route('pengajuan-cuti-user') }}" class="btn icon btn-primary"><i data-feather="arrow-left"></i>
+                        Kembali
+                    </a>
+                @endrole
                 <a id="btnPrint" class="btn icon btn-secondary me-1"><i data-feather="printer"></i>
                     Cetak
                 </a>
