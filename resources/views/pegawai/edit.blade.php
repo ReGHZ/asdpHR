@@ -20,7 +20,7 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="p-3">
-                                <div class="form-group">
+                                <div class="form-group required">
                                     <label class="form-control-label">Nama Lengkap</label>
                                     <input id="name" type="text" placeholder="Nama Lengkap" type="text"
                                         class="form-control @error('name') is-invalid @enderror" name="name"
@@ -31,7 +31,7 @@
                                         </span>
                                     @enderror
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group required">
                                     <label class="form-control-label">Email </label>
                                     <input id="email" type="email" placeholder="Email"
                                         class="form-control @error('email') is-invalid @enderror" name="email"
@@ -42,7 +42,7 @@
                                         </span>
                                     @enderror
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group required">
                                     <label class="form-control-label">Password Baru</label>
                                     <input id="password" name="password" type="password" placeholder="Password"
                                         class="form-control @error('password') is-invalid @enderror">
@@ -52,7 +52,7 @@
                                         </span>
                                     @enderror
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group required">
                                     <label class="form-control-label">Role</label>
                                     <select name="role" id="role" class="form-control">
                                         <option disabled>Pilih Role</option>
@@ -61,7 +61,7 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="form-group row">
+                                <div class="form-group row required">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
                                         <label class="form-control-label">Alamat</label>
                                         <input id="alamat" name="alamat" type="text"
@@ -89,7 +89,7 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <div class="form-group row">
+                                <div class="form-group row required">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
                                         <label class="form-control-label">Tanggal Lahir</label>
                                         <input id="tanggal_lahir" name="tanggal_lahir" type="date" placeholder=""
@@ -110,7 +110,7 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <div class="form-group row">
+                                <div class="form-group row required">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
                                         <label class="form-control-label">NIk</label>
                                         <input id="nik" name="nik" type="text"
@@ -131,7 +131,7 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <div class="form-group row">
+                                <div class="form-group row required">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
                                         <label class="form-control-label">Divisi</label>
                                         <select id="divisi_id" name="divisi_id"
@@ -162,7 +162,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="form-group row">
+                                <div class="form-group row required">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
                                         <label class="form-control-label">tanggal Masuk Kerja</label>
                                         <input id="tanggal_masuk_kerja" name="tanggal_masuk_kerja" type="date"
@@ -434,8 +434,7 @@
                                         <label class="form-control-label">Golongan Skala PHDP</label>
                                         <input id="gol_skala_phdp" name="gol_skala_phdp" type="text"
                                             class="form-control @error('gol_skala_phdp') is-invalid @enderror"
-                                            value="{{ old('gol_skala_phdp') }}"
-                                            placeholder="Golongan Skala PHDP" />
+                                            value="{{ old('gol_skala_phdp') }}" placeholder="Golongan Skala PHDP" />
                                         @error('gol_skala_phdp')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
@@ -455,8 +454,7 @@
                                         <label class="form-control-label">Golongan Skala Gaji</label>
                                         <input id="gol_skala_gaji" name="gol_skala_gaji" type="text"
                                             class="form-control @error('gol_skala_gaji') is-invalid @enderror"
-                                            value="{{ old('gol_skala_gaji') }}"
-                                            placeholder="Golongan Skala Gaji" />
+                                            value="{{ old('gol_skala_gaji') }}" placeholder="Golongan Skala Gaji" />
                                         @error('gol_skala_gaji')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror

@@ -19,7 +19,7 @@
                             </div>
                             <form action="{{ route('perjalanan-dinas.store') }}" method="POST">
                                 @csrf
-                                <div class="form-group">
+                                <div class="form-group required">
                                     <label class="form-control-label">Nama Pegawai</label>
                                     <select class="form-control" name="user_id">
                                         <option selected disabled>Pilih Pegawai</option>
@@ -56,7 +56,7 @@
                                         </span>
                                     @enderror
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group required">
                                     <label class="form-control-label">Tujuan</label>
                                     <input name="tujuan" id="tujuan" type="text"
                                         placeholder="Tempat tujuan Penugasan"
@@ -68,7 +68,7 @@
                                         </span>
                                     @enderror
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group required">
                                     <label class="form-control-label">Perihal</label>
                                     <textarea name="perihal" type="text" class="form-control @error('perihal') is-invalid @enderror"
                                         placeholder="Isi perihal penugasan" />{{ old('perihal') }}</textarea>
@@ -76,7 +76,7 @@
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group required">
                                     <label class="form-control-label">Pembebanan Biaya</label>
                                     <select class="form-control" name="pembebanan_biaya">
                                         <option selected disabled>Pilih pembebanan biaya</option>
@@ -92,7 +92,7 @@
                                         </span>
                                     @enderror
                                 </div>
-                                <div class="form-group row">
+                                <div class="form-group row required">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
                                         <label class="form-control-label">Tanggal Keberangkatan</label>
                                         <input name="tanggal_keberangkatan" type="date"

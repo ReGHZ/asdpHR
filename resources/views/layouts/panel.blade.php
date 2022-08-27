@@ -52,6 +52,11 @@
             width: 16px;
             height: 16px;
         }
+
+        .form-group.required .form-control-label:after {
+            content: "*";
+            color: red;
+        }
     </style>
 </head>
 
@@ -74,11 +79,11 @@
     @if (Route::current()->getName() == 'employee' ||
         Route::current()->getName() == 'divisi' ||
         Route::current()->getName() == 'jabatan' ||
-        Route::current()->getName() == 'pengajuan-cuti' ||
-        Route::current()->getName() == 'persetujuan-cuti' ||
+        Route::current()->getName() == 'pengajuan-cuti-admin' ||
+        Route::current()->getName() == 'pengajuan-cuti-user' ||
+        Route::current()->getName() == 'persetujuan-cuti-admin' ||
+        Route::current()->getName() == 'persetujuan-cuti-user' ||
         Route::current()->getName() == 'perjalanan-dinas' ||
-        Route::current()->getName() == 'pengajuan-cuti' ||
-        Route::current()->getName() == 'persetujuan-cuti' ||
         Route::current()->getName() == 'perjalanan-dinas.createRab' ||
         Route::current()->getName() == 'laporan-dinas')
         <script src="{{ asset('backend/assets/js/extensions/simple-datatables.js') }}"></script>

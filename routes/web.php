@@ -59,7 +59,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/jabatan/store', [App\Http\Controllers\JabatanController::class, 'store'])->name('jabatan.store');
     Route::put('/jabatan/update', [App\Http\Controllers\JabatanController::class, 'update'])->name('jabatan.update');
     // ----------------------------- pengajuan cuti ------------------------------//
-    Route::get('/pengajuan-cuti', [App\Http\Controllers\PengajuanCutiController::class, 'index'])->name('pengajuan-cuti');
+    Route::get('/pengajuan-cuti-admin', [App\Http\Controllers\PengajuanCutiController::class, 'indexAdmin'])->name('pengajuan-cuti-admin');
+    Route::get('/pengajuan-cuti-user', [App\Http\Controllers\PengajuanCutiController::class, 'indexUser'])->name('pengajuan-cuti-user');
     Route::get('/pengajuan-cuti/{pengajuan}/show', [App\Http\Controllers\PengajuanCutiController::class, 'show'])->name('pengajuan-cuti.show');
     Route::post('/pengajuan-cuti/store', [App\Http\Controllers\PengajuanCutiController::class, 'store'])->name('pengajuan-cuti.store');
     Route::get('/pengajuan-cuti/{id}/getPengajuan', [App\Http\Controllers\PengajuanCutiController::class, 'getPengajuan'])->name('pengajuan-cuti.getPengajuan');
@@ -68,7 +69,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::delete('/pengajuan-cuti/destroy', [App\Http\Controllers\PengajuanCutiController::class, 'destroy'])->name('pengajuan-cuti.destroy');
     Route::get('/pengajuan-cuti/{id}/download', [App\Http\Controllers\PengajuanCutiController::class, 'downloadFile'])->name('pengajuan-cuti.download');
     // ----------------------------- persetujuan cuti ------------------------------//
-    Route::get('/persetujuan-cuti', [App\Http\Controllers\PersetujuanCutiController::class, 'index'])->name('persetujuan-cuti');
+    Route::get('/persetujuan-cuti-admin', [App\Http\Controllers\PersetujuanCutiController::class, 'indexAdmin'])->name('persetujuan-cuti-admin');
+    Route::get('/persetujuan-cuti-user', [App\Http\Controllers\PersetujuanCutiController::class, 'indexUser'])->name('persetujuan-cuti-user');
     Route::get('/persetujuan-cuti/{persetujuan}/show', [App\Http\Controllers\PersetujuanCutiController::class, 'show'])->name('persetujuan-cuti.show');
     // ----------------------------- perjalanan dinas ------------------------------//
     Route::get('/perjalanan-dinas', [App\Http\Controllers\PerjalananDinasController::class, 'index'])->name('perjalanan-dinas');

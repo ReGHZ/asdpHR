@@ -27,7 +27,7 @@ class PengajuanCutiController extends Controller
 
     function __construct()
     {
-        $this->middleware('permission:daftar.cuti', ['only' => ['index']]);
+        $this->middleware('permission:daftar.cuti', ['only' => ['indexAdmin', 'indexUser']]);
         $this->middleware('permission:create.cuti', ['only' => ['store']]);
         $this->middleware('permission:view.cuti', ['only' => ['show']]);
         $this->middleware('permission:edit.cuti', ['only' => ['edit', 'updateReject', 'updateApprove']]);
@@ -39,13 +39,31 @@ class PengajuanCutiController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function indexAdmin()
     {
         try {
             //get all data cuti
             $dataCuti = PengajuanCuti::with('user')->get();
 
             return view('cuti.index', compact('dataCuti'));
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function indexUser()
+    {
+        try {
+            //get all data cuti
+            $user = Auth::user();
+            $dataCuti = PengajuanCuti::with('user')->where('user_id', $user->id)->get();
+
+            return view('cuti.indexUser', compact('dataCuti'));
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
@@ -277,7 +295,7 @@ class PengajuanCutiController extends Controller
         //send notification to user
         Notification::send($user, new NotifTolakCuti($pengajuan));
 
-        return redirect('/pengajuan-cuti')->with('success', 'Pengajuan cuti ditolak');
+        return redirect('/pengajuan-cuti-admin')->with('success', 'Pengajuan cuti ditolak');
     }
 
     /**
@@ -299,8 +317,7 @@ class PengajuanCutiController extends Controller
         //get penmgajuan cuti id
         $pengajuan_id = $request->pengajuan_id;
         $pengajuan = PengajuanCuti::findOrFail($pengajuan_id);
-        //generate nomor surat thats reset every year
-        $nomorSurat = PengajuanCuti::whereYear("created_at", Carbon::now()->year)->count();
+
 
         //update status to disetujui when approve
         $pengajuan->status = 'Disetujui';
@@ -313,7 +330,7 @@ class PengajuanCutiController extends Controller
             $persetujuan = PersetujuanCuti::create([
                 'pengajuan_cuti_id' => $pengajuan_id,
                 'user_id' => $pengajuan->user_id,
-                'nomor_surat' => $nomorSurat,
+                'nomor_surat' => $pengajuan->nomor_surat,
                 'tanggal_surat' => Carbon::now(),
                 'keterangan' => $pengajuan->keterangan,
                 'alasan' => $request->alasan,
@@ -329,7 +346,7 @@ class PengajuanCutiController extends Controller
             $persetujuan = PersetujuanCuti::create([
                 'pengajuan_cuti_id' => $pengajuan_id,
                 'user_id' => $pengajuan->user_id,
-                'nomor_surat' => $nomorSurat,
+                'nomor_surat' => $pengajuan->nomor_surat,
                 'tanggal_surat' => Carbon::now(),
                 'keterangan' => $pengajuan->keterangan,
                 'alasan' => $request->alasan,
@@ -342,7 +359,7 @@ class PengajuanCutiController extends Controller
         //send notification to user
         Notification::send($user, new NotifTerimaCuti($pengajuan));
 
-        return redirect('/persetujuan-cuti')->with('success', 'Pengajuan cuti disetujui');
+        return redirect('/persetujuan-cuti-admin')->with('success', 'Pengajuan cuti disetujui');
     }
 
     /**
@@ -379,10 +396,10 @@ class PengajuanCutiController extends Controller
         //delete pengajuan cuti
         if ($pengajuan != null) {
             $pengajuan->delete();
-            return redirect()->route('pengajuan-cuti')->with(['success' => 'Pengajuan berhasil dihapus']);
+            return redirect()->route('pengajuan-cuti-admin')->with(['success' => 'Pengajuan berhasil dihapus']);
         }
 
-        return redirect()->route('pengajuan-cuti')->with(['error' => 'Id Salah!!']);
+        return redirect()->route('pengajuan-cuti-admin')->with(['error' => 'Id Salah!!']);
     }
 
     /**

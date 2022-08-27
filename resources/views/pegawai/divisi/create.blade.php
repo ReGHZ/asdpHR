@@ -17,25 +17,22 @@
                         <div class="col-lg-12">
                             <div class="p-3">
                                 <form class="user">
-                                    <div class="form-group row">
-                                        <div class="col-sm-12 mb-3 mb-sm-0">
-                                            <label class="form-control-label">Divisi</label>
-                                            <input name="nama_divisi" type="text"
-                                                class="form-control @error('nama_divisi') is-invalid @enderror"
-                                                value="{{ old('nama_divisi') }}" placeholder="Divisi" />
-                                            @error('nama_divisi')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                        <div class="">
-                                            <label class="form-control-label">Deskripsi</label>
-                                            <textarea name="deskripsi" type="text" class="form-control @error('deskripsi') is-invalid @enderror"
-                                                value="{{ old('deskripsi') }}"
-                                                placeholder="Isi keterangan Divisi" /></textarea>
-                                            @error('deskripsi')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
+                                    <div class="form-group required">
+                                        <label class="form-control-label">Divisi</label>
+                                        <input name="nama_divisi" type="text"
+                                            class="form-control @error('nama_divisi') is-invalid @enderror"
+                                            value="{{ old('nama_divisi') }}" placeholder="Divisi" />
+                                        @error('nama_divisi')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-control-label">Deskripsi</label>
+                                        <textarea name="deskripsi" type="text" class="form-control @error('deskripsi') is-invalid @enderror"
+                                            value="{{ old('deskripsi') }}" placeholder="Isi keterangan Divisi" /></textarea>
+                                        @error('deskripsi')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
                                     </div>
                             </div>
                         </div>

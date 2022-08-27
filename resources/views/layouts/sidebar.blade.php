@@ -3,7 +3,7 @@
         <div class="sidebar-header position-relative">
             <div class="d-flex justify-content-between align-items-center">
                 <div class="logo">
-                    <a href="{{ route('home') }}"><img src="{{ asset('backend/assets/images/logo/ASDP.svg') }}"
+                    <a href="{{ route('home') }}"><img src="{{ asset('backend/assets/images/logo/asdp.svg') }}"
                             alt="Logo" srcset=""></a>
                 </div>
                 <div class="theme-toggle d-flex gap-2  align-items-center mt-2">
@@ -89,19 +89,35 @@
                 @endrole
 
                 <li
-                    class="sidebar-item  has-sub {{ request()->is('pengajuan-cuti*') || request()->is('persetujuan-cuti*') ? 'active' : '' }}">
+                    class="sidebar-item  has-sub {{ request()->is('pengajuan-cuti-admin*') || request()->is('pengajuan-cuti-user*') || request()->is('persetujuan-cuti-admin*') || request()->is('persetujuan-cuti-user*') ? 'active' : '' }}">
                     <a href="#" class='sidebar-link'>
                         <i class="bi bi-briefcase-fill"></i>
                         <span>Pengajuan Cuti</span>
                     </a>
                     <ul
-                        class="submenu {{ request()->is('pengajuan-cuti*') || request()->is('persetujuan-cuti*') ? 'active' : '' }}">
-                        <li class="submenu-item {{ request()->is('pengajuan-cuti*') ? 'active' : '' }}">
-                            <a href="{{ route('pengajuan-cuti') }}">Pengajuan</a>
-                        </li>
-                        <li class="submenu-item submenu-item {{ request()->is('persetujuan-cuti*') ? 'active' : '' }}">
-                            <a href="{{ route('persetujuan-cuti') }}">Persetujuan</a>
-                        </li>
+                        class="submenu {{ request()->is('pengajuan-cuti-admin*') || request()->is('pengajuan-cuti-user*') || request()->is('persetujuan-cuti-admin*') || request()->is('persetujuan-cuti-user*') ? 'active' : '' }}">
+                        @role('admin|manajer')
+                            <li class="submenu-item {{ request()->is('pengajuan-cuti-admin*') ? 'active' : '' }}">
+                                <a href="{{ route('pengajuan-cuti-admin') }}">Pengajuan</a>
+                            </li>
+                        @endrole
+                        @role('user')
+                            <li class="submenu-item {{ request()->is('pengajuan-cuti-user*') ? 'active' : '' }}">
+                                <a href="{{ route('pengajuan-cuti-user') }}">Pengajuan</a>
+                            </li>
+                        @endrole
+                        @role('admin|manajer')
+                            <li
+                                class="submenu-item submenu-item {{ request()->is('persetujuan-cuti-admin*') ? 'active' : '' }}">
+                                <a href="{{ route('persetujuan-cuti-admin') }}">Persetujuan</a>
+                            </li>
+                        @endrole
+                        @role('user')
+                            <li
+                                class="submenu-item submenu-item {{ request()->is('persetujuan-cuti-user*') ? 'active' : '' }}">
+                                <a href="{{ route('persetujuan-cuti-user') }}">Persetujuan</a>
+                            </li>
+                        @endrole
                     </ul>
                 </li>
 
