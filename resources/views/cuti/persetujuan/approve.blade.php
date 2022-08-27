@@ -26,7 +26,7 @@
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
-                    <div class="form-group">
+                    <div class="form-group required">
                         <label class="form-control-label">Alasan</label>
                         <textarea name="alasan" type="text" class="form-control @error('alasan') is-invalid @enderror"
                             placeholder="Alasan Menyetujui cuti" />{{ old('alasan') }}</textarea>

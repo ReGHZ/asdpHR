@@ -135,7 +135,7 @@
             </div>
         </section>
     </div>
-    @include('perjalananDinas.laporan.modalSelesai')
+    @include('perjalanandinas.laporan.modalSelesai')
 @endsection
 @push('scripts')
     <script>

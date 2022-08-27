@@ -20,7 +20,7 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="p-3">
-                                <div class="form-group">
+                                <div class="form-group required">
                                     <label class="form-control-label">Nama Lengkap</label>
                                     <input id="name" type="text" placeholder="Nama Lengkap" type="text"
                                         class="form-control @error('name') is-invalid @enderror" name="name"
@@ -31,7 +31,7 @@
                                         </span>
                                     @enderror
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group required">
                                     <label class="form-control-label">Email </label>
                                     <input id="email" type="email" placeholder="Email"
                                         class="form-control @error('email') is-invalid @enderror" name="email"
@@ -42,7 +42,7 @@
                                         </span>
                                     @enderror
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group required">
                                     <label class="form-control-label">Password Baru</label>
                                     <input id="password" name="password" type="password" placeholder="Password"
                                         class="form-control @error('password') is-invalid @enderror">
@@ -364,8 +364,7 @@
                                         <label class="form-control-label">Golongan Skala PHDP</label>
                                         <input id="gol_skala_phdp" name="gol_skala_phdp" type="text"
                                             class="form-control @error('gol_skala_phdp') is-invalid @enderror"
-                                            value="{{ old('gol_skala_phdp') }}"
-                                            placeholder="Golongan Skala PHDP" />
+                                            value="{{ old('gol_skala_phdp') }}" placeholder="Golongan Skala PHDP" />
                                         @error('gol_skala_phdp')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
@@ -385,8 +384,7 @@
                                         <label class="form-control-label">Golongan Skala Gaji</label>
                                         <input id="gol_skala_gaji" name="gol_skala_gaji" type="text"
                                             class="form-control @error('gol_skala_gaji') is-invalid @enderror"
-                                            value="{{ old('gol_skala_gaji') }}"
-                                            placeholder="Golongan Skala Gaji" />
+                                            value="{{ old('gol_skala_gaji') }}" placeholder="Golongan Skala Gaji" />
                                         @error('gol_skala_gaji')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror

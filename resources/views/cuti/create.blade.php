@@ -38,7 +38,7 @@
                         </div>
                         <div class="col-lg-12">
                             <div class="p-3">
-                                <div class="form-group row">
+                                <div class="form-group row required">
                                     <div class="col-sm-12 mb-3 mb-sm-0">
                                         <label class="form-control-label">Jenis Cuti</label>
                                         <select onchange="fileCutiSakit(this)" name="jenis_cuti"
@@ -88,6 +88,8 @@
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
+                                </div>
+                                <div class="form-group">
                                     <div class="col-sm-12 mb-3 mb-sm-0" id="ifYes" style="display: none;">
                                         <label class="form-control-label">Surat Dokter(jika melebihi 2-14
                                             hari)</label>

@@ -24,7 +24,7 @@
                                     <input name="foto" id="foto" type="file" placeholder="Foto"
                                         class="form-control">
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group required">
                                     <label class="form-control-label">Nama Lengkap</label>
                                     <input name="name" id="name" type="text" placeholder="Nama Lengkap"
                                         class="form-control @error('name') is-invalid @enderror"
@@ -35,7 +35,7 @@
                                         </span>
                                     @enderror
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group required">
                                     <label class="form-control-label">Email </label>
                                     <input name="email" id="email" type="email" placeholder="Email"
                                         class="form-control @error('email') is-invalid @enderror"
@@ -46,7 +46,7 @@
                                         </span>
                                     @enderror
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group required">
                                     <label class="form-control-label">Password</label>
                                     <input name="password" type="password" placeholder="Password"
                                         class="form-control @error('password') is-invalid @enderror">
@@ -56,7 +56,7 @@
                                         </span>
                                     @enderror
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group required">
                                     <label class="form-control-label">Role</label>
                                     <select name="role" id="role" class="form-control">
                                         <option value="" selected disabled>Pilih Role</option>
@@ -68,7 +68,7 @@
 
                                     </select>
                                 </div>
-                                <div class="form-group row">
+                                <div class="form-group row required">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
                                         <label class="form-control-label">Alamat</label>
                                         <input name="alamat" type="text"
@@ -96,7 +96,7 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <div class="form-group row">
+                                <div class="form-group row required">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
                                         <label class="form-control-label">Tanggal Lahir</label>
                                         <input name="tanggal_lahir" type="date" placeholder=""
@@ -116,7 +116,7 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <div class="form-group row">
+                                <div class="form-group row required">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
                                         <label class="form-control-label">NIk</label>
                                         <input name="nik" type="text" placeholder="Nomor Induk Kepegawaian"
@@ -136,7 +136,7 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <div class="form-group row">
+                                <div class="form-group row required">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
                                         <label class="form-control-label">Divisi</label>
                                         <select name="divisi_id"
@@ -167,7 +167,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="form-group row">
+                                <div class="form-group row required">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
                                         <label class="form-control-label">tanggal Masuk Kerja</label>
                                         <input name="tanggal_masuk_kerja" type="date"

@@ -16,7 +16,7 @@
                     @method('PUT')
                     <p class="text-center">Apakah pengajuan cuti ditolak?</p>
                     <input type="hidden" name="pengajuan_id" id="pengajuan_iid">
-                    <div class="form-group">
+                    <div class="form-group required">
                         <label class="form-control-label">Alasan</label>
                         <textarea name="alasan" type="text" class="form-control @error('alasan') is-invalid @enderror"
                             placeholder="Alasan Menolak cuti" />{{ old('alasan') }}</textarea>

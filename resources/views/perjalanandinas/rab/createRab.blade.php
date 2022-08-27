@@ -184,7 +184,7 @@
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="p-3">
-                                        <div class="form-group">
+                                        <div class="form-group required">
                                             <label class="form-control-label">Nama Pegawai</label>
                                             <select class="form-control" name="pengikut_id">
                                                 <option selected disabled>Pilih Pegawai</option>
@@ -262,7 +262,7 @@
                                         <div class="text-center">
                                             <h1 class="h4 text-gray-900 mb-4">Biaya Harian</h1>
                                         </div>
-                                        <div class="form-group row">
+                                        <div class="form-group row required">
                                             <div class="col-sm-6 mb-3 mb-sm-0">
                                                 <label class="form-control-label">Lama Hari</label>
                                                 <input id="p_lama_hari" name="lama_hari" readonly type="text"
@@ -517,7 +517,7 @@
                                         <div class="text-center">
                                             <h1 class="h4 text-gray-900 mb-4">Biaya Harian</h1>
                                         </div>
-                                        <div class="form-group row">
+                                        <div class="form-group row required">
                                             <div class="col-sm-6 mb-3 mb-sm-0">
                                                 <label class="form-control-label">Lama Hari</label>
                                                 <input id="p_lama_hari" name="lama_hari" readonly type="text"

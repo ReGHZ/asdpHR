@@ -52,6 +52,11 @@
             width: 16px;
             height: 16px;
         }
+
+        .form-group.required .form-control-label:after {
+            content: "*";
+            color: red;
+        }
     </style>
 </head>
 
