@@ -37,4 +37,12 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+
+        /**
+     * Override default login field (email) to use 'nik'
+     */
+    public function username()
+    {
+        return 'nik';
+    }
 }

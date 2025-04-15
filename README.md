@@ -1,46 +1,111 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# 🚢 ASDP HR – Laravel 9
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+![Laravel](https://img.shields.io/badge/Laravel-9.x-red.svg)
+![PHP](https://img.shields.io/badge/PHP-8.0+-blue.svg)
+![Docker](https://img.shields.io/badge/Docker-supported-success.svg)
 
-## About Laravel
+ASDP HR adalah sistem manajemen SDM berbasis web yang dibangun dengan Laravel 9. Proyek ini dirancang untuk mengelola data karyawan secara efisien dan terstruktur.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 🛠️ Fitur Utama
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+-   📋 Manajemen Data Karyawan
+-   🕒 Pelacakan Kehadiran
+-   🗓️ Pengajuan & Persetujuan Cuti
+-   📈 Evaluasi Kinerja Karyawan
+-   ⚙️ Fitur HR Lainnya yang Siap Dikembangkan
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## 🧰 Prasyarat Instalasi
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Pastikan sistem Anda telah memiliki:
 
-## ASDP HR laravel 9
-How to Install:
+-   🐘 **PHP 8.0 atau lebih tinggi**
+-   🎼 **Composer** (untuk mengelola dependensi PHP)
+-   🐬 **MySQL 5.7+ atau MariaDB 10.3+** (untuk database)
+-   🟢 **Node.js 14+** (untuk kompilasi frontend assets seperti CSS & JS)
+-   🐳 **Docker** (opsional, jika ingin menggunakan container)
 
-1. Download .zip or git clone https://github.com/ReGHZ/asdp
-2. composer update
-3. change in vendor>laravel>ui>auth-backend->AuthenticatesUsers :
+---
 
-    public function username()
-    {
-        return 'email'; //change to return 'nik';
-    }
+## 🚀 Cara Menjalankan (Tanpa Docker)
 
-4. composer install
-5. edit database .env file
-6. php artisan migrate
-7. php artisan key:generate
-8. done
+### 1. Clone Project
+
+```bash
+git clone https://github.com/ReGHZ/asdp.git
+cd asdp
+```
+
+### 2. Install Dependency Composer
+
+```bash
+composer update
+composer install
+```
+
+### 3. Konfigurasi File `.env`
+
+Salin dari file `.env.example`:
+
+```bash
+cp .env.example .env
+```
+
+Edit bagian konfigurasi database:
+
+```dotenv
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=asdp_hr
+DB_USERNAME=root
+DB_PASSWORD=your_password
+```
+
+### 4. Generate Key dan Migrasi Database
+
+```bash
+php artisan key:generate
+php artisan migrate
+```
+
+### 5. (Opsional) Seed database untuk sample data
+
+```bash
+php artisan db:seed
+```
+
+### ✅ Selesai!
+
+Sekarang kamu bisa akses aplikasi via:
+
+```
+http://localhost:8000
+```
+
+---
+
+## 🐳 (Opsional) Menjalankan dengan Docker
+
+Jika kamu ingin menggunakan Docker untuk development:
+
+```bash
+docker-compose up -d --build
+```
+
+Aplikasi akan berjalan di: `http://localhost:8000`
+
+---
+
+## 👨‍💻 Kontribusi
+
+Pull request dan issue sangat diterima! Feel free untuk fork dan bantu mengembangkan proyek ini.
+
+---
+
+## 📄 Lisensi
+
+MIT License © 2025 [ReGHZ](https://github.com/ReGHZ)
