@@ -1,19 +1,22 @@
 #!/bin/bash
-set -e
 
-echo "🚀 Starting app - waiting for DB at $DB_HOST:$DB_PORT..."
+echo "🚀 Starting app - waiting for DB at ${DB_HOST}:${DB_PORT}..."
 
-# Tunggu sampai DB bisa diakses
+# Tunggu sampai DB ready
 until nc -z "$DB_HOST" "$DB_PORT"; do
-  echo "⏳ Waiting for database connection..."
+  echo "⏳ Waiting for database..."
   sleep 2
 done
 
 echo "✅ Database is up - running migrations & seed"
 
-# Laravel commands
-php artisan migrate --force
-php artisan db:seed --force
+sleep 5 # Delay tambahan biar DB bener-bener siap
 
-# Start Laravel server
+php artisan config:clear
+php artisan config:cache
+
+php artisan migrate --force || exit 1
+php artisan db:seed --force || exit 1
+
+# Start Laravel
 php artisan serve --host=0.0.0.0 --port=8000
