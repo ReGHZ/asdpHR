@@ -5,7 +5,7 @@ RUN apt-get update && apt-get install -y \
     git curl unzip zip gnupg2 \
     libzip-dev libonig-dev libxml2-dev \
     nodejs npm \
-    netcat \
+    netcat-openbsd \
     && docker-php-ext-install zip pdo pdo_mysql
 
 # Install Composer
