@@ -72,7 +72,7 @@
             </div>
             <div class="col-lg-7 d-none d-lg-block">
                 <div id="auth-right" style="max-height: 100vh; overflow:hidden; filter: brightness(50%);">
-                    <img src="/public/backend/assets/images/asdp.jpg">
+                    <img src="{{ asset('/backend/assets/images/asdp.jpg') }}">
                 </div>
             </div>
         </div>
