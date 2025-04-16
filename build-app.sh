@@ -1,16 +1,17 @@
 #!/bin/bash
-# Make sure this file has executable permissions, run `chmod +x build-app.sh`
-
-# Exit the script if any command fails
 set -e
 
-# Build assets using NPM
-#npm run build
+echo "🔧 Running build-app.sh"
+
+# Cek apakah php & artisan tersedia
+which php || echo "PHP not found"
+php -v || echo "PHP version not available"
+ls -la || true
+ls -la ./vendor || echo "Vendor folder missing"
+ls -la ./artisan || echo "Artisan file missing"
 
 # Clear cache
 php artisan optimize:clear
-
-# Cache the various components of the Laravel application
 php artisan config:cache
 php artisan event:cache
 php artisan route:cache
