@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Auth;
 // Halaman login untuk guest
 Route::get('/', function () {
     return view('auth.login');
-})->middleware('guest');
+});
 
 // Auth routes, disable register & logout default
 Auth::routes(['register' => false, 'logout' => false]);
