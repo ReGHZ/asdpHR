@@ -13,20 +13,24 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Set working directory
 WORKDIR /app
 
-# Copy project files
+# Copy all project files to /app
 COPY . .
 
 # Install PHP dependencies
 RUN composer install --no-dev --optimize-autoloader
 
-# Install Node.js dependencies (opsional)
+# Install Node.js dependencies (optional)
 RUN npm ci
 
-# Run Laravel optimizations
+# Laravel optimizations (clear & cache config, route, etc.)
 RUN chmod +x ./build-app.sh && ./build-app.sh
 
-# Expose the port Laravel will run on
+# Copy entrypoint script from docker folder
+COPY docker/entrypoint.sh /app/entrypoint.sh
+RUN chmod +x /app/entrypoint.sh
+
+# Expose port
 EXPOSE 8000
 
-# Start Laravel
-CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
+# Run entrypoint script on container start
+ENTRYPOINT ["sh", "/app/entrypoint.sh"]
