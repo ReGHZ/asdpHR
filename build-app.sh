@@ -10,9 +10,11 @@ ls -la || true
 ls -la ./vendor || echo "Vendor folder missing"
 ls -la ./artisan || echo "Artisan file missing"
 
-# Clear cache
+# Hapus cache agar gak error serialize
 php artisan optimize:clear
+
+# Build cache ulang
 php artisan config:cache
-php artisan event:cache
 php artisan route:cache
 php artisan view:cache
+php artisan event:cache
