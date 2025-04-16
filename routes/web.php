@@ -12,16 +12,13 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-// Halaman login untuk guest
+// Login page untuk guest, redirect ke /home kalau sudah login
 Route::get('/', function () {
-    return view('auth.login');
+    return Auth::check() ? redirect('/home') : view('auth.login');
 });
 
 // Auth routes, disable register & logout default
 Auth::routes(['register' => false, 'logout' => false]);
-
-// Redirect '/' ke '/home' kalau sudah login
-Route::redirect('/', '/home')->middleware('auth');
 
 // Route untuk user yang sudah login
 Route::middleware(['auth'])->group(function () {
