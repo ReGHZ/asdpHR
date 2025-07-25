@@ -80,7 +80,7 @@ php artisan db:seed
 
 ### ✅ Selesai!
 
-Sekarang kamu bisa akses aplikasi via:
+Sekarang kamu bisa akses aplikasi di:
 
 ```
 http://localhost:8000
